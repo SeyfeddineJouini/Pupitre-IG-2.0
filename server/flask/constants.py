@@ -28,3 +28,24 @@ CO2_INTERNET_6_10H = 1500  # Taux de CO2 émis par an pour utilisation d'interne
 CO2_INTERNET_PLUS_10H = 3000  # Taux de CO2 émis par an pour utilisation d'internet plus de 10 heures par jour
 
 CO2_FIXE_SERVICES = 2000  # Valeur fixe de CO2 pour les services divers tels que la santé, l'éducation, l'armée, etc.
+
+# Coefficients de CO2 pour le logement 
+CO2_LOGREC = 100 
+CO2_LOGANC = 200
+CO2_FIOUL=3602
+CO2_GAZ = 2457
+CO2_ELEC = 473
+A_APPS = 74.6
+A_MAIS = 134
+A_APPC = 130
+CO2_EMISSIONS = {
+        "Four": 263,
+        "Réfrigérateur": 325,
+        "Aspirateur": 47,
+        "Lave-linges": 510,
+        "sèche-linges": 468,
+        "Lave-vaisselles": 425,
+        "TV": 425,
+        "Smartphone": 38,
+        "Ordinateurs/PC": 178
+}

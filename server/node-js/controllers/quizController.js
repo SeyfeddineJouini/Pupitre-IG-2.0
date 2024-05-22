@@ -54,7 +54,7 @@ exports.sendResultEMail = async function(req, res) {
         {
           label: "Logement",
           id: "logement",
-          value: 5,
+          value: flaskResponse.data.Logement,
           color: "red",
         },
         {
