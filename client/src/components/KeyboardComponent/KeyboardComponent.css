@@ -1,0 +1,41 @@
+.keyboard-container {
+  position: fixed;
+  top: 30px;
+  left: 0;
+  right: 0; /* Assurez-vous qu'il s'étend de gauche à droite */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+  background-color: #fff;
+  border-top: 1px solid #ccc;
+  z-index: 1000;
+  width: 50vw; 
+}
+
+.handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px; /* Augmenté pour une meilleure accessibilité tactile */
+  background-color: #e4e4e4;
+  cursor: grab;
+  border-top: 2px solid #d0d0d0; /* Ajout d'une bordure pour une meilleure visibilité */
+}
+
+.keyboard-close-btn {
+  position: absolute;
+  top: -50px;
+  right: 15px;
+  padding: 10px 20px; /* Plus grand pour faciliter le clic */
+  background-color: #d9534f;
+  color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px; /* Plus arrondi */
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.keyboard-close-btn:hover, .keyboard-close-btn:active {
+  transform: scale(1.05); /* Effet de zoom au survol */
+  background-color: #c9302c;
+}

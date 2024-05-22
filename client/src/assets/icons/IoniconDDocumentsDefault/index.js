@@ -1,0 +1,1 @@
+export { IoniconDDocumentsDefault } from "./IoniconDDocumentsDefault";

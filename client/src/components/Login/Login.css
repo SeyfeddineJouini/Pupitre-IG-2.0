@@ -1,0 +1,351 @@
+:root {
+  --primary-color: #2A9D8F;
+  --hover-primary: #21867A;
+  --active-primary: #1C726B;
+  --error-color: #E76F51;
+  --background-color: #F4F1DE;
+  --input-background: #FEFAE0;
+  --input-border-color: #CED4DA;
+  --input-focus-border-color: #2A9D8F;
+  --text-color: #264653;
+  --button-text-color: #FFFFFF;
+}
+
+.login-container {
+  background-color: #ebf3f5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh; /* Full screen height */
+}
+
+.login-background {
+  background-color: var(--variable-collection-background);
+  width: 100%;
+  height: 100%;
+}
+
+.login-content {
+  width: 80%; 
+  max-width: 1440px; /* Maximum width */
+}
+
+.login-inner-content {
+  width: 100%; /* Full width of the parent */
+  min-height: 100vh; /* Full height of the viewport */
+  padding: 1em; /* Some padding around the content */
+}
+
+.login-form-container {
+  position: absolute;
+  width: 100%; 
+  max-width: 491px; /* Maximum width */
+  height: auto; /* Let the height adjust automatically */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-90%, -50%); /* Necessary to truly center the element */
+}
+
+/* Ajuster pour les tablettes */
+@media (max-width: 768px) {
+  .login-form-container {
+    width: 80%;
+  }
+}
+
+/* Ajuster pour les téléphones mobiles */
+@media (max-width: 480px) {
+  .login-form-container {
+    width: 95%;
+  }
+}
+
+.login-form {
+  position: relative;
+  height: 544px;
+}
+
+.login-form-inner {
+  position: absolute;
+  width: 491px;
+  height: 355px;
+  top: 189px;
+  left: 0;
+}
+
+
+.login-button {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  width: 80%; /* Adjust as needed */
+  max-width: 491px; /* Maximum width */
+  height: 58px; /* Keep the height the same */
+  top: 80%; /* Center vertically */
+  cursor: pointer;
+}
+
+
+.login-button-inner {
+  position: relative;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; 
+  height: 58px;
+  background-color: #2fce65b2;
+  border-radius: 32px;
+  box-shadow: 0px 4px 26px #00000040;
+  transition: background-color 0.3s ease; 
+}
+
+.login-button:hover .login-button-inner {
+  background-color: #28a745; /* Change background color to a darker green when hovering */
+}
+
+.login-button:active .login-button-inner {
+  background-color: #218838; /* Change background color to an even darker green when clicking */
+}
+
+.login-button-text {
+  position: relative; /* Change to relative positioning */
+  width: auto; /* Let the width adjust based on the content */
+  font-family: 'Poppins', Helvetica;
+  font-weight: 500;
+  color: #ffffff;
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: normal;
+  text-align: center; /* Center the text */
+}
+
+.forgot-password {
+  position: absolute;
+  width: 30%; /* Adjust as needed */
+  height: auto; /* Let the height adjust based on the content */
+  top: 55%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(10%, 195%); /* Necessary to truly center the element */
+  cursor: pointer; /* Changes the cursor to a hand when hovering over the text */
+}
+
+.forgot-password-text {
+  position: relative; /* Change to relative positioning */
+  width: auto; /* Let the width adjust based on the content */
+  font-family: 'Poppins', Helvetica;
+  font-weight: 300;
+  color: #4c4c4c;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: normal;
+  transition: color 0.3s ease; /* Smooth transition for color changes */
+  text-align: center; /* Center the text */
+  margin-top: 10px; /* Add space above the text */
+}
+
+.forgot-password:hover .forgot-password-text {
+  color: #007BFF; /* Change color to blue when hovering */
+}
+
+.forgot-password:active .forgot-password-text {
+  color: #5A6268; /* Change color to dark gray when clicking */
+}
+
+.password-input-container {
+  position: relative; /* Change to relative positioning */
+  width: 100%; /* Full width of the parent */
+  height: auto; /* Let the height adjust based on the content */
+}
+
+.password-input {
+  position: absolute;
+  width: 80%; 
+  max-width: 493px; /* Maximum width */
+  height: 70px; 
+  top: 50%; /* Center vertically */
+  left: 50%; 
+  transform: translate(-63%, 125%); 
+}
+
+.password-label {
+  position: relative; /* Change to relative positioning */
+  width: auto; /* Let the width adjust based on the content */
+  font-family: 'Poppins', Helvetica;
+  font-weight: 500;
+  color: #999999;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.password-line {
+  position: absolute;
+  width: 100%; /* Full width of the parent */
+  height: 2px; /* Keep the height the same */
+  top: 100%; /* Center vertically */
+  left: 0; /* Align to the left edge */
+  background-color: #999999;
+}
+
+.password-field {
+  position: absolute;
+  width: 100%; /* Adjust as needed */
+  height: 26px; /* Keep the height the same */
+  top: 32px; /* Keep the same distance from the top */
+  left: 0; /* Align to the left edge */
+}
+
+.password-placeholder {
+  position: absolute;
+  width: 80%; /* Adjust as needed */
+  top: 0; /* Align to the top edge */
+  left: 10%; /* Adjust as needed */
+  font-family: 'Poppins', Helvetica;
+  font-weight: 400;
+  color: #000741;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+  border: none;
+  background-color: transparent;
+}
+.password-placeholder:focus {
+  outline: none;
+}
+
+.password-icon {
+  position: absolute;
+  width: 6%; /* Adjust as needed */
+  height: auto; /* Let the height adjust based on the width */
+  top: 4px; /* Keep the same distance from the top */
+  left: 0; /* Align to the left edge */
+}
+
+/* .invisible-icon {
+  position: absolute;
+  width: 5%; 
+  height: auto; 
+  top: 43px; 
+  right: 5%; 
+} */
+
+
+
+.admin-login {
+  position: absolute;
+  width: 80%; /* Adjust as needed */
+  max-width: 343px; /* Maximum width */
+  height: 49px; /* Keep the height the same */
+  top: 0;
+}
+
+.admin-login-text {
+  position: absolute;
+  width: 100%; /* Full width of the parent */
+  font-family: 'Outfit', Helvetica;
+  font-weight: 500;
+  color: black;
+  font-size: 3vw; 
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+  text-align: center; /* Center the text */
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+/* @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+.ellipse-image {
+  position: absolute;
+  width: 50%; /* Adjust as needed */
+  max-width: 843px; /* Maximum width */
+  height: 100vh; /* Let the height adjust based on the width */
+  top: 0;
+  right: 0; /* Align to the right edge */
+  z-index: 0 !important;
+  /*animation: float 5s ease-in-out infinite, spin 20s linear infinite;  Add floating and spinning animation */
+}
+
+.working-man-image {
+  position: absolute;
+  width: 50vh; /* Adjust as needed */
+  max-width: 602px; /* Maximum width */
+  height: auto; /* Let the height adjust based on the width */
+  right: 8vh; /* Align to the right edge */
+  bottom: 0; /* Align to the bottom */
+  object-fit: cover;
+  z-index: 1 !important;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for transform and shadow */
+}
+
+.working-man-image:hover {
+  transform: scale(1.03) rotate(3deg);
+}
+
+/* Cacher l'image sur les écrans de moins de 768px de large */
+@media (max-width: 860px) {
+  .working-man-image, .ellipse-image {
+    display: none;
+  }
+}
+
+.logo-image {
+  position: absolute;
+  width: 15%; /* Adjust as needed */
+  max-width: 121px; /* Maximum width */
+  height: auto; /* Let the height adjust based on the width */
+  top: 33px; /* Keep the same distance from the top */
+  left: 53px; /* Keep the same distance from the left */
+  transition: transform 0.5s ease-in-out; /* Add transition for hover effect */
+}
+
+.logo-image:hover {
+  transform: rotate(360deg) scale(1.2); /* Add rotation and zoom effect on hover */
+}
+
+.error-message {
+  color: red;
+  margin: 10px 0; /* Ajoute un espace au-dessus et en dessous du message */
+}
+
+.home-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px; /* Ajustez selon vos besoins */
+  padding: 5px 10px;
+  background-color: #f0f0f0; /* Couleur de fond du bouton */
+  border-radius: 5px; /* Bord arrondi pour le bouton */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Transition pour effet de survol */
+}
+
+.home-button:hover {
+  background-color: #e0e0e0; /* Changement de couleur au survol */
+}
+
+.home-button img {
+  width: 24px; /* Taille de l'icône */
+  margin-right: 5px; /* Espace entre l'icône et le texte */
+}

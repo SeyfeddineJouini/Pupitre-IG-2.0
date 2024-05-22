@@ -1,0 +1,1 @@
+export { IoniconPPersonDefault } from "./IoniconPPersonDefault";

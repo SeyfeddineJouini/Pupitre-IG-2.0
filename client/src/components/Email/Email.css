@@ -1,0 +1,53 @@
+.email-container {
+  position: relative;
+  width: 100%; /* Full width of the parent */
+  height: auto; /* Let the height adjust based on the content */
+}
+
+.email-label {
+  position: absolute;
+  width: 20%; /* Adjust as needed */
+  top: -1px; /* Keep the same distance from the top */
+  left: 0; /* Align to the left edge */
+  font-family: 'Poppins', Helvetica;
+  font-weight: 500;
+  color: #999999;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.email-input-l input[type="email"] {
+  position: absolute;
+  width: 80%; /* Adjust as needed */
+  top: 33px; /* Keep the same distance from the top */
+  left: 10%; /* Adjust as needed */
+  font-family: 'Poppins', Helvetica;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: normal;
+  background-color: transparent;
+}
+
+input:focus {
+  outline: none;
+}
+
+.email-line {
+  position: absolute;
+  width: 80%;
+  height: 2px;
+  top: 68px;
+  left: 0;
+  background-color: #999999;;
+}
+
+.email-icon {
+  position: absolute;
+  width: 5%; /* Adjust as needed */
+  height: auto; /* Let the height adjust based on the width */
+  top: 38px; /* Keep the same distance from the top */
+  left: 0; /* Align to the left edge */
+}

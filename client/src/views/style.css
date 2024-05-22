@@ -1,0 +1,403 @@
+.accueil {
+    background-color: #ebf3f5;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .accueil .div-4 {
+    background-color: var(--variable-collection-background);
+    height: 1024px;
+    overflow: hidden;
+    position: relative;
+    width: 1440px;
+  }
+  
+  .accueil .choix-zoom {
+    height: 90px;
+    left: 152px;
+    position: absolute;
+    top: 609px;
+    width: 306px;
+  }
+  
+  .accueil .ellipse-42 {
+    height: 70px;
+    left: 0;
+    position: absolute;
+    top: 10px;
+    width: 70px;
+  }
+  
+  .accueil .ellipse-43 {
+    height: 70px;
+    left: 108px;
+    position: absolute;
+    top: 10px;
+    width: 70px;
+  }
+  
+  .accueil .ellipse-44 {
+    height: 90px;
+    left: 216px;
+    position: absolute;
+    top: 0;
+    width: 90px;
+  }
+  
+  .accueil .time {
+    height: 42px;
+    left: 144px;
+    object-fit: cover;
+    position: absolute;
+    top: 24px;
+    width: 41px;
+  }
+  
+  .accueil .hourglass {
+    height: 45px;
+    left: 248px;
+    object-fit: cover;
+    position: absolute;
+    top: 23px;
+    width: 45px;
+  }
+  
+  .accueil .group-3 {
+    height: 90px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 90px;
+  }
+  
+  .accueil .fast-delivery {
+    height: 52px;
+    left: 16px;
+    object-fit: cover;
+    position: absolute;
+    top: 19px;
+    width: 58px;
+  }
+  
+  .accueil .fast-delivery-2 {
+    height: 42px;
+    left: 13px;
+    object-fit: cover;
+    position: absolute;
+    top: 24px;
+    width: 48px;
+  }
+  
+  .accueil .choix-roue {
+    height: 1800px;
+    left: 754px;
+    position: absolute;
+    top: -263px;
+    transform: rotate(-180deg);
+    width: 2100px;
+  }
+  
+  .accueil .ellipse-45 {
+    height: 1024px;
+    left: 1414px;
+    position: absolute;
+    top: 513px;
+    transform: rotate(180deg);
+    width: 386px;
+  }
+  
+  .accueil .ellipse-46 {
+    height: 600px;
+    left: 1831px;
+    position: absolute;
+    top: -2825px;
+    transform: rotate(180deg);
+    width: 600px;
+  }
+  
+  .accueil .ellipse-47 {
+    height: 600px;
+    left: 2581px;
+    position: absolute;
+    top: -3533px;
+    transform: rotate(180deg);
+    width: 600px;
+  }
+  
+  .accueil .ellipse-48 {
+    height: 600px;
+    left: 2211px;
+    position: absolute;
+    top: 3641px;
+    width: 600px;
+  }
+  
+  .accueil .group-4 {
+    height: 600px;
+    left: 1500px;
+    position: absolute;
+    top: 708px;
+    width: 600px;
+  }
+  
+  .accueil .ellipse-49 {
+    height: 600px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(180deg);
+    width: 600px;
+  }
+  
+  .accueil .hourglass-2 {
+    height: 395px;
+    left: 103px;
+    object-fit: cover;
+    position: absolute;
+    top: 102px;
+    transform: rotate(180deg);
+    width: 395px;
+  }
+  
+  .accueil .group-5 {
+    height: 600px;
+    left: 0;
+    position: absolute;
+    top: 708px;
+    width: 600px;
+  }
+  
+  .accueil .ellipse-50 {
+    height: 600px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 600px;
+  }
+  
+  .accueil .fast-delivery-3 {
+    height: 357px;
+    left: 94px;
+    object-fit: cover;
+    position: absolute;
+    top: 106px;
+    width: 395px;
+  }
+  
+  .accueil .group-6 {
+    height: 600px;
+    left: 750px;
+    position: absolute;
+    top: 0;
+    width: 600px;
+  }
+  
+  .accueil .ellipse-51 {
+    height: 600px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(90deg);
+    width: 600px;
+  }
+  
+  .accueil .time-2 {
+    height: 395px;
+    left: 101px;
+    object-fit: cover;
+    position: absolute;
+    top: 105px;
+    transform: rotate(90deg);
+    width: 395px;
+  }
+  
+  .accueil .titre-connexion-2 {
+    height: 49px;
+    left: 125px;
+    position: absolute;
+    top: 250px;
+    width: 422px;
+  }
+  
+  .accueil .text-wrapper-24 {
+    color: #000000;
+    font-family: "Open Sans", Helvetica;
+    font-size: 22px;
+    font-weight: 400;
+    left: 7px;
+    letter-spacing: 0;
+    line-height: 40px;
+    position: absolute;
+    top: 209px;
+    width: 444px;
+  }
+  
+  .accueil .text-wrapper-25 {
+    color: #000000;
+    font-family: "Outfit", Helvetica;
+    font-size: 62px;
+    font-weight: 500;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    width: 420px;
+  }
+  
+  .accueil .menu {
+    height: 22px;
+    left: 346px;
+    position: absolute;
+    top: 78px;
+    width: 757px;
+  }
+  
+  .accueil .avis {
+    color: #596774;
+    font-family: "Inter", Helvetica;
+    font-size: 18px;
+    font-weight: 800;
+    height: 22px;
+    left: 703px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+  }
+  
+  .accueil .jeux-ludiques {
+    color: #596774;
+    font-family: "Inter", Helvetica;
+    font-size: 18px;
+    font-weight: 800;
+    height: 22px;
+    left: 502px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+  }
+  
+  .accueil .statistiques {
+    color: #596774;
+    font-family: "Inter", Helvetica;
+    font-size: 18px;
+    font-weight: 800;
+    height: 22px;
+    left: 312px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+  }
+  
+  .accueil .actualites {
+    color: #596774;
+    font-family: "Inter", Helvetica;
+    font-size: 18px;
+    font-weight: 800;
+    height: 22px;
+    left: 133px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+  }
+  
+  .accueil .text-wrapper-26 {
+    color: #596774;
+    font-family: "Inter", Helvetica;
+    font-size: 18px;
+    font-weight: 800;
+    height: 22px;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    top: 0;
+  }
+  
+  .accueil .logo-2 {
+    height: 98px;
+    left: 57px;
+    position: absolute;
+    top: 40px;
+    width: 121px;
+  }
+  
+  .accueil .button-login-2 {
+    height: 58px;
+    left: 106px;
+    position: absolute;
+    top: 770px;
+    width: 402px;
+  }
+  
+  .accueil .rectangle-7 {
+    height: 110px;
+    left: -26px;
+    position: absolute;
+    top: -22px;
+    width: 452px;
+  }
+  
+  .accueil .text-wrapper-27 {
+    color: #ffffff;
+    font-family: "Inter", Helvetica;
+    font-size: 30px;
+    font-weight: 500;
+    height: 40px;
+    left: 111px;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0px 4px 4px #00000040;
+    top: 9px;
+    width: 178px;
+  }
+  
+  .accueil .text-wrapper-28 {
+    color: #000000;
+    font-family: "Open Sans", Helvetica;
+    font-size: 22px;
+    font-weight: 400;
+    left: 132px;
+    letter-spacing: 0;
+    line-height: 40px;
+    position: absolute;
+    top: 458px;
+    width: 444px;
+  }
+  
+  .accueil .fast-delivery-4 {
+    height: 42px;
+    left: 164px;
+    object-fit: cover;
+    position: absolute;
+    top: 633px;
+    width: 45px;
+  }
+  
+  .accueil .hourglass-3 {
+    height: 58px;
+    left: 384px;
+    object-fit: cover;
+    position: absolute;
+    top: 625px;
+    width: 58px;
+  }
+  
+  .accueil .time-3 {
+    height: 42px;
+    left: 276px;
+    object-fit: cover;
+    position: absolute;
+    top: 633px;
+    width: 41px;
+  }
+  
