@@ -41,10 +41,10 @@ A_APPC = 130
 CO2_EMISSIONS = {
         "Four": 263,
         "Réfrigérateur": 325,
-        "Aspirateur": 47,
+        "Aspirateur": 47.3,
         "Lave-linges": 510,
-        "sèche-linges": 468,
-        "Lave-vaisselles": 425,
+        "sèche-linges": 510,
+        "Lave-vaisselles": 468,
         "TV": 425,
         "Smartphone": 38,
         "Ordinateurs/PC": 178

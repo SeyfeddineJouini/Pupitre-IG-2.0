@@ -65,21 +65,22 @@ def calcul_emission_route():
 
     #Calcul emissions Logement 
     #Calcul selon le type et la superficie
-    if data.get('logement') == 'Seul(e) dans un appartement':
-        if data.get('logement_récent') == 'oui':
-            logement_total += CO2_LOGREC * A_APPS
-        else :
-            logement_total += CO2_LOGANC * A_APPS
-    elif data.get('logement') == 'Dans une maison en colocation ':
+  
+    if data.get('logement') == 'Dans une maison en colocation ':
         if data.get('logement_récent') == 'oui':
             logement_total += CO2_LOGREC * A_MAIS
-        else :
+        elif data.get('logement_récent') == 'non':
             logement_total += CO2_LOGANC * A_MAIS
     elif data.get('logement') == 'Dans un appartement en colocation ':
         if data.get('logement_récent') == 'oui':
             logement_total += CO2_LOGREC * A_APPC
-        else :
-            logement_total += CO2_LOGANC * A_APPC  
+        elif data.get('logement_récent') == 'non':
+            logement_total += CO2_LOGANC * A_APPC 
+    else :
+        if data.get('logement_récent') == 'oui':
+            logement_total += CO2_LOGREC * A_APPS
+        elif data.get('logement_récent') == 'non' :
+            logement_total += CO2_LOGANC * A_APPS 
     # Calcul selon le type de chauffage
     if data.get('logement_chauffage') == 'Gaz':
             logement_total += CO2_GAZ
@@ -87,11 +88,12 @@ def calcul_emission_route():
             logement_total += CO2_FIOUL
     elif data.get('logement_chauffage') == 'Electricité':
             logement_total += CO2_ELEC
+            
     # Calcul selon l'electroménager
     if 'logement_equipements' in data:
-        for equipement in data['logement_equipements']:
-            if equipement in CO2_EMISSIONS:
-                logement_total += CO2_EMISSIONS[equipement]
+       for equipement in data['logement_equipements']:
+           if equipement in CO2_EMISSIONS:
+               logement_total += CO2_EMISSIONS[equipement]
     # Construction du résultat final
     result = {
         "Transport": transport_total / 1000,  # Convertir en tonnes de CO2
