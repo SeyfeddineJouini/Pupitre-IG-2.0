@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import NavbarAdmin from "../components/NavbarAdmin";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate} from 'react-router-dom';
+import NewsFeed from "../components/NewsFeed/NewsFeed";
 
 export const Accueil4 = () => {
   const navigate = useNavigate();
@@ -93,16 +94,7 @@ export const Accueil4 = () => {
               </div>
               <div className="w-full lg:w-5/12 mr-auto ml-auto">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-600">
-              <iframe 
-              width="100%" 
-              height="600px" 
-              frameborder="0" 
-              scrolling="yes" 
-              marginheight="" 
-              marginwidth="" 
-              src="https://www.francetvinfo.fr/monde/environnement/crise-climatique/empreinte-carbone/">
-
-              </iframe>
+              <NewsFeed />  {/* Ajoutez le composant NewsFeed ici */}
                 <blockquote className="relative p-6 mb-2">
                   <svg
                     preserveAspectRatio="none"
