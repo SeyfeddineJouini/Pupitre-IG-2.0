@@ -6,6 +6,8 @@ import { RequestReset } from './components/ResetPassword/RequestReset';
 import { PerformReset } from "./components/ResetPassword/PerformReset";
 import { Login } from "./components/Login/Login";
 import Statistiques from "./components/Statis"; 
+import LockPage from "./components/LockPage/LockPage";
+
 
 import { Accueil4 } from "./views/Accueil4";
 import BilanExpressView from "./views/bilanExpressView";
@@ -31,6 +33,7 @@ const App = () => {
   return (
     
     <AuthProvider>
+      <LockPage />
       <Routes>
         <Route path="/" element={<Accueil4 />} />
         <Route path="/login" element={<Login />} />
