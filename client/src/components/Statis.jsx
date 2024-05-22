@@ -10,6 +10,9 @@ import Navbar from "../components/Navbar";
 import NavbarAdmin from "../components/NavbarAdmin";
 import { useAuth } from "../context/AuthContext";
 
+import { ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme } from '../themes';
+
 Chart.register(ArcElement, Tooltip, Legend);
 function StatCard({ title, value, percentage, isNegative }) {
   return (
@@ -61,6 +64,7 @@ function Statistiques() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("default");
   const [selectedType, setSelectedType] = useState("default_stat");
   const [totalEmissions, setTotalEmissions] = useState('');
+  const [theme, setTheme] = useState(lightTheme);
 
   useEffect(() => {
     axios.get(`${apiUrl}/stats/api/statistiques/totalScore`)
@@ -103,12 +107,16 @@ function Statistiques() {
         return <CustomLineChart specialite={selectedSpecialty} key={selectedSpecialty} />;
     }
   };
+
+  const toggleTheme = () => {
+    setTheme(theme === lightTheme ? darkTheme : lightTheme);
+  };
   
 
   return (
-    
+    <ThemeProvider theme={theme}>
     <div className="flex flex-col pt-3 bg-slate-100 rounded-[30px]">
-          {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
+      {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
       <div className="self-center mt-12 mb-3 w-full max-w-[1213px] max-md:mt-10 max-md:max-w-full">
         <div className="flex gap-5 max-md:flex-col max-md:gap-0">
           <div className="flex flex-col w-[65%] max-md:ml-0 max-md:w-full">
@@ -211,6 +219,7 @@ function Statistiques() {
         </div>
       </div>
     </div>
+    </ThemeProvider>
   );
 }
 export default Statistiques;

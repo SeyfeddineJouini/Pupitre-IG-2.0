@@ -2,7 +2,7 @@ import React from "react";
 import BilanComponent from "../components/bilan/bilanComponent";
 
 export default function BilanExpressView() {
-    let userName = "wissal";
+    let userName = "";
     let welcomePageContent = {
       title: "Test Bilan Express",
       description: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page",
