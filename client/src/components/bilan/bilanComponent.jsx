@@ -1,175 +1,221 @@
-import React, {useState} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import StepperComponent from "./stepperComponent";
 import QuestionComponent from "./questionComponent";
 import WelcomeBilanComponent from "./welcomeBilanComponent";
 import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 
-export default function BilanComponent(props) {
-    const userName = props.userName || "";
-    const welcomePageContent = props.welcomeContent || {
-        title: "",
-        description: "",
-        image: ""
-    };
-    const questionsList = props.questionsList || [];
-    const onResponseChange = props.onResponseChange;
-    const onTerminateClicked= props.onTerminateClicked;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
-    const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
-    const [response, setResponse] = useState({});
-    const navigate = useNavigate();
+const BilanContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
 
-    function start() {
-        if (currentQuestionIndex) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-        } else {
-            setCurrentQuestionIndex(0);
+const BilanBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  background: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  padding: 40px;
+  max-width: 1218px;
+  width: 100%;
+  max-height: 90vh; /* Adjust max-height */
+  overflow: auto; /* Ensure overflow is handled */
+  animation: ${fadeIn} 0.5s ease-in-out;
+`;
+
+const Title = styled.span`
+  font-size: 2em;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+`;
+
+const Button = styled.button`
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  background: ${(props) => props.bgColor || '#007bff'};
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  margin: 10px;
+
+  &:hover {
+    background: ${(props) => props.hoverColor || '#0056b3'};
+    transform: scale(1.05);
+  }
+`;
+
+const ImageContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+
+  img {
+    border-radius: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: 100%; /* Ensure image fits within container */
+    max-height: 400px; /* Adjust max-height to fit content */
+    object-fit: cover; /* Ensure image is not distorted */
+  }
+`;
+
+const ContentContainer = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  overflow: auto; /* Ensure overflow is handled */
+  max-height: 80vh; /* Adjust max-height to fit content */
+`;
+
+const BilanComponent = (props) => {
+  const userName = props.userName || "";
+  const welcomePageContent = props.welcomeContent || {
+    title: "",
+    description: "",
+    image: ""
+  };
+  const questionsList = props.questionsList || [];
+  const onResponseChange = props.onResponseChange;
+  const onTerminateClicked = props.onTerminateClicked;
+
+  const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
+  const [response, setResponse] = useState({});
+  const navigate = useNavigate();
+  const questionRef = useRef(null);
+
+  useEffect(() => {
+    if (questionRef.current) {
+      questionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentQuestionIndex]);
+
+  function start() {
+    setCurrentQuestionIndex(0);
+  }
+
+  function quit() {
+    navigate('/'); // Chemin vers la page d'accueil
+  }
+
+  function nextQuestion() {
+    if (currentQuestionIsValid) {
+      if (currentQuestionIndex + 1 < questionsList.length) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        if (onTerminateClicked) {
+          onTerminateClicked(response);
         }
+      }
     }
-    function quit() {
-      navigate('/'); // Chemin vers la page d'accueil
+  }
+
+  function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
-    function nextQuestion() {
-        if (currentQuestionIsValid) {
-            if (currentQuestionIndex + 1 < questionsList.length) {
-                setCurrentQuestionIndex(currentQuestionIndex + 1);
-            } else {
-                //console.log("Terminer",)
-                // if (onResponseChange) {
-                //     onResponseChange(response);
-                // }
-                if (onTerminateClicked) {
-                    //console.log(response)
-                    onTerminateClicked(response);
-                }
-            }
-        }
+  }
+
+  function handleCurrentQuestionValidity(valid) {
+    setCurrentQuestionIsValid(valid);
+  }
+
+  function handleOnResponseChange(value) {
+    setResponse({ ...response, ...value });
+    if (onResponseChange) {
+      onResponseChange(value);
     }
+  }
 
-    function previousQuestion() {
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
-        }
-    }
+  return (
+    <BilanContainer>
+      <BilanBox>
+        <ContentContainer>
+          {currentQuestionIndex != null && (
+            <StepperComponent
+              key="questionStepper"
+              nbEtat={questionsList.length}
+              currentQuestion={currentQuestionIndex + 1}
+            />
+          )}
 
-    function handleCurrentQuestionValidity(valid) {
-        setCurrentQuestionIsValid(valid);
-    }
+          {currentQuestionIndex == null ? (
+            <div>
+              <WelcomeBilanComponent welcomeContent={welcomePageContent} />
+              <Button onClick={start} bgColor="#28a745" hoverColor="#218838">Commencer</Button>
+            </div>
+          ) : (
+            <div ref={questionRef}>
+              {questionsList[currentQuestionIndex].id && (
+                <QuestionComponent
+                  key={questionsList[currentQuestionIndex].id}
+                  isValid={handleCurrentQuestionValidity}
+                  onResponseChange={handleOnResponseChange}
+                  questionResponse={response}
+                  question={questionsList[currentQuestionIndex]}
+                />
+              )}
 
-    function handleOnResponseChange(value) {
-        setResponse({...response, ...value});
-        if (onResponseChange) {
-            onResponseChange(value);
-        }
-    }
+              {questionsList[currentQuestionIndex].list && questionsList[currentQuestionIndex].list.map((question) => (
+                <QuestionComponent
+                  key={question.id}
+                  isValid={handleCurrentQuestionValidity}
+                  onResponseChange={handleOnResponseChange}
+                  questionResponse={response}
+                  question={question}
+                />
+              ))}
 
-    return (
-      <div className="flex flex-col bg-slate-100 h-lvh justify-center">
-        <div className="flex justify-center items-center self-center px-16 py-12 w-full bg-white shadow-2xl max-w-[1218px] rounded-[80px] max-md:px-5 max-md:mt-10 max-md:max-w-full">
-          <div className="flex flex-col my-7 w-full max-md:mb-10">
-            {/* afficher stepper when the review is started */}
-            {currentQuestionIndex != null && (
-              <StepperComponent
-                key="questionStepper"
-                nbEtat={questionsList.length}
-                currentQuestion={currentQuestionIndex + 1}
-              />
-            )}
-
-            <div className="px-px mt-2 max-md:mt-10 max-md:max-w-full">
-              <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-                <div className="flex flex-col w-[64%] max-md:ml-0 max-md:w-full">
-                  <div className="flex flex-col grow leading-10 max-md:mt-10 max-md:max-w-full text-lg text-zinc-400">
-                    {currentQuestionIndex == null ? (
-                      <>
-                        <span>Bienvenue {userName} !</span>
-                        <WelcomeBilanComponent
-                          welcomeContent={welcomePageContent}
-                        />
-                        <button
-                          className="justify-center items-center self-center p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-emerald-500 border border-emerald-500 border-solid leading-[109%] rounded-[30px] w-auto"
-                          onClick={start}
-                        >
-                          Commencer
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <span>
-                          Etape {currentQuestionIndex + 1}/{" "}
-                          {questionsList.length}
-                        </span>
-                        {questionsList[currentQuestionIndex].id && (
-                          <QuestionComponent
-                            key={questionsList[currentQuestionIndex].id}
-                            isValid={handleCurrentQuestionValidity}
-                            onResponseChange={handleOnResponseChange}
-                            questionResponse={response}
-                            question={questionsList[currentQuestionIndex]}
-                          />
-                        )}
-                        
-                        {questionsList[currentQuestionIndex].list && (
-                            questionsList[currentQuestionIndex].list.map((question, index) => {
-                                return (
-                                    <QuestionComponent
-                                    key={question.id}
-                                    isValid={handleCurrentQuestionValidity}
-                                    onResponseChange={handleOnResponseChange}
-                                    questionResponse={response}
-                                    question={question}
-                                  />
-                                )
-                            })
-                        )}
-
-                        <div className="flex flex-row justify-between space-x-2 mt-3">
-                          {currentQuestionIndex > 0 && (
-                            <button
-                              className=" items-center self-center p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-cyan-700 border border-cyan-700 hover:bg-cyan-700 border-solid leading-[109%] rounded-[30px] w-auto"
-                              onClick={previousQuestion}
-                            >
-                              Précédent
-                            </button>
-                          )}
-                            <button
-                              className="items-center self-center m-auto p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-red-500 border border-red-500 hover:bg-red-600 border-solid leading-[109%] rounded-[30px] w-auto"
-                              onClick={quit}                            
-                            >
-                             Quitter
-                            </button>
-                          <button
-                            className="items-center self-center m-auto p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-emerald-500 border border-emerald-500 hover:bg-emerald-600 border-solid leading-[109%] rounded-[30px] w-auto"
-                            onClick={nextQuestion}
-                          >
-                            {currentQuestionIndex + 1 ===
-                            questionsList.length ? (
-                              <span>Terminer</span>
-                            ) : (
-                              <span>Suivant</span>
-                            )}
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-                  <img
-                    className="shrink-0 mx-auto max-w-full rounded-3xl bg-zinc-300 h-[483px] w-[428px] max-md:mt-10"
-                    src={
-                      currentQuestionIndex !== null
-                        ? questionsList[currentQuestionIndex].image
-                        : welcomePageContent.image
-                    }
-                  />
-                </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                {currentQuestionIndex > 0 && (
+                  <Button onClick={previousQuestion} bgColor="#17a2b8" hoverColor="#138496">Précédent</Button>
+                )}
+                <Button onClick={quit} bgColor="#dc3545" hoverColor="#c82333">Quitter</Button>
+                <Button onClick={nextQuestion} bgColor="#28a745" hoverColor="#218838">
+                  {currentQuestionIndex + 1 === questionsList.length ? "Terminer" : "Suivant"}
+                </Button>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-}
+          )}
+        </ContentContainer>
+
+        <ImageContainer>
+          <img
+            src={currentQuestionIndex !== null ? questionsList[currentQuestionIndex].image : welcomePageContent.image}
+            alt="Illustration"
+          />
+        </ImageContainer>
+      </BilanBox>
+    </BilanContainer>
+  );
+};
+
+export default BilanComponent;

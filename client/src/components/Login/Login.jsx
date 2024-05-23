@@ -1,19 +1,175 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Email } from "../../components/Email/Email";
-import "./Login.css";
+import styled, { keyframes } from "styled-components";
 import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent";
-import { Footer } from "../Footer/Footer";
 import { Link } from 'react-router-dom';
 
-import man from "../../img/man-working.png";
 import logo from "../../img/logo.png";
-import ellipse from "../../img/ellipse-1.svg";
-import message from "../../img/message-1.svg";
-import padlock from "../../img/padlock-1.svg";
 import homeIcon from "../../img/home-icon.svg";
-
 import { useAuth } from "../../context/AuthContext";
+
+// Animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+// Styled Components
+const LoginContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  animation: ${fadeIn} 1s ease-out;
+  position: relative;
+  overflow: hidden;
+`;
+
+const LoginContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+  z-index: 2;
+`;
+
+const Title = styled.h1`
+  font-size: 2.5em;
+  color: #1a2a6c;
+  animation: ${pulse} 2s infinite;
+  margin-bottom: 20px;
+`;
+
+const InputContainer = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 5px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border 0.3s;
+
+  &:focus {
+    border-color: #1a2a6c;
+  }
+`;
+
+const ErrorMessage = styled.div`
+  color: red;
+  margin-bottom: 10px;
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  background: #1a2a6c;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  margin-bottom: 10px;
+
+  &:hover {
+    background: #0d185b;
+    transform: scale(1.05);
+  }
+`;
+
+const HomeButton = styled(Button)`
+  background: #d9534f;
+
+  &:hover {
+    background: #c9302c;
+  }
+
+  img {
+    margin-right: 8px;
+  }
+`;
+
+const ForgotPassword = styled.div`
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 20px;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: #1a2a6c;
+  }
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 20px;
+`;
+
+const Icon = styled.div`
+  width: 60px;
+  height: 60px;
+  background: #1a2a6c;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const LogoImage = styled.img`
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+`;
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -24,14 +180,11 @@ export const Login = () => {
   const [inputName, setInputName] = useState("");
   const [layoutName, setLayoutName] = useState("default");
 
-  const { login } = useAuth(); // Ajoutez cette ligne
+  const { login } = useAuth();
 
   const handleLoginClick = async (event) => {
     const apiUrl = process.env.REACT_APP_API_URL;
     event.preventDefault();
-    /*console.log(
-      `Tentative de connexion avec l'email : ${email} et le mot de passe : ${password}`
-    );*/
     try {
       const response = await fetch(`${apiUrl}/login`, {
         method: "POST",
@@ -47,20 +200,15 @@ export const Login = () => {
       }
 
       const result = await response.json();
-      //console.log("Réponse de l'API :", result);
       if (result.success) {
-        //console.log("Connexion réussie. Redirection vers le tableau de bord.");
-        login(); // Ajoutez cette ligne
+        login();
         navigate("/dashboard-admin");
       } else {
-        //console.log("Échec de la connexion. Identifiants invalides.");
         setErrorMessage("Le mot de passe ou l'e-mail est incorrect");
       }
     } catch (error) {
       console.error("Erreur lors de la connexion :", error);
-      setErrorMessage(
-        "Une erreur est survenue lors de la connexion. Veuillez réessayer."
-      );
+      setErrorMessage("Une erreur est survenue lors de la connexion. Veuillez réessayer.");
     }
   };
 
@@ -75,101 +223,69 @@ export const Login = () => {
   const [inputActive, setInputActive] = useState("");
 
   const handleInputFocus = (inputName) => {
-    console.log("Fermeture du clavier existant et réinitialisation des valeurs.");
-    setKeyboardOpen(false); // Ferme le clavier précédent
-    if (inputName === "email") setEmail(''); // Réinitialise la valeur de l'email si le focus est sur l'email
-    else if (inputName === "password") setPassword(''); // Réinitialise la valeur du mot de passe si le focus est sur le mot de passe
-    setInputActive(inputName); // Définit le nouveau champ actif
+    setKeyboardOpen(false);
+    if (inputName === "email") setEmail('');
+    else if (inputName === "password") setPassword('');
+    setInputActive(inputName);
     setTimeout(() => {
-        setKeyboardOpen(true); // Ouvre le nouveau clavier après une légère attente
-    }, 100); // Retarder légèrement l'ouverture pour assurer la réinitialisation
-};
+      setKeyboardOpen(true);
+    }, 100);
+  };
 
-
-const handleInputChange = (newValue) => {
-  setErrorMessage(""); // Réinitialise le message d'erreur
-  if (inputActive === "email") setEmail(newValue);
-  else if (inputActive === "password") setPassword(newValue);
-};
+  const handleInputChange = (newValue) => {
+    setErrorMessage("");
+    if (inputActive === "email") setEmail(newValue);
+    else if (inputActive === "password") setPassword(newValue);
+  };
 
   return (
-    <div className="login-container">
-      <div className="login-background">
-        <div className="login-content">
-          <div className="login-inner-content">
-            <div className="login-form-container">
-              <div className="login-form">
-                <div className="login-form-inner">
-                  <button onClick={handleLoginClick} className="login-button">
-                    <div className="login-button-inner">
-                      <div className="login-button-text">Login</div>
-                    </div>
-                  </button>
-                  <button onClick={handleHomeClick} className="home-button">
-                    <img src={homeIcon} alt="Home" /> Retour à l'accueil
-                  </button>
-                  <div className="error-message">{errorMessage}</div>
-                  <div
-                    className="forgot-password"
-                    onClick={handleForgotPasswordClick}
-                  >
-                    <div className="forgot-password-text">
-                      Mot de passe oublié
-                    </div>
-                  </div>
-                  <div className="password-input-container">
-                    <div className="password-input">
-                      <div className="password-label">Mot de passe</div>
-                      <div className="password-line" />
-                      <div className="password-field">
-                        <input
-                          className="password-placeholder"
-                          type="password"
-                          placeholder="Entrer votre Mot de passe"
-                          value={password}
-                          onFocus={() => handleInputFocus("password")}
-                        />
-                        <img
-                          className="password-icon"
-                          alt="Padlock"
-                          src={padlock}
-                        />
-                      </div>
-                    </div>
-                    <div className={`email-container email-input-l`}>
-                      <div className="email-label">Email</div>
-                      <input
-                        className="email-input-l"
-                        type="email"
-                        placeholder="Entrez votre mail"
-                        value={email}
-                        onFocus={() => handleInputFocus("email")}
-                      />
-                      <div className="email-line" />
-                      <img className="email-icon" alt="Message" src={message} />
-                    </div>
-                  </div>
-                  {keyboardOpen && (
-                    <KeyboardComponent
-                    inputActive={inputActive}
-                    onInput={handleInputChange}
-                    onClose={() => setKeyboardOpen(false)}
-                />
-                  )}
-                </div>
-                <div className="admin-login">
-                  <div className="admin-login-text">Connexion Admin</div>
-                </div>
-              </div>
-            </div>
-            <img className="ellipse-image" alt="Ellipse" src={ellipse} />
-            <img className="working-man-image" alt="Man working" src={man} />
-          </div>
-          <Link to="/">
-            <img className="logo-image" alt="Logo" src={logo} />
-          </Link>
-        </div>
-      </div>
-    </div>
+    <LoginContainer>
+      <LoginContent>
+        <LogoImage alt="Logo" src={logo} />
+        <Title>Connexion Admin</Title>
+        <InputContainer>
+          <Label>Email</Label>
+          <Input
+            type="email"
+            placeholder="Entrez votre mail"
+            value={email}
+            onFocus={() => handleInputFocus("email")}
+          />
+        </InputContainer>
+        <InputContainer>
+          <Label>Mot de passe</Label>
+          <Input
+            type="password"
+            placeholder="Entrer votre Mot de passe"
+            value={password}
+            onFocus={() => handleInputFocus("password")}
+          />
+        </InputContainer>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+        <Button onClick={handleLoginClick}>Login</Button>
+        <HomeButton onClick={handleHomeClick}>
+          <img src={homeIcon} alt="Home" /> Retour à l'accueil
+        </HomeButton>
+        <ForgotPassword onClick={handleForgotPasswordClick}>Mot de passe oublié</ForgotPassword>
+        {keyboardOpen && (
+          <KeyboardComponent
+            inputActive={inputActive}
+            onInput={handleInputChange}
+            onClose={() => setKeyboardOpen(false)}
+          />
+        )}
+        <IconContainer>
+          <Icon>
+            <i className="fas fa-leaf"></i>
+          </Icon>
+          <Icon>
+            <i className="fas fa-wind"></i>
+          </Icon>
+          <Icon>
+            <i className="fas fa-solar-panel"></i>
+          </Icon>
+        </IconContainer>
+      </LoginContent>
+    </LoginContainer>
   );
 };

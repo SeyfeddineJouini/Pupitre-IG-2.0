@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
@@ -6,6 +6,135 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from '../components/Footer';
 import { useAuth } from "../context/AuthContext";
 import { KeyboardComponent } from "../components/KeyboardComponent/KeyboardComponent";
+import styled, { keyframes } from "styled-components";
+import backgroundImage from "../img/image.jpg"; // Ajoutez une image de fond en rapport avec l'écologie
+
+// Animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+// Styled Components
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url(${backgroundImage}) no-repeat center center fixed;
+  //background: linear-gradient(135deg, #e0f7fa, #80deea);
+  background-size: 200% 200%;
+  animation: gradientAnimation 15s ease infinite;
+
+  @keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+`;
+
+const MainContent = styled.main`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: ${fadeIn} 1s ease-out;
+  padding: 20px;
+`;
+
+const FormContainer = styled.form`
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 100%;
+`;
+
+const Title = styled.h1`
+  font-size: 2.5em;
+  color: #1a2a6c;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 5px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border 0.3s;
+
+  &:focus {
+    border-color: #1a2a6c;
+  }
+`;
+
+const Select = styled.select`
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border 0.3s;
+
+  &:focus {
+    border-color: #1a2a6c;
+  }
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border 0.3s;
+  height: 150px;
+
+  &:focus {
+    border-color: #1a2a6c;
+  }
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  background: #1a2a6c;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  margin-top: 10px;
+
+  &:hover {
+    background: #0d185b;
+    transform: scale(1.05);
+  }
+`;
 
 export const AddAvis = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -19,23 +148,21 @@ export const AddAvis = () => {
   // Récupérer le numéro de nom de localStorage, ou utiliser 1 par défaut
   const [nameNumber, setNameNumber] = useState(() => Number(localStorage.getItem('nameNumber')) || 1);
 
-  const [keyboardOpen, setKeyboardOpen] = useState(false); // Add this state
-  const [inputName, setInputName] = useState(""); // Add this state
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [inputName, setInputName] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Si le nom est vide, utiliser le numéro de nom
     if (name === '') {
       setName(`# ${nameNumber}`);
     }
 
     try {
       const response = await axios.post(`${apiUrl}/avis/AddAvis`, { name, type, comment });
-      //console.log(response.data); // Le nouvel avis retourné par l'API
-      setNameNumber(nameNumber + 1); // Incrémenter le numéro de nom
-      localStorage.setItem('nameNumber', nameNumber + 1); // Stocker le numéro de nom dans localStorage
-      setFormSubmitted(true); // Mettre à jour l'état pour afficher un message de confirmation
+      setNameNumber(nameNumber + 1);
+      localStorage.setItem('nameNumber', nameNumber + 1);
+      setFormSubmitted(true);
     } catch (error) {
       console.error(error);
     }
@@ -47,12 +174,11 @@ export const AddAvis = () => {
     }
   };
 
-  const handleInputChange = (value) => { // Add this function
+  const handleInputChange = (value) => {
     if (inputName === "name") setName(value);
     else if (inputName === "comment") setComment(value);
   };
 
-  // Rediriger l'utilisateur vers la page d'accueil après 1 secondes
   useEffect(() => {
     if (formSubmitted) {
       setTimeout(() => {
@@ -62,72 +188,59 @@ export const AddAvis = () => {
   }, [formSubmitted]);
 
   return (
-    <>
-    <div className="flex flex-col min-h-screen">
-    {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
-      <main className="flex-grow">
-      {formSubmitted ? (
-        <div className="flex flex-col items-center justify-center mt-20 mb-20">
-          <h1 className="text-4xl font-bold text-center">Votre avis a bien été enregistré</h1>
-        </div>
-      ) : (
-      <><h1 className="text-center text-3xl font-semibold mt-10">Add Avis</h1><form onSubmit={handleSubmit} className="w-full max-w-xs mx-auto space-y-3">
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
-                Name:
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="name"
-                type="text"
-                value={name}
-                placeholder={name === '' ? `# ${nameNumber}` : ''}
-                onClick={handleNameClick}
-                onChange={e => setName(e.target.value)}
-                onFocus={() => {
-                  setInputName("name");
-                  setKeyboardOpen(true);
-                }}
-              />
-            </div>
-            <div className="relative">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="type">
-                Type:
-              </label>
-              <select className="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="type" value={type} onChange={(e) => setType(e.target.value)} required>
-                <option value="">Select...</option>
-                <option value="Jeu">Jeu</option>
-                <option value="Calculateur">Calculateur</option>
-                <option value="Autres">Autres</option>
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center px-2 text-gray-700">
-                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M10 12l-6-6h12l-6 6z" />
-                </svg>
+    <PageContainer>
+      {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
+      <MainContent>
+        {formSubmitted ? (
+          <div className="flex flex-col items-center justify-center mt-20 mb-20">
+            <Title>Votre avis a bien été enregistré</Title>
+          </div>
+        ) : (
+          <>
+            <Title>Ajouter un Avis</Title>
+            <FormContainer onSubmit={handleSubmit}>
+              <div>
+                <Label htmlFor="name">Nom:</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  value={name}
+                  placeholder={name === '' ? `# ${nameNumber}` : ''}
+                  onClick={handleNameClick}
+                  onChange={e => setName(e.target.value)}
+                  onFocus={() => {
+                    setInputName("name");
+                    setKeyboardOpen(true);
+                  }}
+                />
               </div>
-            </div>
-            <div>
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="comment">
-                Comment:
-              </label>
-              <textarea className="shadow appearance-none border rounded w-full h-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="comment" 
-              value={comment} 
-              onChange={(e) => setComment(e.target.value)} required 
-              onFocus={() => {
-                setInputName("comment");
-                setKeyboardOpen(true);
-              }}
-              />
-            </div>
-            <div>
-              <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Add Avis
-              </button>
-            </div>
-          </form></>
+              <div className="relative">
+                <Label htmlFor="type">Type:</Label>
+                <Select id="type" value={type} onChange={(e) => setType(e.target.value)} required>
+                  <option value="">Select...</option>
+                  <option value="Jeu">Jeu</option>
+                  <option value="Calculateur">Calculateur</option>
+                  <option value="Autres">Autres</option>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="comment">Commentaire:</Label>
+                <Textarea
+                  id="comment"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  required
+                  onFocus={() => {
+                    setInputName("comment");
+                    setKeyboardOpen(true);
+                  }}
+                />
+              </div>
+              <Button type="submit">Ajouter Avis</Button>
+            </FormContainer>
+          </>
         )}
-        </main>
-      </div>
+      </MainContent>
       {keyboardOpen && (
         <KeyboardComponent
           inputActive={inputName}
@@ -135,7 +248,7 @@ export const AddAvis = () => {
           onClose={() => setKeyboardOpen(false)}
         />
       )}
-    </>
-    
+      <Footer />
+    </PageContainer>
   );
 };

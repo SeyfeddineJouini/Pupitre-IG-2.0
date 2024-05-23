@@ -9,6 +9,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../themes';
+import backgroundImage from "../img/image.jpg"; // Ajoutez une image de fond en rapport avec l'écologie
 
 const fadeIn = keyframes`
   from {
@@ -41,7 +42,8 @@ const AnimatedBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #e0f7fa, #80deea);
+  background: url(${backgroundImage}) no-repeat center center fixed;
+  //background: linear-gradient(135deg, #e0f7fa, #80deea);
   background-size: 200% 200%;
   animation: gradientAnimation 15s ease infinite;
 
