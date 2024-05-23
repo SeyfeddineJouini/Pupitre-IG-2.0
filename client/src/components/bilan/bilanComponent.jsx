@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import StepperComponent from "./stepperComponent";
 import QuestionComponent from "./questionComponent";
 import WelcomeBilanComponent from "./welcomeBilanComponent";
+import { useNavigate } from 'react-router-dom';
 
 export default function BilanComponent(props) {
     const userName = props.userName || "";
@@ -17,7 +18,7 @@ export default function BilanComponent(props) {
     const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
     const [response, setResponse] = useState({});
-
+    const navigate = useNavigate();
 
     function start() {
         if (currentQuestionIndex) {
@@ -26,7 +27,9 @@ export default function BilanComponent(props) {
             setCurrentQuestionIndex(0);
         }
     }
-
+    function quit() {
+      navigate('/'); // Chemin vers la page d'accueil
+    }
     function nextQuestion() {
         if (currentQuestionIsValid) {
             if (currentQuestionIndex + 1 < questionsList.length) {
@@ -130,6 +133,12 @@ export default function BilanComponent(props) {
                               Précédent
                             </button>
                           )}
+                            <button
+                              className="items-center self-center m-auto p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-red-500 border border-red-500 hover:bg-red-600 border-solid leading-[109%] rounded-[30px] w-auto"
+                              onClick={quit}                            
+                            >
+                             Quitter
+                            </button>
                           <button
                             className="items-center self-center m-auto p-4 max-w-full font-medium text-center text-white whitespace-nowrap bg-emerald-500 border border-emerald-500 hover:bg-emerald-600 border-solid leading-[109%] rounded-[30px] w-auto"
                             onClick={nextQuestion}
