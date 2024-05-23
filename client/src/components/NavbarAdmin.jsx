@@ -1,187 +1,69 @@
-import React from "react";
+// src/components/NavbarAdmin.js
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaHome, FaChartBar, FaGamepad, FaComments, FaSignInAlt, FaBars, FaArrowAltCircleDown } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
+import { NavbarContainer, Container, Logo, Icon, NavLinks, NavLink, Button } from './StyledNavbar';
 
-import { useAuth } from '../context/AuthContext' // Remplacez './path/to/AuthContext' par le chemin d'accès réel vers votre fichier AuthContext
-
-
-export default function NavbarAdmin(props) {
+const NavbarAdmin = ({ transparent, toggleTheme }) => {
+  const [navbarOpen, setNavbarOpen] = useState(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
-  const navigate = useNavigate();
-  const { logout } = useAuth(); // Ajoutez cette ligne
-
   const handleLogout = async () => {
-  await fetch(`${apiUrl}/logout`, { // Remplacez 'http://localhost:5000' par l'URL de votre serveur
-    method: 'GET',
-    credentials: 'include',
-  });
-  logout();
-  navigate('/login');
-};
+    await fetch(`${apiUrl}/logout`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    logout();
+    navigate('/login');
+  };
 
   return (
-    <nav
-      className={
-        (props.transparent
-          ? "top-0 absolute z-50 w-full"
-          : "relative bg-white shadow-lg") +
-        " flex flex-wrap items-center justify-between px-2 py-3 "
-      }
-    >
-      <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
-        <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-          <Link
-            className="leading-relaxed inline-block mr-4 py-2 "
-            to=""
-          >
-            <img
-                  className="h-[40px]"
-                  alt="Logo"
-                  src="https://c.animaapp.com/VcwknbTN/img/logo@2x.png"
-            />
+    <NavbarContainer transparent={transparent}>
+      <Container>
+        <div className="flex justify-between items-center w-full lg:w-auto">
+          <Link to="/">
+            <Logo src="https://c.animaapp.com/VcwknbTN/img/logo@2x.png" alt="Logo" />
           </Link>
-          
-          <button
-            className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
-            type="button"
-            onClick={() => setNavbarOpen(!navbarOpen)}
-          >
-            <i
-              className={
-                (props.transparent ? "text-white" : "text-gray-800") +
-                " fas fa-bars"
-              }
-            ></i>
+          <button onClick={() => setNavbarOpen(!navbarOpen)} className="lg:hidden">
+            <Icon transparent={transparent}><FaBars /></Icon>
           </button>
-          
         </div>
-        <div
-          className={
-            "lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none" +
-            (navbarOpen ? " block rounded shadow-lg" : " hidden")
-          }
-          id="example-navbar-warning"
-        >
-          <ul className="flex flex-col lg:flex-row list-none mr-auto">
-            <li className="flex items-center">
-              <Link
-                className={
-                  (props.transparent
-                    ? "lg:text-white lg:hover:text-gray-300 text-gray-800"
-                    : "text-gray-800 hover:text-gray-600") +
-                  " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                }
-                to="/"
-              >
-                <i
-                  className={
-                    (props.transparent
-                      ? "lg:text-gray-300 text-gray-500"
-                      : "text-gray-500") +
-                    " far fa-file-alt text-lg leading-lg mr-2"
-                  }
-                />{" "}
-                HOME
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <Link
-                className={
-                  (props.transparent
-                    ? "lg:text-white lg:hover:text-gray-300 text-gray-800"
-                    : "text-gray-800 hover:text-gray-600") +
-                  " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                }
-                to="/statistiques"
-              >
-                <i
-                  className={
-                    (props.transparent
-                      ? "lg:text-gray-300 text-gray-500"
-                      : "text-gray-500") +
-                    " far fa-file-alt text-lg leading-lg mr-2"
-                  }
-                />{" "}
-                STATISTIQUES
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <Link
-                className={
-                  (props.transparent
-                    ? "lg:text-white lg:hover:text-gray-300 text-gray-800"
-                    : "text-gray-800 hover:text-gray-600") +
-                  " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                }
-                to="/jeux"
-              >
-                <i
-                  className={
-                    (props.transparent
-                      ? "lg:text-gray-300 text-gray-500"
-                      : "text-gray-500") +
-                    " far fa-file-alt text-lg leading-lg mr-2"
-                  }
-                />{" "}
-                JEUX LUDIQUE
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <Link
-                className={
-                  (props.transparent
-                    ? "lg:text-white lg:hover:text-gray-300 text-gray-800"
-                    : "text-gray-800 hover:text-gray-600") +
-                  " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
-                }
-                to="/add-avis"
-              >
-                <i
-                  className={
-                    (props.transparent
-                      ? "lg:text-gray-300 text-gray-500"
-                      : "text-gray-500") +
-                    " far fa-file-alt text-lg leading-lg mr-2"
-                  }
-                />{" "}
-                AVIS
-              </Link>
-            </li>
-          </ul>
-          <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
-            <li className="flex items-center">
-              <Link
-                to="/dashboard-admin"
-                className={
-                  (props.transparent
-                    ? "bg-white text-gray-800 active:bg-gray-100"
-                    : "bg-pink-500 text-white active:bg-pink-600") +
-                  " text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
-                }
-                style={{ transition: "all .15s ease" }}
-              >
-                <i className="fas fa-arrow-alt-circle-down"></i> Admin Page
-              </Link>
-            </li>
-            <li className="flex items-center">
-              <button
-                className={
-                  (props.transparent
-                    ? "bg-white text-gray-800 active:bg-gray-100"
-                    : "bg-pink-500 text-white active:bg-pink-600") +
-                  " text-xs font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3"
-                }
-                onClick={handleLogout}
-                type="button"
-                style={{ transition: "all .15s ease" }}
-              >
-                <i className="fas fa-arrow-alt-circle-down"></i> LogOut
-              </button>
-            </li>
-          </ul>
+        <NavLinks open={navbarOpen}>
+          <NavLink transparent={transparent}>
+            <Link to="/">
+              <FaHome /> HOME
+            </Link>
+          </NavLink>
+          <NavLink transparent={transparent}>
+            <Link to="/statistiques">
+              <FaChartBar /> STATISTIQUES
+            </Link>
+          </NavLink>
+          <NavLink transparent={transparent}>
+            <Link to="/jeux">
+              <FaGamepad /> JEUX LUDIQUE
+            </Link>
+          </NavLink>
+          <NavLink transparent={transparent}>
+            <Link to="/add-avis">
+              <FaComments /> AVIS
+            </Link>
+          </NavLink>
+        </NavLinks>
+        <div className="flex items-center">
+          <Button onClick={() => navigate('/dashboard-admin')} transparent={transparent}>
+            <FaArrowAltCircleDown /> Admin Page
+          </Button>
+          <Button onClick={handleLogout} transparent={transparent} style={{ marginLeft: '10px' }}>
+            <FaSignInAlt /> LogOut
+          </Button>
         </div>
-      </div>
-    </nav>
+      </Container>
+    </NavbarContainer>
   );
-}
+};
+
+export default NavbarAdmin;
