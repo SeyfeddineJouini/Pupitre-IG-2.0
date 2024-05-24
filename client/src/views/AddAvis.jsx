@@ -6,8 +6,9 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from '../components/Footer';
 import { useAuth } from "../context/AuthContext";
 import { KeyboardComponent } from "../components/KeyboardComponent/KeyboardComponent";
-import styled, { keyframes } from "styled-components";
-import backgroundImage from "../img/image.jpg"; // Ajoutez une image de fond en rapport avec l'écologie
+import styled, { keyframes, ThemeProvider } from "styled-components";
+import backgroundImage from "../img/image.png"; // Ajoutez une image de fond en rapport avec l'écologie
+import { lightTheme, darkTheme } from '../themes';
 
 // Animations
 const fadeIn = keyframes`
@@ -27,8 +28,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   min-height: 100vh;
   background: url(${backgroundImage}) no-repeat center center fixed;
-  //background: linear-gradient(135deg, #e0f7fa, #80deea);
-  background-size: 200% 200%;
+  background-size: 200% 100%;
   animation: gradientAnimation 15s ease infinite;
 
   @keyframes gradientAnimation {
@@ -58,10 +58,13 @@ const FormContainer = styled.form`
 `;
 
 const Title = styled.h1`
-  font-size: 2.5em;
-  color: #1a2a6c;
+  font-family: 'Outfit', Helvetica, sans-serif;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);  // Increased shadow for better contrast
+  font-size: 4rem;
   margin-bottom: 20px;
-  text-align: center;
+  animation: ${fadeIn} 1s ease-in-out;
 `;
 
 const Label = styled.label`
@@ -117,7 +120,7 @@ const Textarea = styled.textarea`
   }
 `;
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   width: 100%;
   padding: 12px 20px;
   font-size: 1.2em;
@@ -188,67 +191,71 @@ export const AddAvis = () => {
   }, [formSubmitted]);
 
   return (
-    <PageContainer>
-      {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
-      <MainContent>
-        {formSubmitted ? (
-          <div className="flex flex-col items-center justify-center mt-20 mb-20">
-            <Title>Votre avis a bien été enregistré</Title>
-          </div>
-        ) : (
-          <>
-            <Title>Ajouter un Avis</Title>
-            <FormContainer onSubmit={handleSubmit}>
-              <div>
-                <Label htmlFor="name">Nom:</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={name}
-                  placeholder={name === '' ? `# ${nameNumber}` : ''}
-                  onClick={handleNameClick}
-                  onChange={e => setName(e.target.value)}
-                  onFocus={() => {
-                    setInputName("name");
-                    setKeyboardOpen(true);
-                  }}
-                />
+    <ThemeProvider theme={lightTheme}>
+      <>
+        {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
+        <PageContainer>
+          <MainContent>
+            {formSubmitted ? (
+              <div className="flex flex-col items-center justify-center mt-20 mb-20">
+                <Title>Votre avis a bien été enregistré</Title>
               </div>
-              <div className="relative">
-                <Label htmlFor="type">Type:</Label>
-                <Select id="type" value={type} onChange={(e) => setType(e.target.value)} required>
-                  <option value="">Select...</option>
-                  <option value="Jeu">Jeu</option>
-                  <option value="Calculateur">Calculateur</option>
-                  <option value="Autres">Autres</option>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="comment">Commentaire:</Label>
-                <Textarea
-                  id="comment"
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  required
-                  onFocus={() => {
-                    setInputName("comment");
-                    setKeyboardOpen(true);
-                  }}
-                />
-              </div>
-              <Button type="submit">Ajouter Avis</Button>
-            </FormContainer>
-          </>
-        )}
-      </MainContent>
-      {keyboardOpen && (
-        <KeyboardComponent
-          inputActive={inputName}
-          onInput={handleInputChange}
-          onClose={() => setKeyboardOpen(false)}
-        />
-      )}
-      <Footer />
-    </PageContainer>
+            ) : (
+              <>
+                <Title>Ajouter un Avis</Title>
+                <FormContainer onSubmit={handleSubmit}>
+                  <div>
+                    <Label htmlFor="name">Nom:</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={name}
+                      placeholder={name === '' ? `# ${nameNumber}` : ''}
+                      onClick={handleNameClick}
+                      onChange={e => setName(e.target.value)}
+                      onFocus={() => {
+                        setInputName("name");
+                        setKeyboardOpen(true);
+                      }}
+                    />
+                  </div>
+                  <div className="relative">
+                    <Label htmlFor="type">Type:</Label>
+                    <Select id="type" value={type} onChange={(e) => setType(e.target.value)} required>
+                      <option value="">Select...</option>
+                      <option value="Jeu">Jeu</option>
+                      <option value="Calculateur">Calculateur</option>
+                      <option value="Autres">Autres</option>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="comment">Commentaire:</Label>
+                    <Textarea
+                      id="comment"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      required
+                      onFocus={() => {
+                        setInputName("comment");
+                        setKeyboardOpen(true);
+                      }}
+                    />
+                  </div>
+                  <SubmitButton type="submit">Ajouter Avis</SubmitButton>
+                </FormContainer>
+              </>
+            )}
+          </MainContent>
+          {keyboardOpen && (
+            <KeyboardComponent
+              inputActive={inputName}
+              onInput={handleInputChange}
+              onClose={() => setKeyboardOpen(false)}
+            />
+          )}
+          {/* <Footer /> */}
+        </PageContainer>
+      </>
+    </ThemeProvider>
   );
 };

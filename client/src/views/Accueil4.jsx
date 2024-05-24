@@ -9,7 +9,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../themes';
-import backgroundImage from "../img/image.jpg"; // Ajoutez une image de fond en rapport avec l'écologie
+import backgroundImage from "../img/image.png"; // Ajoutez une image de fond en rapport avec l'écologie
 
 const fadeIn = keyframes`
   from {
@@ -34,7 +34,6 @@ const pulse = keyframes`
   }
 `;
 
-
 // Define AnimatedBackground component
 const AnimatedBackground = styled.div`
   position: absolute;
@@ -43,8 +42,7 @@ const AnimatedBackground = styled.div`
   width: 100%;
   height: 100%;
   background: url(${backgroundImage}) no-repeat center center fixed;
-  //background: linear-gradient(135deg, #e0f7fa, #80deea);
-  background-size: 200% 200%;
+  background-size: 200% 100%;
   animation: gradientAnimation 15s ease infinite;
 
   @keyframes gradientAnimation {
@@ -68,8 +66,9 @@ const MainContainer = styled.div`
 
 const Title = styled.h1`
   font-family: 'Outfit', Helvetica, sans-serif;
-  font-weight: 600;
-  color: #333;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);  // Increased shadow for better contrast
   font-size: 4rem;
   margin-bottom: 20px;
   animation: ${fadeIn} 1s ease-in-out;
@@ -77,11 +76,16 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-family: 'Open Sans', Helvetica, sans-serif;
-  font-size: 1.5rem;
-  color: #555;
+  font-size: 1.8rem;  // Slightly increased the font size
+  color: #ffffff;  // Kept the color white for better visibility
+  background: rgba(0, 0, 0, 0.3);  // Slightly darkened the semi-transparent background
+  padding: 10px 20px;  // Added padding for better spacing
+  border-radius: 8px;  // Added border radius for smoother edges
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);  // Increased the shadow intensity for better readability
   margin-bottom: 40px;
-  animation: ${fadeIn} 1.5s ease-in-out;
+  animation: ${fadeIn} 1.5s ease-in-out;  // Added pulsing animation for the subtitle
 `;
+
 
 const CardContainer = styled.div`
   display: flex;
@@ -91,7 +95,7 @@ const CardContainer = styled.div`
 `;
 
 const Card = styled.div`
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   width: 250px;
@@ -135,7 +139,7 @@ const CardDescription = styled.p`
 `;
 
 const NewsSection = styled.div`
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   padding: 20px;
@@ -158,96 +162,95 @@ export const Accueil4 = () => {
 
   return (
     <ThemeProvider theme={theme}>
-    <>
-
-      {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
-      <MainContainer>
-        <AnimatedBackground />
-        <div className="container relative mx-auto">
-          <div className="items-center flex flex-wrap">
-            <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
-              <Title>Bilan Carbone</Title>
-              <Subtitle>
-                Découvrez notre interface web révolutionnaire pour calculer votre Bilan Carbone, fruit d'un travail collectif et d'une synergie entre notre équipe et des étudiants en énergétique.
-              </Subtitle>
-              <CardContainer>
-                <Card onClick={() => navigate('/bilan/express')}>
-                  <CardIcon bgColor="#ff6f61">
-                    <img src="https://c.animaapp.com/VcwknbTN/img/fast-delivery-2@2x.png" alt="Fast delivery" />
-                  </CardIcon>
-                  <CardTitle>Express</CardTitle>
-                  <CardDescription>
-                    Un bilan rapide pour obtenir des résultats en un temps record.
-                  </CardDescription>
-                </Card>
-                <Card onClick={handleBilanNormal}>
-                  <CardIcon bgColor="#42a5f5">
-                    <img src="https://c.animaapp.com/VcwknbTN/img/time-2@2x.png" alt="Time" />
-                  </CardIcon>
-                  <CardTitle>Normal</CardTitle>
-                  <CardDescription>
-                    Un bilan complet pour des résultats détaillés et précis.
-                  </CardDescription>
-                </Card>
-                <Card onClick={() => navigate('/bilan/long')}>
-                  <CardIcon bgColor="#66bb6a">
-                    <img src="https://c.animaapp.com/VcwknbTN/img/hourglass-2@2x.png" alt="Hourglass" />
-                  </CardIcon>
-                  <CardTitle>Long</CardTitle>
-                  <CardDescription>
-                    Un bilan approfondi pour une analyse exhaustive.
-                  </CardDescription>
-                </Card>
-              </CardContainer>
-            </div>
-            <div className="w-full lg:w-5/12 mr-auto ml-auto">
-              <NewsSection>
-                <NewsFeed />  {/* Ajoutez le composant NewsFeed ici */}
-                <blockquote className="relative p-6 mb-2">
-                  <svg
-                    preserveAspectRatio="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 583 95"
-                    className="absolute left-0 w-full block"
-                    style={{
-                      height: "95px",
-                      top: "-94px"
-                    }}
-                  >
-                    <polygon
-                      points="-30,95 583,95 583,65"
-                      className="text-pink-600 fill-current"
-                    ></polygon>
-                  </svg>
-                  <h4 className="text-xl font-bold text-black">
-                    Actualités
-                  </h4>
-                </blockquote>
-              </NewsSection>
+      <>
+        {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
+        <MainContainer>
+          <AnimatedBackground />
+          <div className="container relative mx-auto">
+            <div className="items-center flex flex-wrap">
+              <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+                <Title>Bilan Carbone</Title>
+                <Subtitle>
+                  Découvrez notre interface web révolutionnaire pour calculer votre Bilan Carbone, fruit d'un travail collectif et d'une synergie entre notre équipe et des étudiants en énergétique.
+                </Subtitle>
+                <CardContainer>
+                  <Card onClick={() => navigate('/bilan/express')}>
+                    <CardIcon bgColor="#ff6f61">
+                      <img src="https://c.animaapp.com/VcwknbTN/img/fast-delivery-2@2x.png" alt="Fast delivery" />
+                    </CardIcon>
+                    <CardTitle>Express</CardTitle>
+                    <CardDescription>
+                      Un bilan rapide pour obtenir des résultats en un temps record.
+                    </CardDescription>
+                  </Card>
+                  <Card onClick={handleBilanNormal}>
+                    <CardIcon bgColor="#42a5f5">
+                      <img src="https://c.animaapp.com/VcwknbTN/img/time-2@2x.png" alt="Time" />
+                    </CardIcon>
+                    <CardTitle>Normal</CardTitle>
+                    <CardDescription>
+                      Un bilan complet pour des résultats détaillés et précis.
+                    </CardDescription>
+                  </Card>
+                  <Card onClick={() => navigate('/bilan/long')}>
+                    <CardIcon bgColor="#66bb6a">
+                      <img src="https://c.animaapp.com/VcwknbTN/img/hourglass-2@2x.png" alt="Hourglass" />
+                    </CardIcon>
+                    <CardTitle>Long</CardTitle>
+                    <CardDescription>
+                      Un bilan approfondi pour une analyse exhaustive.
+                    </CardDescription>
+                  </Card>
+                </CardContainer>
+              </div>
+              <div className="w-full lg:w-5/12 mr-auto ml-auto">
+                <NewsSection>
+                  <NewsFeed />  {/* Ajoutez le composant NewsFeed ici */}
+                  <blockquote className="relative p-6 mb-2">
+                    <svg
+                      preserveAspectRatio="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 583 95"
+                      className="absolute left-0 w-full block"
+                      style={{
+                        height: "95px",
+                        top: "-94px"
+                      }}
+                    >
+                      <polygon
+                        points="-30,95 583,95 583,65"
+                        className="text-pink-600 fill-current"
+                      ></polygon>
+                    </svg>
+                    <h4 className="text-xl font-bold text-black">
+                      Actualités
+                    </h4>
+                  </blockquote>
+                </NewsSection>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
-          style={{ height: "70px" }}
-        >
-          <svg
-            className="absolute bottom-0 overflow-hidden"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-            version="1.1"
-            viewBox="0 0 2560 100"
-            x="0"
-            y="0"
+          <div
+            className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
+            style={{ height: "70px" }}
           >
-            <polygon
-              className="text-gray-300 fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
-          </svg>
-        </div>
-      </MainContainer>
-    </>
+            <svg
+              className="absolute bottom-0 overflow-hidden"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="none"
+              version="1.1"
+              viewBox="0 0 2560 100"
+              x="0"
+              y="0"
+            >
+              <polygon
+                className="text-gray-300 fill-current"
+                points="2560 0 2560 100 0 100"
+              ></polygon>
+            </svg>
+          </div>
+        </MainContainer>
+      </>
     </ThemeProvider>
   );
 };
