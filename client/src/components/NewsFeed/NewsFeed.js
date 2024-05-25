@@ -1,28 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { FaRegNewspaper } from 'react-icons/fa';
 import Modal from 'react-modal';
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
+import { customStyles, ModalContent, LoadingSpinner, fadeIn, CloseButton } from '../bilan/ModalStyles';
 
 const NewsContainer = styled.div`
   width: 100%;
@@ -88,99 +69,6 @@ const ArticleImage = styled.img`
   border-radius: 8px;
 `;
 
-const LoadingSpinner = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  font-size: 2em;
-  color: #1a73e8;
-  animation: ${fadeIn} 0.5s ease-in-out infinite;
-
-  .spinner {
-    width: 50px;
-    height: 50px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid #1a73e8;
-    border-radius: 50%;
-    animation: ${spin} 1s linear infinite;
-  }
-`;
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    width: '80%',
-    maxHeight: '80vh',
-    overflowY: 'auto',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-    background: '#f9f9f9',
-  },
-};
-
-const ModalContent = styled.div`
-  font-family: 'Arial', sans-serif;
-  font-size: 1.1em;
-  color: #333;
-  line-height: 1.8;
-  max-width: 100%;
-  overflow: auto;
-  padding: 20px;
-
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-
-  p {
-    margin-bottom: 20px;
-    text-align: justify;
-  }
-
-  h2, h3, h4, h5, h6 {
-    color: #333;
-    margin-bottom: 15px;
-  }
-
-  a {
-    color: #1a73e8;
-    text-decoration: none;
-    pointer-events: none;
-    cursor: default;
-    &:hover {
-      text-decoration: none;
-      color: #1a73e8;
-    }
-  }
-
-  blockquote {
-    margin: 20px 0;
-    padding: 20px;
-    border-left: 5px solid #1a73e8;
-    background: #f0f0f0;
-    color: #555;
-    font-style: italic;
-  }
-
-  ul, ol {
-    padding-left: 20px;
-    margin-bottom: 20px;
-  }
-
-  ul li, ol li {
-    margin-bottom: 10px;
-  }
-`;
-
 const NewsFeed = () => {
   const [articles, setArticles] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -203,6 +91,7 @@ const NewsFeed = () => {
   const openModal = (link, articleGuid) => {
     setIsLoading(true);
     setLoadingArticle(articleGuid);
+    setModalIsOpen(true);
     axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
       .then(response => {
         const parser = new DOMParser();
@@ -219,14 +108,12 @@ const NewsFeed = () => {
         setModalContent(tempDiv.innerHTML);
         setIsLoading(false);
         setLoadingArticle(null);
-        setModalIsOpen(true);
       })
       .catch(error => {
         console.error('Erreur lors de la récupération du contenu de l\'article:', error);
         setModalContent('Contenu non disponible');
         setIsLoading(false);
         setLoadingArticle(null);
-        setModalIsOpen(true);
       });
   };
 
@@ -259,7 +146,6 @@ const NewsFeed = () => {
               </LoadingSpinner>
             ) : (
               <>
-                {/* <ArticleImage src={article.enclosure ? article.enclosure.link : 'https://via.placeholder.com/700x467'} alt={article.title} /> */}
                 <ArticleTitle>
                   <ArticleIcon /> {article.title}
                 </ArticleTitle>
@@ -275,7 +161,7 @@ const NewsFeed = () => {
         style={customStyles}
         contentLabel="Article"
       >
-        <button onClick={closeModal} style={{ float: 'right', padding: '10px', background: '#f44336', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Fermer</button>
+        <CloseButton onClick={closeModal}>Fermer</CloseButton>
         {isLoading ? (
           <LoadingSpinner>
             <div className="spinner"></div>

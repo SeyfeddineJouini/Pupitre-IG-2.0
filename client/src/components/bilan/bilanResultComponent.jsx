@@ -6,6 +6,8 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
 import InputComponent from "./inputComponent";
+import { ThemeProvider } from 'styled-components';
+import { lightTheme, darkTheme } from '../../themes';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,6 +27,7 @@ export default function BilanResultComponent(props) {
   const [emailReset, setEmailReset] = useState(true);
   const [mailIsValid, setMailIsValid] = useState(null);
   const { isAuthenticated } = useAuth();
+  const [theme, setTheme] = useState(lightTheme);
 
   const options = {
     plugins: {
@@ -162,13 +165,17 @@ export default function BilanResultComponent(props) {
   
   }
 
-
+  const toggleTheme = () => {
+    setTheme(theme === lightTheme ? darkTheme : lightTheme);
+  };
 
   return (
+    <ThemeProvider theme={theme}>
+      <></>
     <div className="flex flex-col bg-slate-100  h-lvh">
       <div className="flex flex-col max-w-full max-md:mb-10">
         {reponse === null && "Loding ....."}
-        {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
+        {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
         {reponse && donneesChart && (
           <div className="min-h-screen flex justify-center items-center">
             <div className="bg-white rounded-2xl shadow-xl flex overflow-hidden max-w mx-6">
@@ -303,5 +310,6 @@ export default function BilanResultComponent(props) {
         )}
       </div>
     </div>
+    </ThemeProvider>
   );
 }

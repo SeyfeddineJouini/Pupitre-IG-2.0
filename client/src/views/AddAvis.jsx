@@ -147,6 +147,7 @@ export const AddAvis = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [theme, setTheme] = useState(lightTheme);
 
   // Récupérer le numéro de nom de localStorage, ou utiliser 1 par défaut
   const [nameNumber, setNameNumber] = useState(() => Number(localStorage.getItem('nameNumber')) || 1);
@@ -190,10 +191,14 @@ export const AddAvis = () => {
     }
   }, [formSubmitted]);
 
+  const toggleTheme = () => {
+    setTheme(theme === lightTheme ? darkTheme : lightTheme);
+  };
+
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={theme}>
       <>
-        {isAuthenticated ? <NavbarAdmin /> : <Navbar />}
+        {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
         <PageContainer>
           <MainContent>
             {formSubmitted ? (
