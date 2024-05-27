@@ -1,26 +1,69 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart {
+  margin-bottom: 20px; /* Espace entre le graphique et la légende */
+}
+
+.legend-container {
+  text-align: center; /* Centre la légende */
+}
+
+.legend-title {
+  font-size: 1.5rem;
+  margin-bottom: 30px; /* Espace entre le titre et la légende */
+}
+
 .legend {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-top: 10px;
-  }
-  
-  .legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-  }
-  
-  .legend-color {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    margin-right: 5px;
-    display: inline-block;
-  }
-  
-  .legend-text {
-    font-size: 14px;
-    color: #666;
-  }
-  
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.legend-text {
+  font-size: 1rem;
+  text-align: justify; /* Justifie le texte de la légende */
+}
+
+.legend-container {
+  text-align: center; /* Centre la légende */
+  padding-top: 20px; /* Espace entre la bordure et la légende */
+}
+
+
+.legend-item {
+  display: flex;
+  align-items: center; /* Aligner verticalement */
+  margin-bottom: 8px; /* Espacement entre les éléments */
+}
+
+.legend-content {
+  display: flex;
+  align-items: center; /* Aligner verticalement */
+}
+
+.legend-color {
+  display: inline-block;
+  width: 24px; /* Largeur de l'élément de couleur */
+  height: 24px; /* Hauteur de l'élément de couleur */
+  border-radius: 50%; /* Pour créer un cercle */
+  overflow: hidden; /* Masquer le dépassement de l'icône */
+  margin-right: 8px; /* Espacement entre la couleur et le texte */
+}
+
+.legend-icon {
+  display: block;
+  font-size: 16px; /* Taille de l'icône */
+  margin: 4px; /* Marge à l'intérieur de l'élément de couleur */
+}
+
+.legend-text {
+  margin-right: 8px; /* Espacement entre le texte et l'élément suivant */
+}
+
+
+
+

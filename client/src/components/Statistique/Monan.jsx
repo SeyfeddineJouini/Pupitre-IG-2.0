@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
 
-const CustomLineYearChart = ({ specialite }) => {
+const MonthlyLineChartByYear = ({ specialite }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [chartData, setChartData] = useState({
     labels: [],
-    datasets: [{
-      label: 'Score Moyen Annuel',
-      data: [],
-      borderColor: 'rgb(75, 192, 192)',
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      pointBackgroundColor: 'rgb(75, 192, 192)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      fill: true
-    }]
+    datasets: []
   });
+
+  const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
+                      "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -28,31 +19,31 @@ const CustomLineYearChart = ({ specialite }) => {
         const data = response.data.filter(d => specialite === "default" || d.spe === specialite);
         const groupedData = data.reduce((acc, item) => {
           const year = new Date(item.date).getFullYear();
-          acc[year] = acc[year] || [];
-          acc[year].push(parseFloat(item.scoreTotal));
+          acc[year] = acc[year] || new Array(12).fill(0);
+          const month = new Date(item.date).getMonth();
+          acc[year][month] += Math.min(item.scoreTotal, 200);
           return acc;
         }, {});
 
-        const labels = Object.keys(groupedData).sort();
-        const scores = labels.map(year => {
-          const items = groupedData[year];
-          return (items.reduce((sum, current) => sum + current, 0) / items.length).toFixed(2);
-        });
+        const years = Object.keys(groupedData).sort();
+        const datasets = years.map((year, index) => ({
+          label: `Score Mensuel ${year} pour ${specialite === "default" ? 'toutes spécialités' : specialite}`,
+          data: groupedData[year],
+          borderColor: `hsl(${360 * index / years.length}, 100%, 50%)`,
+          backgroundColor: 'transparent',
+          pointBorderColor: 'transparent',
+          pointHoverBorderColor: 'transparent',
+          pointHoverBackgroundColor: 'transparent',
+          pointBackgroundColor: 'transparent',
+          fill: false,
+          tension: 0.1
+        }));
+
+        const labels = monthNames;
 
         setChartData({
           labels,
-          datasets: [{
-            label: 'Score Moyen Annuel pour ' + (specialite === "default" ? 'toutes spécialités' : specialite),
-            data: scores,
-            borderColor: 'rgb(75, 192, 192)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            pointBackgroundColor: 'rgb(75, 192, 192)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgb(75, 192, 192)',
-            tension: 0.1,
-            fill: true
-          }]
+          datasets
         });
       } catch (error) {
         console.error("Erreur lors de la récupération des statistiques annuelles", error);
@@ -72,13 +63,13 @@ const CustomLineYearChart = ({ specialite }) => {
             x: {
               title: {
                 display: true,
-                text: 'Année'
+                text: 'Mois'
               }
             },
             y: {
               title: {
                 display: true,
-                text: 'Score Moyen'
+                text: 'Score Mensuel'
               }
             }
           },
@@ -102,5 +93,5 @@ const CustomLineYearChart = ({ specialite }) => {
   );
 };
 
-export default CustomLineYearChart;
+export default MonthlyLineChartByYear;
 
