@@ -8,13 +8,120 @@ import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantCompo
 import InputComponent from "./inputComponent";
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../../themes';
+import styled, { keyframes } from 'styled-components';
+import { FaEnvelope, FaCheckCircle, FaExclamationCircle, FaCar, FaHome, FaUtensils, FaBox } from 'react-icons/fa';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
-export default function BilanResultComponent(props) {
+const MainContainer = styled.div`
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentContainer = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+const Section = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-top: 20px;
+  max-width: 1200px;
+  width: 100%;
+  animation: ${fadeIn} 2s ease-in-out;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+`;
+
+const Title = styled.h1`
+  font-family: 'Outfit', Helvetica, sans-serif;
+  font-weight: 700;
+  color: #333;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+const Subtitle = styled.p`
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
+`;
+
+const Column = styled.div`
+  flex: 1;
+  background: ${props => props.bg || '#f0f0f0'};
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+`;
+
+const IconWrapper = styled.div`
+  font-size: 1.5rem;
+  color: #ff6f61;
+  margin-bottom: 10px;
+`;
+
+const EmailContainer = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const ResultContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+const getCategoryIcon = (category) => {
+  switch (category) {
+    case 'Transport':
+      return <FaCar />;
+    case 'Logement':
+      return <FaHome />;
+    case 'Alimentation':
+      return <FaUtensils />;
+    case 'Divers':
+      return <FaBox />;
+    default:
+      return null;
+  }
+};
+
+const BilanResultComponent = (props) => {
   const apiUrl = process.env.REACT_APP_API_URL;
-  const userName = props.userName || "";
+  // const userName = props.userName || "";
   const questionResponse = props.questionResponse || {};
 
   const emailRegex = /\S+@\S+\.\S+/;
@@ -34,7 +141,6 @@ export default function BilanResultComponent(props) {
       legend: {
         position: 'bottom',
         display: false,
-        // S'assurer que chaque légende est sur sa propre ligne
         onHover: function(e) {
           e.native.target.style.cursor = 'pointer';
         }
@@ -77,9 +183,7 @@ export default function BilanResultComponent(props) {
     }
   };
 
-
   useEffect(() => {
-    // Fonction pour effectuer l'appel au backend
     const appelerBackend = async () => {
       try {
         const res = await fetch(`${apiUrl}/quiz/calculate`, {
@@ -122,7 +226,6 @@ export default function BilanResultComponent(props) {
       }
     };
 
-    // Appeler la fonction appelerBackend lors du chargement du composant
     appelerBackend();
   }, [questionResponse]); 
 
@@ -134,8 +237,7 @@ export default function BilanResultComponent(props) {
 
   async function sendEmail() {
     setEmailSentError(false);
-     // Check if the email matches the regex
-     if (emailRegex.test(email)) {
+    if (emailRegex.test(email)) {
       setMailIsValid(true);
       setEmailReset(false);
       const res = await fetch(`${apiUrl}/quiz/send-email`, {
@@ -153,7 +255,6 @@ export default function BilanResultComponent(props) {
         setEmailSentError(true);
         setEmailReset(true);
         return;
-        //throw new Error("La requête au backend a échoué (envoie de mail)");
       }
       const resultatEmail = await res.json();
       setEmailSent(resultatEmail.success);
@@ -162,7 +263,6 @@ export default function BilanResultComponent(props) {
     } else {
       setMailIsValid(false);
     }
-  
   }
 
   const toggleTheme = () => {
@@ -171,18 +271,14 @@ export default function BilanResultComponent(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <></>
-    <div className="flex flex-col bg-slate-100  h-lvh">
-      <div className="flex flex-col max-w-full max-md:mb-10">
-        {reponse === null && "Loding ....."}
+      <MainContainer>
         {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
-        {reponse && donneesChart && (
-          <div className="min-h-screen flex justify-center items-center">
-            <div className="bg-white rounded-2xl shadow-xl flex overflow-hidden max-w mx-6">
-              <div className="w-2/4 p-10 space-y-6 text-center">
-                <h1 className="text-3xl font-bold text-gray-800">
-                  Bilan carbone
-                </h1>
+        <ContentContainer>
+          {reponse === null && <Title>Loading ..... </Title>}
+          {reponse && donneesChart && (
+            <Section>
+              <Column>
+                <Title>Bilan carbone</Title>
                 <div className="relative">
                   <div className="text-center">
                     <span className="text-6xl font-semibold">
@@ -192,72 +288,54 @@ export default function BilanResultComponent(props) {
                           return accumulator + currentValue;
                         }, 0)}
                     </span>
-                    <p className="text-gray-500">TCO2e/an</p>
+                    <Subtitle>TCO2e/an</Subtitle>
                   </div>
                   <div className="mx-auto mt-3 w-1/2">
                     <Doughnut data={donneesChart} options={options} />
                   </div>
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
                 </div>
-                <div className="space-y-2 w-1/2 mx-auto">
-                  {reponse?.result?.map((result, index) => {
-                    return (
-                      <div
-                        className="flex items-center"
-                        key={"result-" + index}
-                      >
-                        <span
-                          className="block w-3 h-3 rounded-full mr-2"
-                          style={{ backgroundColor: result.color }}
-                        ></span>
-                        <span className="text-sm text-gray-600">
-                          {result.label} - {result.value} TCO2e/an
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+                <ResultContainer>
+                  {reponse?.result?.map((result, index) => (
+                    <div className="flex items-center" key={"result-" + index}>
+                      <IconWrapper>
+                        {getCategoryIcon(result.label)}
+                      </IconWrapper>
+                      <Subtitle>
+                        {result.label} - {result.value} TCO2e/an
+                      </Subtitle>
+                    </div>
+                  ))}
+                </ResultContainer>
+              </Column>
 
-              <div className="w-1/4 bg-gray-100 p-10 space-y-6 flex justify-between flex-col">
-                <h1 className="text-3xl font-bold text-gray-800 text-center">
-                  Taux d’émission du salaire
-                </h1>
-
-                <div className="text-center">
-                  Avec un budget de <b>{questionResponse["budget"]} euros</b>{" "}
-                  par an,
-                  <br />
+              <Column bg="#f0f0f0">
+                <Title>Taux d’émission du salaire</Title>
+                <Subtitle>
+                  Avec un budget de <b>{questionResponse["budget"]} euros</b> par an,
                   votre émission est équivalente à
-                </div>
-
-                <h2 className="text-3xl font-bold text-gray-700 text-center">
+                </Subtitle>
+                <Subtitle>
                   {reponse.budget?.toFixed(3).replace(".", ",")} TCO2
-                </h2>
-
-                <p className="text-red-300 text-justify">
+                </Subtitle>
+                <p className="text-blue-300 text-justify" style={{ color: '#3a4e6b' }}>
                   Pour calculer le taux d’émission du salaire, nous avons
                   considéré d’une part, le budget annuel français qui est
                   d’environ 312 000 millions d’euros en 2024 et d’autre part, le
                   taux de CO2 émis par toute la France est de 604 millions de
                   tonne de CO2.
                 </p>
-              </div>
+              </Column>
 
-              <div className="w-1/4 bg-blue-200 p-10 space-y-6">
-                <div className="bg-white p-6 rounded-2xl shadow space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <h2 className="text-xl font-semibold text-gray-800">
-                      Souhaitez-vous recevoir les résultats par courrier
-                      électronique?
-                    </h2>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                  <h3 className="text-sm font-semibold text-gray-700">
-                      Si l'on zoom sur l'empreinte carbone de l'email moyen, voilà ce que cela donne : 0,3 grammes pour un email de spam. 4 grammes pour un mail sans pièce jointe. 11 grammes pour un email avec une pièce jointe de 1 MB
-                    </h3>
-                  </div>
-                </div>
+              <Column bg="#e0f7fa">
+                <EmailContainer>
+                  <IconWrapper>
+                    <FaEnvelope />
+                  </IconWrapper>
+                  <Title>Souhaitez-vous recevoir les résultats par courrier électronique?</Title>
+                  <Subtitle>
+                    Si l'on zoom sur l'empreinte carbone de l'email moyen, voilà ce que cela donne : 0,3 grammes pour un email de spam. 4 grammes pour un mail sans pièce jointe. 11 grammes pour un email avec une pièce jointe de 1 MB
+                  </Subtitle>
+                </EmailContainer>
 
                 <div className="space-x-4 justify-center text-center">
                   <div className="my-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -284,32 +362,28 @@ export default function BilanResultComponent(props) {
                 </div>
                 {mailIsValid === false && (
                   <div className="my-2 text-center text-red-700">
-                    Votre adresse email <b>{email}</b>.<br /> est invalide,
-                    <br />
-                    Merci de verifier votre adresse.
+                    <FaExclamationCircle /> Votre adresse email <b>{email}</b> est invalide, Merci de verifier votre adresse.
                   </div>
                 )}
-                {emailSent !== false && (
+                {emailSent && (
                   <div className="my-2 text-center text-green-700">
-                    Le résultat a été transmis par e-mail avec succès sur
-                    l'adresse <b>{email}</b>.<br /> Merci de vérifier votre
-                    e-mail!
+                    <FaCheckCircle /> Le résultat a été transmis par e-mail avec succès sur l'adresse <b>{email}</b>. Merci de vérifier votre e-mail!
                   </div>
                 )}
-                {emailSentError !== false && (
+                {emailSentError && (
                   <div className="my-2 text-center text-red-700">
-                    Une erreur s'est produite lors de l'envoi d'email. Veuillez
-                    contacter un administrateur ou essayer à nouveau.
+                    <FaExclamationCircle /> Une erreur s'est produite lors de l'envoi d'email. Veuillez contacter un administrateur ou essayer à nouveau.
                   </div>
                 )}
 
                 <BilanRessourcesAccordiantComponent />
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+              </Column>
+            </Section>
+          )}
+        </ContentContainer>
+      </MainContainer>
     </ThemeProvider>
   );
-}
+};
+
+export default BilanResultComponent;

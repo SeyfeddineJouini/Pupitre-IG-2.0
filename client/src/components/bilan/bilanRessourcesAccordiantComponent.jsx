@@ -92,9 +92,12 @@ const smallModalStyles = {
   ...customStyles,
   content: {
     ...customStyles.content,
-    width: '50%', // Réduire la largeur à 60%
+    width: '53%', // Augmenter la largeur à 60%
+    left: '32%',  // Déplacer le modal vers la gauche
+    transform: 'translate(-40%, -50%)', // Ajuster la transformation pour le centrer correctement
   },
 };
+
 
 export default function BilanRessourcesAccordiantComponent() {
   const [isOpen, setIsOpen] = useState(false);
