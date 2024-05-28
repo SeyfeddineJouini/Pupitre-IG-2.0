@@ -1,21 +1,39 @@
 import React, {useState} from "react";
 import BilanComponent from "../components/bilan/bilanComponent";
 import BilanResultComponent from "../components/bilan/bilanResultComponent";
+import Habit from "../img/vet.png";
+import Vegetarien from "../img/vege.png";
+import Transport from "../img/transport.png";
+import TGV from "../img/tgv.png";
+import Logement from "../img/loge.png";
+import Internet from "../img/internet.png";
+import Spe from "../img/interog.png";
+import VoitureVac from "../img/grandep.png";
+import Express from "../img/Express.png";
+import Electro from "../img/electro.png";
+import Eau from "../img/eau.png";
+import Chauffage from "../img/chaff.png";
+import Boisson from "../img/bois.png";
+import Avion from "../img/avion.png";
+import Voiture from "../img/voiture.png";
+import Budget from "../img/budg.png";
 
 export default function BilanExpressView() {
   let welcomePageContent = {
-    title: "Bilan carbone 3 minutes",
-    description: "Le bilan carbone express vous aide à mesurer vos émissions de CO2 en explorant vos habitudes de transport, logement, alimentation et consommation.",
-    image: "https://www.colibris-compression.fr/media/cache/default_product_large/media/porduits/20171208-livraison-express-v3-transparent-1024x1024-1.png"
+    title: "Bilan carbone en 3 minutes",
+    description: "Le bilan carbone express vous aide à mesurer vos émissions de CO2 en explorant vos habitudes de transport, de logement, d'alimentation et de consommation.",
+    image: Express,
   };
+
+
 
     let questionsList = [
         {
             id: "transport",
             type: "radio",
-            title: "Pour vous rendre sur votre lieu de travail ou Université / école, vous prenez ?",
+            title: "Pour vous rendre sur votre lieu de travail, à l'université ou à l'école, comment vous déplacez-vous ?",
             description: "",
-            image: "https://i.familiscope.fr/2000x1125/smart/2023/11/06/coloriages-transports.jpg",
+            image:Transport,
             option: [
                 {
                     title: "Transports en commun (Bus, Tram, RER, Métro)",
@@ -23,7 +41,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "transport_commun_aller_retour",
-                            title: "Combien de km Aller-Retour avec le transport en commun? ",
+                            title: "Combien de kilomètres aller-retour avec les transports en commun ? ",
                             type: "number",
                             description: "",
                         },
@@ -39,7 +57,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "voiture_coivoiturage",
-                            title: "Faites-vous du Co-Voiturage ?",
+                            title: "Faites-vous du Covoiturage ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -63,7 +81,7 @@ export default function BilanExpressView() {
                         },
                         {
                             id: "voiture_km",
-                            title: "Combien de km Aller-Retour avec la voiture ? ",
+                            title: "Combien de kilomètres aller-retour avec la voiture ?",
                             type: "number",
                             description: "",
                         },
@@ -73,10 +91,10 @@ export default function BilanExpressView() {
         },
         {
             id: 'transport_weekend',
-            title: 'Pour les déplacements du week-end, vous prenez ?',
+            title: 'Pour vos déplacements du week-end, quel mode de transport privilégiez-vous ?',
             type: "radio",
             description: "",
-            image: "https://thumbs.dreamstime.com/b/d%C3%A9placement-en-v%C3%A9hicule-p%C3%A8re-conduisant-la-voiture-vacances-d-%C3%A9t%C3%A9-heureuses-de-famille-tourisme-famille-de-personnage-de-78706435.jpg",
+            image: Voiture,
             option: [
                 {
                     title: "Transports en commun (Bus, Tram, RER, Métro)",
@@ -84,7 +102,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "transport_weekend_commun_aller_retour",
-                            title: "Combien de km Aller-Retour avec le transport en commun? ",
+                            title: "Combien de kilomètres aller-retour avec les transports en commun ?",
                             type: "number",
                             description: "",
                         },
@@ -100,7 +118,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "voiture_weekend_coivoiturage",
-                            title: "Faites-vous du Co-Voiturage ?",
+                            title: "Faites-vous du Covoiturage ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -124,7 +142,7 @@ export default function BilanExpressView() {
                         },
                         {
                             id: "voiture_weekend_km",
-                            title: "Combien de km Aller-Retour avec la voiture ? ",
+                            title: "Combien de kilomètres aller-retour avec la voiture ?",
                             type: "number",
                             description: "",
                         },
@@ -134,10 +152,10 @@ export default function BilanExpressView() {
         },
         {
             id: "grand_deplacement_avion",
-            title: "Pour les grand déplacement prenez-vous l'avion ?",
+            title: "Pour les grands déplacements, prenez-vous l'avion ?",
             type: "radio",
             description: "",
-            image: "https://media.istockphoto.com/id/155439315/fr/photo/avion-de-passagers-voler-au-dessus-des-nuages-au-coucher-du-soleil.jpg?s=612x612&w=0&k=20&c=LRxXZHvGfbWnAM_ELCPbFHI9gdqJXDRqIy3xOM7m5tg=",
+            image: VoitureVac,
             option: [
                 {
                     title: "Oui",
@@ -145,7 +163,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "grand_deplacement_avion_km",
-                            title: "Combien de km parcourez-vous en moyenne par an (aller / retour) en avion? （PS）Paris-Lyon:5 834 km ",
+                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en avion ? （PS）Paris-Lyon:5 834 km ",
                             type: "number"
                         }
                     ]
@@ -158,10 +176,10 @@ export default function BilanExpressView() {
         },   
         {
             id: "grand_deplacement_train ",
-            title: "Pour les grand déplacement voyagez-vous en TGV ?",
+            title: "Pour les grands déplacements, voyagez-vous en TGV ?",
             type: "radio",
             description: "",
-            image: "https://www.emploi-collectivites.fr/images/Image%20%20IFTP%20Indemnit%C3%A9%20frais%20transport%20des%20personnes.jpg",
+            image:TGV,
             option: [
                 {
                     title: "Oui",
@@ -169,7 +187,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "grand_deplacement_train_km ",
-                            title: "Combien de km parcourez-vous en moyenne par an (aller / retour) en train? （PS）Paris-Lyon:391 km ",
+                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en train ? （PS）Paris-Lyon:391 km ",
                             type: "number"
                         }
                     ]
@@ -183,10 +201,10 @@ export default function BilanExpressView() {
         
         {
             id: "grand_deplacement_voiture",
-            title: "Pour les grand déplacement prenez-vous la voiture ",
+            title: "Pour les grands déplacements, prenez-vous la voiture ?",
             type: "radio",
             description: "",
-            image: "https://www.locationvoituremaurice.com/images/blog/quel-vehicule-choisir.png",
+            image:Avion,
             option: [
                 {
                     title: "Oui",
@@ -194,7 +212,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "voiture_grand_deplacement_coivoiturage",
-                            title: "Faites-vous du Co-Voiturage ?",
+                            title: "Faites-vous du Covoiturage ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -218,7 +236,7 @@ export default function BilanExpressView() {
                         },
                         {
                             id: "voiture_grand_deplacement_km",
-                            title: "Combien de km parcourez-vous en moyenne par an (uniquement pour les vacances) (Aller-Retour) ? ",
+                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) uniquement pour les vacances ? ",
                             type: "number",
                             description: "",
                         },
@@ -233,9 +251,9 @@ export default function BilanExpressView() {
         {
             id: "logement",
             type: "radio",
-            title: "Quelle est le type de votre logement ?",
+            title: "Quel est le type de votre logement ?",
             description: "",
-            image: "https://www.roissyenbrie77.fr/wp-content/uploads/2017/08/logement.jpg",
+            image: Logement,
             option: [
                 {
                     title: "Dans une maison en colocation ",
@@ -308,9 +326,9 @@ export default function BilanExpressView() {
         {
             id: "logement_chauffage",
             type: "radio",
-            title: "Comment est chauffé votre logement ?",
+            title: "Comment votre logement est-il chauffé ?",
             description: "",
-            image: "https://cdn.v2.primesenergie.fr/images/header-img/chauffage-ecologique.jpg",
+            image: Chauffage,
             option: [
                 {
                     title: "Fioul",
@@ -329,9 +347,9 @@ export default function BilanExpressView() {
         {
             id: "logement_equipements",
             type: "checkbox",
-            title: "Quels sont vos équipements électroménagers ?",
+            title: "Quels équipements électroménagers utilisez-vous parmi les suivants ?",
             description: "",
-            image: "https://lamaisonideale.fr/wp-content/uploads/2021/06/electromenagers-indispensables-appareils-maison-1200x900.jpg",
+            image: Electro,
             option: [
                 {
                     title: "Four",
@@ -350,11 +368,11 @@ export default function BilanExpressView() {
                     value: "Lave-linges",
                 },
                 {
-                    title: "sèche-linges",
+                    title: "Sèche-linge",
                     value: "sèche-linges",
                 },
                 {
-                    title: "Lave-vaisselles",
+                    title: "Lave-vaisselle",
                     value: "Lave-vaisselles",
                 },
                 {
@@ -373,10 +391,10 @@ export default function BilanExpressView() {
         },
         {
             id: "régime_alimentaire",
-            title: "Etes-vous végétarien ?",
+            title: "Êtes-vous végétarien ?",
             type: "radio",
             description: "",
-            image: "https://img.freepik.com/vecteurs-premium/illustration-vectorielle-dessin-anime-diner-savoureux-steak-porc-grille-legumes-vue-dessus-plaque_718601-62.jpg",
+            image:Vegetarien,
             option: [
                 {
                     title: "Non",
@@ -384,7 +402,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "consommation_viande_rouge",
-                            title: "A quelle fréquence consommez-vous la viande rouge ?",
+                            title: "À quelle fréquence consommez-vous de la viande rouge ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -413,9 +431,9 @@ export default function BilanExpressView() {
         {
             id: "Alimentation_eau",
             type: "radio",
-            title: "Buvez-vous en général l’eau du robinet ou de l’eau en bouteille ?",
+            title: "Buvez-vous généralement de l'eau du robinet ou de l'eau en bouteille ?",
             description: "",
-            image: "https://www.harmonie-sante.fr/sites/default/files/styles/big_picture/public/2021/03/eau-photo-principale.jpg?h=da777856&itok=UB1mwtLQ",
+            image:Eau,
             option: [
                 {
                     title: "Eau du robinet",
@@ -430,9 +448,9 @@ export default function BilanExpressView() {
         {
             id: "Alimentation_Boissons",
             type: "checkbox",
-            title: "Quelles sont les boissons chaudes que vous consommez ? ",
+            title: "Quelles boissons chaudes consommez-vous ? ",
             description: "",
-            image: "https://cdn-icons-png.flaticon.com/512/325/325623.png",
+            image: Boisson,
             option: [
                 {
                     title: "Café",
@@ -451,9 +469,9 @@ export default function BilanExpressView() {
         {
             id: "divers_textile",
             type: "radio",
-            title: "Vous achetez en moyenne combien de vêtements par mois ?",
+            title: "En moyenne, combien de vêtements achetez-vous par mois ?",
             description: "",
-            image: "https://cdn.icon-icons.com/icons2/3150/PNG/512/clothing_shop_bag_tshirt_icon_192654.png",
+            image: Habit,
             option: [
                 {
                     title: "Entre 1 et 2",
@@ -472,9 +490,9 @@ export default function BilanExpressView() {
         {
             id: "divers_internet",
             type: "radio",
-            title: "A combien s’élève en moyenne le nombre d’heure vous passez sur internet par jour ?",
+            title: "À combien s’élève en moyenne le nombre d’heures que vous passez sur Internet par jour ?",
             description: "",
-            image: "https://www.afbshop.fr/media/43/57/68/1698068150/Comment%20am%C3%A9liorer%20sa%20connexion%20Internet.jpg",
+            image:Internet,
             option: [
                 {
                     title: "Moins de 3 heures",
@@ -492,13 +510,14 @@ export default function BilanExpressView() {
         },
         {
             id: "budget",
-            title: "Quelle estr votre budget mensuel ?",
+            title: "Quels sont vos revenus/dépenses mensuels ?",
             type: "number",
+            min: 0, // Added min attribute to prevent negative values
             description: "",
-            image: "https://www.coindusalarie.fr/assets/static/12235-no6ahn.ad76ebb.f378cd6f0536cce77b3c4a3ba6377ed2.jpg",
+            image: Budget,
         },
         {
-            image: "https://static.wixstatic.com/media/c430c5_9a036bca709341be933e0fe08be29ac2~mv2.jpg/v1/fill/w_640,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/c430c5_9a036bca709341be933e0fe08be29ac2~mv2.jpg",
+            image: Spe,
             list: [
                 {
                     id: "nom",

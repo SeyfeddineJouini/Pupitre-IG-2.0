@@ -7,6 +7,7 @@ import CustomLineChart from "./Statistique/Mensuel";
 import CustomLineYearChart from "./Statistique/Annuel";
 import CustomChart from "./Statistique/Doughnuts";
 import StackedBarChart from "./Statistique/Tous";
+import MyFact from "./Statistique/Fact";
 import MonthlyLineChartByYear  from "./Statistique/Monan";
 import { lightTheme, darkTheme } from '../themes';
 import { useAuth } from "../context/AuthContext";
@@ -19,23 +20,34 @@ import styled from 'styled-components';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 Chart.register(ArcElement, Tooltip, Legend);
 
-function StatCard({ title, value, percentage, isNegative, icon }) {
+function StatCard({ title, value, percentage, isNegative, icon, iconColor }) {
   return (
-    <div className="flex flex-col grow px-8 pt-6 pb-12 w-full font-medium bg-white rounded-lg shadow-lg max-md:px-5 max-md:mt-8 opacity-80">
+    <div className="flex flex-col grow px-8 pt-6 pb-12 w-full font-medium bg-white rounded-lg shadow-lg max-md:px-5 max-md:mt-8">
       <FontAwesomeIcon
         icon={icon}
-        className="w-8 h-8 text-gray-500" // Apply color class conditionally
+        className={`w-8 h-8 ${iconColor}`} // Apply color class conditionally
       />
       <div className="mt-2 text-2xl font-semibold text-gray-900">{value}</div>
-      <div className="mt-1 text-sm text-gray-500">{title}</div>
+      <div className="mt-1 font-semibold text-gray-500 ">{title}</div>
       <div className={`mt-1 text-sm ${isNegative ? "text-red-500" : "text-green-500"}`}>{percentage}</div>
     </div>
   );
 }
-
+function AlternateColorText({ text }) {
+  const colors = ["text-blue-500", "text-green-500"];
+  return (
+    <>
+      {text.split("").map((char, index) => (
+        <span key={index} className={colors[index % colors.length]}>
+          {char}
+        </span>
+      ))}
+    </>
+  );
+}
 
 function FormSelect({ name, options, onChange, alignRight }) {
-  const handleMouseOver = (e) => e.target.size = options.length;
+
   const handleMouseOut = (e) => e.target.size = 1;
   const handleChange = (e) => {
     onChange(e);
@@ -48,7 +60,6 @@ function FormSelect({ name, options, onChange, alignRight }) {
         name={name}
         className="block w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition ease-in-out duration-150 cursor-pointer"
         onChange={handleChange}
-        onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onClick={handleMouseOut}
         style={{ position: 'absolute', zIndex: 10 }}
@@ -60,6 +71,7 @@ function FormSelect({ name, options, onChange, alignRight }) {
     </div>
   );
 }
+
 function StatCardWithBackground({ count }) {
   const titleStyle = {
     fontFamily: "'Outfit', Helvetica, sans-serif",
@@ -70,10 +82,8 @@ function StatCardWithBackground({ count }) {
   };
   return (
     <div className="flex gap-6 justify-between px-8 py-6 mt-12 w-full font-semibold max-md:px-4 max-md:mt-8">
-       <h2 style={titleStyle}>Chiffres:</h2>
-      <div className="flex relative z-10 flex-col gap-4 justify-between self-center px-8 py-6 mt-12 w-full font-semibold text-black bg-white max-md:px-4 max-md:mt-8 opacity-80">
+      <div className="flex relative z-10 flex-col gap-4 justify-between self-center px-8 py-6 w-full font-semibold text-black bg-white max-md:px-4 max-md:mt-8 opacity-80" style={{ marginTop: '20px' }}>
         <FontAwesomeIcon icon={faUsers} className="absolute inset-0 object-cover w-full h-full opacity-10 text-gray-500" />
-        
         <p className="relative flex-1 text-lg leading-6 text-black">Nombre de participants</p>
         <p className="relative flex-1 my-auto text-3xl text-center">{count}</p>
       </div>
@@ -88,39 +98,6 @@ function Statistiques() {
   const [totalEmissions, setTotalEmissions] = useState('');
   const [theme, setTheme] = useState(lightTheme);
   const [count, setCount] = useState(0);
-  const dailyFacts = [
-    "L'écologie est l'étude des interactions entre les organismes et leur environnement.",
-    "Les écosystèmes sont des systèmes complexes composés d'organismes vivants et de leur environnement physique.",
-    "Les écosystèmes fournissent des services écologiques essentiels tels que la purification de l'eau, la pollinisation des cultures et la régulation du climat.",
-"La biodiversité est la variété des formes de vie sur Terre, et elle est essentielle à la stabilité des écosystèmes.",
-"Les forêts tropicales abritent plus de la moitié de la biodiversité mondiale, bien qu'elles ne couvrent que 6% de la surface de la Terre.",
-"Les océans fournissent plus de la moitié de l'oxygène de la planète et absorbent une grande partie du dioxyde de carbone produit par les activités humaines.",
-"La déforestation est l'une des principales causes de perte de biodiversité et de changement climatique.",
-"Les espèces exotiques envahissantes peuvent perturber les écosystèmes indigènes et menacer la biodiversité.",
-"Les zones humides, comme les marais et les mangroves, jouent un rôle crucial dans la filtration de l'eau et la protection des côtes contre les tempêtes.",
-"Les pollinisateurs, tels que les abeilles et les papillons, sont indispensables à la pollinisation des plantes, y compris de nombreuses cultures alimentaires.",
-"La surpêche menace la durabilité des stocks de poissons et la santé des écosystèmes marins.",
-"Les émissions de gaz à effet de serre, telles que le dioxyde de carbone et le méthane, contribuent au réchauffement climatique et aux changements climatiques.",
-"Le changement climatique entraîne des phénomènes météorologiques extrêmes plus fréquents, tels que les tempêtes, les inondations et les sécheresses.",
-"La fonte des glaciers et des calottes glaciaires due au réchauffement climatique entraîne une élévation du niveau de la mer, menaçant les régions côtières.",
-"L'agriculture intensive peut entraîner la dégradation des sols, la pollution de l'eau et la perte de biodiversité.",
-"Les énergies renouvelables, comme l'énergie solaire et éolienne, offrent des alternatives plus durables aux combustibles fossiles.",
-"La conservation des zones protégées, telles que les parcs nationaux et les réserves naturelles, est essentielle pour préserver la biodiversité et les écosystèmes.",
-"Les pratiques agricoles durables, telles que l'agroécologie et la permaculture, favorisent la santé des sols et la résilience des cultures.",
-"La réduction, le réutilisation et le recyclage des déchets sont des moyens efficaces de réduire l'empreinte écologique et de préserver les ressources naturelles.",
-"Les villes vertes, avec des espaces verts et des infrastructures durables, favorisent la qualité de vie et la santé des habitants.",
-"La connectivité écologique, c'est-à-dire la conservation des corridors biologiques, aide à prévenir l'isolement des populations animales et végétales.",
-"La restauration des écosystèmes dégradés, tels que les zones humides et les mangroves, peut contribuer à atténuer les effets du changement climatique.",
-"La collaboration internationale est essentielle pour résoudre les problèmes environnementaux mondiaux, tels que la pollution plastique et la perte de biodiversité.",
-"Les peuples autochtones jouent souvent un rôle crucial dans la conservation de la biodiversité et la gestion durable des ressources naturelles.",
-"La sensibilisation du public et l'éducation environnementale sont essentielles pour susciter un changement positif en matière de conservation.",
-"Les écosystèmes côtiers, tels que les récifs coralliens, sont particulièrement vulnérables aux effets du changement climatique et de la pollution.",
-"La déforestation contribue à la perte d'habitats pour de nombreuses espèces, ce qui peut entraîner leur extinction.",
-"Les zones urbaines peuvent être conçues pour favoriser la biodiversité, par exemple en intégrant des toits verts et des jardins communautaires.",
-"La surconsommation des ressources naturelles, associée à une croissance démographique rapide, exerce une pression importante sur les écosystèmes.",
-"La transition vers une économie circulaire, dans laquelle les déchets sont réduits au minimum et les ressources sont utilisées de manière plus efficace, est cruciale pour assurer la durabilité à long terme de notre planète.",
-  ];
-  const randomFact = dailyFacts[new Date().getDate() % dailyFacts.length];
   useEffect(() => {
     axios.get(`${apiUrl}/stats/api/statistiques/totalScore`)
       .then(response => setTotalEmissions(response.data.total))
@@ -169,6 +146,14 @@ function Statistiques() {
         );
     }
   };
+  const titleStyle = {
+    fontFamily: "'Outfit', Helvetica, sans-serif",
+    fontWeight: 700,
+    color: '#ffffff',
+    textShadow: '3px 3px 6px rgba(0, 0, 0, 0.7)',
+    fontSize: '2rem',
+    margin_bottom: '20px',
+  };
   
 
   const toggleTheme = () => setTheme(theme === lightTheme ? darkTheme : lightTheme);
@@ -189,34 +174,40 @@ function Statistiques() {
         {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
         <div className="self-center mt-10 mb-6 w-full max-w-6xl max-md:mt-8 max-md:max-w-full">
           <div className="flex flex-col items-center mb-8">
-            <Title>Statistique Géneral :</Title>
+            <Title>Statistique Générale </Title>
             <div className="mt-2 text-1xl font-semibold text-white">{formattedDate}</div>
           </div>
-          <div className="flex gap-6 max-md:flex-col max-md:gap-4">     
+          
+          <div className="flex gap-6 max-md:flex-col max-md:gap-4"> 
+         
             <div className="flex flex-col w-2/3 max-md:w-full">
+                
                <div className="flex flex-col max-md:mt-6 max-md:max-w-full">
-                  <StatCardWithBackground count={count} className="mt-2" />
+               <h2  className="mb-2" style={titleStyle}>Chiffres:</h2>
+                  <StatCardWithBackground count={count} className="mt-2" tyle={{ marginBottom: '20px' }} />
                   <div className="mt-8 max-md:mt-6 max-md:max-w-full">
                     < div className="flex gap-6 max-md:flex-col max-md:gap-4">
                     <StatCard
                       title="Totale Des Emissions"
-                      value={`${totalEmissions} tCO2e`}
+                      value={`${totalEmissions} TCO2e/an`}
                       percentage=""
                       isNegative={false}
                       icon={faCloud} // Ajoutez l'icône pour les émissions totales
+                      iconColor="text-green-500" // Green icon
                     />
                     <StatCard
                       title="Emissions par personne"
-                      value={`${(totalEmissions / count).toFixed(2)} tCO2e`}
+                      value={`${(totalEmissions / count).toFixed(2)} TCO2e/an`}
                       percentage=""
                       isNegative={false}
                       icon={faUser} // Ajoutez l'icône pour les émissions par personne
+                      iconColor="text-blue-500" // Blue icon
                     />
                   </div>
                 </div>
                 <div className="flex flex-col mt-6">
-                  <h2 className="mt-3 text-3xl font-semibold text-gray-900">Empreinte Statistique :</h2>
-                  <div className="flex gap-4 p-4 rounded-lg border ">
+                <h2 style={titleStyle}>Empreinte Statistique:</h2>
+                  <div className="flex gap-4 p-4 ">
                     <FormSelect
                       name="Spécialités"
                       options={[
@@ -263,11 +254,15 @@ function Statistiques() {
               <div className="flex justify-between items-center w-full">
                 
                 <img src={amp} alt="amp" className="ml-2 w-12 h-12" />
-                <h2 className="self-stretch text-3xl leading-4 text-black">Le Saviez-vous ?</h2>
+                <h2 className="self-stretch text-3xl leading-4 text-black">
+                <AlternateColorText text="Le Saviez-vous ?" />
+                </h2>
                 </div>
                 <hr className="shrink-0 self-stretch mt-5 h-px border border-solid bg-gray-200 border-gray-200" />
                 <div className="flex items-center justify-center w-full max-w-[283px]">
-                <p className="text-justify">{randomFact}</p>
+                <p className="text-justify">
+                  <MyFact/>
+                </p>
               </div>
               </div>
             </aside>

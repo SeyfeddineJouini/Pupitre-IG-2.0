@@ -6,7 +6,7 @@ const RadioButtonContainer = styled.div`
   margin-top: 16px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: justify;
 `;
 
 const RadioOption = styled.div`
