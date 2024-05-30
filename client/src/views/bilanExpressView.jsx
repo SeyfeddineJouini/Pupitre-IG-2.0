@@ -342,6 +342,10 @@ export default function BilanExpressView() {
                     title: "Electricité",
                     value: "Electricité",
                 },
+                {
+                    title: "Je ne sais pas",
+                    value: "Je ne sais pas",
+                },
             ],
         },
         {
@@ -464,6 +468,10 @@ export default function BilanExpressView() {
                     title: "Chocolat",
                     value: "Chocolat",
                 },
+                {
+                    title: "Aucune",
+                    value: "Aucune",
+                  },
             ],
         },
         {

@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-const CustomLineYearChart = ({ specialite }) => {
+const CustomBarYearChart = ({ specialite }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [{
       label: 'Score Moyen Annuel',
       data: [],
-      borderColor: 'rgb(75, 192, 192)',
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      pointBackgroundColor: 'rgb(75, 192, 192)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgb(75, 192, 192)',
-      tension: 0.1,
-      fill: true
+      backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1
     }]
   });
 
@@ -44,14 +39,9 @@ const CustomLineYearChart = ({ specialite }) => {
           datasets: [{
             label: 'Score Moyen Annuel pour ' + (specialite === "default" ? 'toutes spécialités' : specialite),
             data: scores,
-            borderColor: 'rgb(75, 192, 192)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            pointBackgroundColor: 'rgb(75, 192, 192)',
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: 'rgb(75, 192, 192)',
-            tension: 0.1,
-            fill: true
+            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
           }]
         });
       } catch (error) {
@@ -64,7 +54,7 @@ const CustomLineYearChart = ({ specialite }) => {
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
-      <Line
+      <Bar
         data={chartData}
         options={{
           maintainAspectRatio: false,
@@ -102,5 +92,6 @@ const CustomLineYearChart = ({ specialite }) => {
   );
 };
 
-export default CustomLineYearChart;
+export default CustomBarYearChart;
+
 

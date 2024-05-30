@@ -1,3 +1,4 @@
+
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import RadioButtonComponent from "./radioButtonComponent";
@@ -15,6 +16,7 @@ const fadeIn = keyframes`
     transform: translateY(0);
   }
 `;
+
 
 const QuestionContainer = styled.div`
   background: #ffffff;
@@ -50,6 +52,12 @@ const FormContainer = styled.form`
 const SubQuestionContainer = styled.div`
   margin-top: 20px;
 `;
+const AlertDiv = styled.div`
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+`;
+
 
 export default class QuestionComponent extends React.Component {
   constructor(props) {
@@ -60,12 +68,14 @@ export default class QuestionComponent extends React.Component {
       onResponseChange: props.onResponseChange,
       isValid: props.isValid,
       isSubQuestion: props.isSubQuestion,
+      errorMessage: "", // Added state for error message
     };
 
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.hasSubQuestion = this.hasSubQuestion.bind(this);
     this.getSubQuestion = this.getSubQuestion.bind(this);
     this.checkIfAllResponseIsValid = this.checkIfAllResponseIsValid.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this); // Added bind for handleSubmit
 
     if (this.state.isValid) {
       this.state.isValid(this.checkIfAllResponseIsValid());
@@ -83,6 +93,7 @@ export default class QuestionComponent extends React.Component {
       {
         ...this.state,
         questionResponse: { ...this.state.questionResponse, ...eventValue },
+        errorMessage: "", // Clear error message on change
       },
       () => {
         if (this.state.onResponseChange) {
@@ -127,12 +138,35 @@ export default class QuestionComponent extends React.Component {
     );
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+
+    // Validate the specific question input
+    const { questionResponse } = this.state;
+    if (
+      this.state.question.id === "grand_deplacement_avion" &&
+      questionResponse["grand_deplacement_avion"] === "oui" &&
+      questionResponse["grand_deplacement_avion_km"] < 100
+    ) {
+      this.setState({ errorMessage: "Le nombre de kilomètres doit être supérieur à 100." });
+      return;
+    }
+
+    if (this.state.onResponseChange) {
+      this.state.onResponseChange(this.state.questionResponse);
+    }
+
+    if (this.state.isValid) {
+      this.state.isValid(this.checkIfAllResponseIsValid());
+    }
+  }
+  
   render() {
     return (
       <QuestionContainer>
         <QuestionTitle>{this.state.question.title}</QuestionTitle>
         <QuestionDescription>{this.state.question.description}</QuestionDescription>
-        <FormContainer>
+        <FormContainer onSubmit={this.handleSubmit}>
           {this.state.question.type === "radio" && (
             <RadioButtonComponent
               question={this.state.question}
@@ -155,21 +189,20 @@ export default class QuestionComponent extends React.Component {
               onValueChange={this.handleOptionChange}
             />
           )}
+          {this.hasSubQuestion() &&
+            this.getSubQuestion()?.map((question, index) => {
+              return (
+                <SubQuestionContainer key={question.id + index}>
+                  <QuestionComponent
+                    questionResponse={this.state.questionResponse}
+                    question={question}
+                    isValid={this.state.isValid}
+                    onResponseChange={this.handleOptionChange}
+                  />
+                </SubQuestionContainer>
+              );
+            })}
         </FormContainer>
-
-        {this.hasSubQuestion() &&
-          this.getSubQuestion()?.map((question, index) => {
-            return (
-              <SubQuestionContainer key={question.id + index}>
-                <QuestionComponent
-                  questionResponse={this.state.questionResponse}
-                  question={question}
-                  isValid={this.state.isValid}
-                  onResponseChange={this.handleOptionChange}
-                />
-              </SubQuestionContainer>
-            );
-          })}
       </QuestionContainer>
     );
   }

@@ -88,6 +88,8 @@ def calcul_emission_route():
             logement_total += CO2_FIOUL
     elif data.get('logement_chauffage') == 'Electricité':
             logement_total += CO2_ELEC
+    elif data.get('logement_chauffage') == 'Je ne sais pas':
+            logement_total += CO2_ELEC*PROBA_ELEC+CO2_GAZ*PROBA_GAZ+CO2_FIOUL*PROBA_FIOUL
             
     # Calcul selon l'electroménager
     if 'logement_equipements' in data:

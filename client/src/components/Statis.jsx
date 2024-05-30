@@ -3,12 +3,9 @@ import axios from 'axios';
 import { ThemeProvider } from 'styled-components';
 import Navbar from "../components/Navbar";
 import NavbarAdmin from "../components/NavbarAdmin";
-import CustomLineChart from "./Statistique/Mensuel";
-import CustomLineYearChart from "./Statistique/Annuel";
+import CustomBarYearChart from "./Statistique/Annuel";
 import CustomChart from "./Statistique/Doughnuts";
-import StackedBarChart from "./Statistique/Tous";
 import MyFact from "./Statistique/Fact";
-import MonthlyLineChartByYear  from "./Statistique/Monan";
 import { lightTheme, darkTheme } from '../themes';
 import { useAuth } from "../context/AuthContext";
 import backgroundImage from "../img/imagestat2.png";
@@ -125,27 +122,7 @@ function Statistiques() {
   }, [apiUrl]);
 
   const handleSpecialtyChange = (event) => setSelectedSpecialty(event.target.value);
-  const handleTypeChange = (event) => setSelectedType(event.target.value);
-  const renderChart = () => {
-    switch (selectedSpecialty) {
-      case "spe":
-        return <StackedBarChart specialite={selectedSpecialty} key={selectedSpecialty} />;
-      default:
-        return (
-          <div className="flex flex-col items-end px-12 pb-16 mt-6 w-full text-sm font-semibold text-gray-500 max-md:px-4 max-md:max-w-full">
-            {selectedType === "option 1" ? (
-              <CustomLineYearChart specialite={selectedSpecialty} key={selectedSpecialty} />
-            ) : (
-              selectedType === "option 2" ? (
-                <CustomLineChart specialite={selectedSpecialty} key={selectedSpecialty} />
-              ) : (
-                <MonthlyLineChartByYear specialite={selectedSpecialty} key={selectedSpecialty} />
-              )
-            )}
-          </div>
-        );
-    }
-  };
+    
   const titleStyle = {
     fontFamily: "'Outfit', Helvetica, sans-serif",
     fontWeight: 700,
@@ -211,7 +188,7 @@ function Statistiques() {
                     <FormSelect
                       name="Spécialités"
                       options={[
-                        { value: "spe", name: "Spécialités :" },
+                        { value: "default", name: "Spécialités :" },
                         { value: "default", name: "Tous" },
                         { value: "ING INFO", name: "ING INFO" },
                         { value: "ING ENER", name: "ING ENER" },
@@ -222,21 +199,10 @@ function Statistiques() {
                       ]}
                       onChange={handleSpecialtyChange}
                     />
-                    <FormSelect
-                      name="Type Data"
-                      options={[
-                        { value: "default", name: "Période :" },
-                        { value: "option 2", name: "Mensuelle" },
-                        { value: "option 1", name: "Annuelle" },
-                        { value: "comp", name: "Comparaison par année :" },
-                      ]}
-                      onChange={handleTypeChange}
-                      alignRight
-                    />
                   </div>
                 </div>
                 <div className="flex flex-col items-end px-12 pb-16 mt-6 w-full text-sm font-semibold text-gray-500 max-md:px-4 max-md:max-w-full">
-                  {renderChart()}
+                <CustomBarYearChart specialite={selectedSpecialty} key={selectedSpecialty} />
                 </div>
               </div>
             </div>

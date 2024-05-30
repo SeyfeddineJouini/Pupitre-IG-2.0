@@ -37,8 +37,8 @@ const BilanBox = styled.div`
   padding: 40px;
   max-width: 1218px;
   width: 100%;
-  max-height: 90vh; /* Adjust max-height */
-  overflow: auto; /* Ensure overflow is handled */
+  max-height: 90vh;
+  overflow: auto;
   animation: ${fadeIn} 0.5s ease-in-out;
 `;
 
@@ -79,9 +79,9 @@ const ImageContainer = styled.div`
   img {
     border-radius: 30px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    max-width: 100%; /* Ensure image fits within container */
-    max-height: 400px; /* Adjust max-height to fit content */
-    object-fit: cover; /* Ensure image is not distorted */
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
   }
 `;
 
@@ -91,8 +91,14 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-  overflow: auto; /* Ensure overflow is handled */
-  max-height: 80vh; /* Adjust max-height to fit content */
+  overflow: auto;
+  max-height: 80vh;
+`;
+
+const AlertDiv = styled.div`
+  color: red;
+  text-align: center;
+  margin-top: 20px; /* Adjust the margin as needed */
 `;
 
 const BilanComponent = (props) => {
@@ -109,6 +115,8 @@ const BilanComponent = (props) => {
   const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
   const [response, setResponse] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState(''); // New state for alert message
   const navigate = useNavigate();
   const questionRef = useRef(null);
 
@@ -126,7 +134,47 @@ const BilanComponent = (props) => {
     navigate('/'); // Chemin vers la page d'accueil
   }
 
+  function showalert(message) {
+    const avionKm = response.grand_deplacement_avion_km;
+    const trainKm = response.grand_deplacement_train_km;
+    const voitureKm = response.voiture_grand_deplacement_km;
+    if ((avionKm !== undefined && avionKm < 100) || (trainKm !== undefined && trainKm < 50) || (voitureKm !== undefined && voitureKm < 100)){
+      setAlertMessage(message);
+    } else {
+      setAlertMessage('');
+    }
+  }
+  
   function nextQuestion() {
+    const currentQuestion = questionsList[currentQuestionIndex];
+
+    if (currentQuestion.id === "grand_deplacement_avion" && response.grand_deplacement_avion === "oui") {
+      const avionKm = response.grand_deplacement_avion_km;
+      if (avionKm !== undefined && avionKm < 100) {
+        showalert("La distance parcourue en avion doit être supérieure à 100 km.");
+        return;
+      }
+    }
+
+    if (currentQuestion.id === "grand_deplacement_train" && response.grand_deplacement_train === "oui") {
+      const trainKm = response.grand_deplacement_train_km;
+      if (trainKm !== undefined && trainKm < 50) {
+        showalert("La distance parcourue en TGV doit être supérieure à 50 km.");
+        return;
+      }
+    }
+
+    if (currentQuestion.id === "grand_deplacement_voiture" && response.grand_deplacement_voiture === "oui") {
+      const voitureKm = response.voiture_grand_deplacement_km;
+      if (voitureKm !== undefined && voitureKm < 100) {
+        showalert("La distance parcourue en voiture doit être supérieure à 100 km.");
+        return;
+      }
+    }
+
+    setErrorMessage('');
+    setAlertMessage('');
+
     if (currentQuestionIsValid) {
       if (currentQuestionIndex + 1 < questionsList.length) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -152,6 +200,12 @@ const BilanComponent = (props) => {
     setResponse({ ...response, ...value });
     if (onResponseChange) {
       onResponseChange(value);
+    }
+
+    // If the response changes from "oui" to "non", handle validation
+    const currentQuestion = questionsList[currentQuestionIndex];
+    if (currentQuestion && currentQuestion.type === "radio" && value[currentQuestion.id] === "non") {
+      showalert("Vous devez répondre à toutes les questions obligatoires.");
     }
   }
 
@@ -181,6 +235,7 @@ const BilanComponent = (props) => {
                   onResponseChange={handleOnResponseChange}
                   questionResponse={response}
                   question={questionsList[currentQuestionIndex]}
+                  errorMessage={errorMessage}
                 />
               )}
 
@@ -191,9 +246,12 @@ const BilanComponent = (props) => {
                   onResponseChange={handleOnResponseChange}
                   questionResponse={response}
                   question={question}
+                  errorMessage={errorMessage}
                 />
               ))}
 
+              {alertMessage && <AlertDiv>{alertMessage}</AlertDiv>} 
+              
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
                 {currentQuestionIndex > 0 && (
                   <Button onClick={previousQuestion} bgColor="#17a2b8" hoverColor="#138496">Précédent</Button>
@@ -219,3 +277,4 @@ const BilanComponent = (props) => {
 };
 
 export default BilanComponent;
+
