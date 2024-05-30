@@ -96,10 +96,10 @@ def calcul_emission_route():
                logement_total += CO2_EMISSIONS[equipement]
     # Construction du résultat final
     result = {
-        "Transport": transport_total / 1000,  # Convertir en tonnes de CO2
-        "Alimentation": alimentation_total / 1000,  # Convertir en tonnes de CO2
-        "Logement": logement_total / 1000,  # À compléter
-        "Divers": divers_total / 1000  # Convertir en tonnes de CO2
+        "Transport": round(transport_total / 1000, 3),  # Convertir en tonnes de CO2 et arrondir
+        "Alimentation": round(alimentation_total / 1000, 3),  # Convertir en tonnes de CO2 et arrondir
+        "Logement": round(logement_total / 1000, 3),  # À compléter
+        "Divers": round(divers_total / 1000, 3)  # Convertir en tonnes de CO2 et arrondir
     }
 
     return jsonify(result)

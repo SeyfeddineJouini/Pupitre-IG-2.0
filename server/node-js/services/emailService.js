@@ -28,10 +28,10 @@ async function sendQuizResultEmail(emailAdress, resultResponse, resultRequest) {
   //console.log('------ TOKEN : ', process.env.SENDGRID_API_KEY)
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  let htmlResultItemsLi = '';
-  resultResponse.result.forEach(item => {
-    htmlResultItemsLi+= `<li>${item.label} : ${item.value} TCO2</li>`;
-  })
+  let htmlResultItemsLi = "";
+  resultResponse.result.forEach((item) => {
+    htmlResultItemsLi += `<li>${item.label} : ${item.value} TCO2</li>`;
+  });
 
   const msg = {
     to: emailAdress,
@@ -248,14 +248,18 @@ async function sendQuizResultEmail(emailAdress, resultResponse, resultRequest) {
                                   </td>
                                 </tr>
                                 <tr>
-                                  <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:30px;word-break:break-word;">
-                                    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1;text-align:center;color:#9da3a3;"><span style="font-size: 14px; color: #e85034"> Taux d’émission du salaire <br /><br />
-                                    <b>${resultResponse.budget?.toFixed(3).replace(".", ",")} TCO2</b>
-                                    </span>
-                                    <br /><br /> Avec un budget de <b>${resultRequest['budget']} euros</b> par an, votre émission est équivalente à
-                                    </div>
-                                  </td>
-                                </tr>
+  <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:30px;word-break:break-word;">
+    <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1;text-align:center;color:#9da3a3;">
+      <span style="font-size: 14px; color: #e85034"> Taux d’émission du salaire <br /><br />
+        <b>${resultResponse.budget?.toFixed(3).replace(".", ",")} TCO2</b>
+      </span>
+      <br /><br /> Avec un budget de <b>${
+        resultRequest["budget"]
+      } euros</b> par an, votre émission est équivalente à
+      <b>${resultResponse.budget?.toFixed(3).replace(".", ",")} TCO2</b>
+    </div>
+  </td>
+</tr>
                               </tbody>
                             </table>
                           </div>
@@ -343,7 +347,7 @@ async function sendQuizResultEmail(emailAdress, resultResponse, resultRequest) {
     console.log("Result sent successfully");
   } catch (error) {
     console.error("Error sending quiz result", error);
-      throw ("Error sending quiz result", error);
+    throw ("Error sending quiz result", error);
   }
 }
 

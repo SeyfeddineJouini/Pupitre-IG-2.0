@@ -9,7 +9,7 @@ import Logement from "../img/loge.png";
 import Internet from "../img/internet.png";
 import Spe from "../img/interog.png";
 import VoitureVac from "../img/grandep.png";
-import Normal from "../img/Normal.png";
+import Express from "../img/Express.png";
 import Electro from "../img/electro.png";
 import Eau from "../img/eau.png";
 import Chauffage from "../img/chaff.png";
@@ -17,12 +17,15 @@ import Boisson from "../img/bois.png";
 import Avion from "../img/avion.png";
 import Voiture from "../img/voiture.png";
 import Budget from "../img/budg.png";
-export default function BilanNormalView() {
-    let welcomePageContent = {
-        title: "Bilan carbone en 5 minutes",
-        description: "Le bilan carbone express vous aide à mesurer vos émissions de CO2 en explorant vos habitudes de transport, de logement, d'alimentation et de consommation.",
-        image: Normal
-    };
+
+export default function BilanExpressView() {
+  let welcomePageContent = {
+    title: "Bilan carbone en 3 minutes",
+    description: "Le bilan carbone express vous aide à mesurer vos émissions de CO2 en explorant vos habitudes de transport, de logement, d'alimentation et de consommation.",
+    image: Express,
+  };
+
+
 
     let questionsList = [
         {
@@ -152,7 +155,7 @@ export default function BilanNormalView() {
             title: "Pour les grands déplacements, prenez-vous l'avion ?",
             type: "radio",
             description: "",
-            image: VoitureVac,
+            image:Avion,
             option: [
                 {
                     title: "Oui",
@@ -201,7 +204,7 @@ export default function BilanNormalView() {
             title: "Pour les grands déplacements, prenez-vous la voiture ?",
             type: "radio",
             description: "",
-            image:Avion,
+            image:VoitureVac,
             option: [
                 {
                     title: "Oui",
@@ -518,14 +521,14 @@ export default function BilanNormalView() {
             list: [
                 {
                     id: "nom",
-                    title: "Quelle est votre Nom ?",
+                    title: "Quelle est votre Nom ? (optionnel)",
                     type: "text",
                     description: "",
                     optional: true
                 },
                 {
                     id: "specialite",
-                    title: " Quelle est votre specialité ?",
+                    title: " Quelle est votre spécialité ?",
                     type: "radio",
                     description: "",
                     option: [

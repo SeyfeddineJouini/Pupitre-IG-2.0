@@ -33,7 +33,7 @@ exports.sendResultEMail = async function(req, res) {
     
     let emissionBudget = 0;
     if (req.body.budget) {
-      emissionBudget = (req.body.budget / 1000) * 1.9;
+      emissionBudget = parseFloat(((req.body.budget / 1000) * 1.9).toFixed(3));
     }
 
     //pour  esult:[]}

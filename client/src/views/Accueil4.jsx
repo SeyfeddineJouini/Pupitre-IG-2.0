@@ -171,7 +171,7 @@ export const Accueil4 = () => {
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <Title>Bilan Carbone</Title>
                 <Subtitle>
-                  Découvrez notre interface web révolutionnaire pour calculer votre Bilan Carbone, fruit d'un travail collectif et d'une synergie entre notre équipe et des étudiants en énergétique.
+                  Interface web innovante pour calculer votre Bilan Carbone. Fruit d'une collaboration entre étudiants en informatique et en énergétique de Sup Galilée.
                 </Subtitle>
                 <CardContainer>
                   <Card onClick={() => navigate('/bilan/express')}>

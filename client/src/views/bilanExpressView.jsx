@@ -155,7 +155,7 @@ export default function BilanExpressView() {
             title: "Pour les grands déplacements, prenez-vous l'avion ?",
             type: "radio",
             description: "",
-            image: VoitureVac,
+            image:Avion,
             option: [
                 {
                     title: "Oui",
@@ -175,7 +175,7 @@ export default function BilanExpressView() {
             ]
         },   
         {
-            id: "grand_deplacement_train ",
+            id: "grand_deplacement_train",
             title: "Pour les grands déplacements, voyagez-vous en TGV ?",
             type: "radio",
             description: "",
@@ -186,7 +186,7 @@ export default function BilanExpressView() {
                     value: "oui",
                     subQuestion: [
                         {
-                            id: "grand_deplacement_train_km ",
+                            id: "grand_deplacement_train_km",
                             title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en train ? （PS）Paris-Lyon:391 km ",
                             type: "number"
                         }
@@ -204,7 +204,7 @@ export default function BilanExpressView() {
             title: "Pour les grands déplacements, prenez-vous la voiture ?",
             type: "radio",
             description: "",
-            image:Avion,
+            image:VoitureVac,
             option: [
                 {
                     title: "Oui",
@@ -521,14 +521,14 @@ export default function BilanExpressView() {
             list: [
                 {
                     id: "nom",
-                    title: "Quelle est votre Nom ?",
+                    title: "Quelle est votre Nom ? (optionnel)",
                     type: "text",
                     description: "",
                     optional: true
                 },
                 {
                     id: "specialite",
-                    title: " Quelle est votre specialité ?",
+                    title: " Quelle est votre spécialité ?",
                     type: "radio",
                     description: "",
                     option: [

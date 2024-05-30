@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
-import { customStyles, ModalContent, LoadingSpinner, CloseButton } from './ModalStyles';
+import { customStyles, ModalContent, LoadingSpinner, CloseButton } from '../NewsFeed/ModalStyles';
 import styled, { keyframes } from 'styled-components';
 
 const fadeIn = keyframes`

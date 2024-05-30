@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { FaRegNewspaper } from 'react-icons/fa';
 import Modal from 'react-modal';
-import { customStyles, ModalContent, LoadingSpinner, fadeIn, CloseButton } from '../bilan/ModalStyles';
+import { customStyles, ModalContent, LoadingSpinner, fadeIn, CloseButton } from './ModalStyles';
 
 const NewsContainer = styled.div`
   width: 100%;
