@@ -521,7 +521,7 @@ export default function BilanExpressView() {
             title: "Quels sont vos revenus/dépenses mensuels ?",
             type: "number",
             min: 0, // Added min attribute to prevent negative values
-            description: "",
+            description: "Nous demandons votre revenu mensuel uniquement pour estimer vos émissions de CO2 de votre budget. Ces informations ne seront pas conservées. Merci de votre compréhension.",
             image: Budget,
         },
         {
@@ -529,7 +529,7 @@ export default function BilanExpressView() {
             list: [
                 {
                     id: "nom",
-                    title: "Quelle est votre Nom ? (optionnel)",
+                    title: "Quelle est votre Nom ?",
                     type: "text",
                     description: "",
                     optional: true

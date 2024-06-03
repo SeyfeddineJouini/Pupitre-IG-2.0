@@ -3,6 +3,7 @@ import NavbarAdmin from "../components/NavbarAdmin";
 import Footer from "../components/Footer";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { FaComments, FaChartBar, FaTachometerAlt } from "react-icons/fa";
 
 
 export const AvisScreen = () => {
@@ -118,33 +119,39 @@ export const AvisScreen = () => {
       <NavbarAdmin/>
       <main className="flex-grow">
       <div className="flex flex-col md:flex-row">
-        <nav className="flex inset-y-0 left-0 bg-gray-100 p-4 w-full md:w-64 flex flex-col">
-        <button 
-          onClick={handleMenuOpen} 
-          className="md:hidden flex flex-col w-8 h-8 justify-around items-center bg-green-700 rounded p-1 cursor-pointer"
-        >
-          <span className="w-6 h-0.5 bg-white"></span>
-          <span className="w-6 h-0.5 bg-white"></span>
-          <span className="w-6 h-0.5 bg-white"></span>
-        </button>
+      <nav className="flex inset-y-0 left-0 bg-gray-100 p-4 w-full md:w-64 flex flex-col">
+              <button 
+                onClick={handleMenuOpen} 
+                className="md:hidden flex flex-col w-8 h-8 justify-around items-center bg-green-700 rounded p-1 cursor-pointer"
+              >
+                <span className="w-6 h-0.5 bg-white"></span>
+                <span className="w-6 h-0.5 bg-white"></span>
+                <span className="w-6 h-0.5 bg-white"></span>
+              </button>
 
-          <aside className={`${isMenuOpen ? 'block' : 'hidden'} md:block mt-4 space-y-2 bg-white p-4 rounded shadow-lg overflow-auto`}>
-            <ul>
-              <li>
-                <Link to="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Avis</Link>
-              </li>
-              <li>
-                <Link to="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Gestion Stats</Link>
-              </li>
-              {/* <li>
-                <a href="/statistique" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold">Statistique</a>
-              </li> */}
-              <li>
-              <Link to="/dashboard-admin" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold bg-red-500 text-white rounded mt-10">Dashboard Admin</Link>
-              </li>
-            </ul>
-          </aside>
-        </nav>
+              <aside className={`${isMenuOpen ? 'block' : 'hidden'} md:block mt-4 space-y-2 bg-white p-4 rounded shadow-lg overflow-auto`}>
+                <ul>
+                  <li>
+                    <Link to="/data-avis" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold text-white bg-blue-600 hover:bg-blue-800 transition duration-200 rounded shadow-md">
+                      <FaComments className="mr-2" /> Gestion Avis
+                    </Link>
+                  </li>
+                  <hr className="my-2 border-t-2 border-gray-300 w-full" />
+                  <li>
+                    <Link to="/data-stats" className="px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold text-white bg-green-600 hover:bg-green-800 transition duration-200 rounded shadow-md">
+                      <FaChartBar className="mr-2" /> Gestion Stats
+                    </Link>
+                  </li>
+                  <hr className="my-4 border-t-4 border-gray-400 w-full" />
+                  <li>
+                  <Link to="/dashboard-admin" className="px-3 py-4 lg:py-4 flex items-center text-xs uppercase font-bold text-white bg-red-600 hover:bg-red-800 transition duration-200 rounded shadow-md mt-4">
+                      <FaTachometerAlt className="mr-2" /> Dashboard Admin
+                    </Link>
+                  </li>
+                </ul>
+              </aside>
+            </nav>
+
 
         <main className="flex-grow flex flex-col sm:flex-col ml-auto mt-10">
 

@@ -33,11 +33,13 @@ const QuestionTitle = styled.h2`
   color: #1a2a6c;
   margin-bottom: 20px;
   text-align: center;
+  color: ${(props) => (props.optional ? "blue" : "black")};
+  font-style: ${(props) => (props.optional ? "italic" : "normal")};
 `;
 
 const QuestionDescription = styled.p`
   font-size: 1em;
-  color: #555;
+  color: grey;
   margin-bottom: 20px;
   text-align: center;
 `;
@@ -57,6 +59,7 @@ const AlertDiv = styled.div`
   text-align: center;
   margin-top: 10px;
 `;
+
 
 
 export default class QuestionComponent extends React.Component {
@@ -160,11 +163,14 @@ export default class QuestionComponent extends React.Component {
       this.state.isValid(this.checkIfAllResponseIsValid());
     }
   }
-  
+
   render() {
     return (
       <QuestionContainer>
-        <QuestionTitle>{this.state.question.title}</QuestionTitle>
+        <QuestionTitle optional={this.state.question.optional}>
+          {this.state.question.title}
+          {this.state.question.optional && <span> (optionnel)</span>}
+        </QuestionTitle>
         <QuestionDescription>{this.state.question.description}</QuestionDescription>
         <FormContainer onSubmit={this.handleSubmit}>
           {this.state.question.type === "radio" && (
