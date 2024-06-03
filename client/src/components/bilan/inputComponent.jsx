@@ -53,12 +53,21 @@ export default class InputComponent extends React.Component {
 
     handleDecrement() {
         const response = this.state.questionResponse;
-        const currentValue = parseInt(response[this.state.question.id], 10) || 0;
-        const newValue = currentValue - 1;
-        if (newValue < 0) {
-            return; // Empêche la mise à jour si la nouvelle valeur est négative
+        let currentValue = parseInt(response[this.state.question.id], 10);
+        
+        // Assurez-vous que currentValue est défini à zéro si la valeur est NaN
+        if (isNaN(currentValue)) {
+            currentValue = 0;
         }
+        
+        // Empêche la décrémentation si la valeur actuelle est zéro ou non définie
+        if (currentValue <= 0) {
+            return;
+        }
+    
+        const newValue = currentValue - 1;
         response[this.state.question.id] = newValue;
+    
         this.setState(
             { ...this.state, questionResponse: response },
             () => {
@@ -69,7 +78,7 @@ export default class InputComponent extends React.Component {
             }
         );
     }
-
+    
     render() {
         return (
             <div className="mt-4">
@@ -81,7 +90,7 @@ export default class InputComponent extends React.Component {
                             id={this.state.question.id}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder={this.state.question.title}
-                            value={this.state.questionResponse[this.state.question.id]}
+                            value={this.state.questionResponse[this.state.question.id] || ''}
                             onFocus={() => this.setState({ keyboardOpen: true })}
                             onChange={this.handleValueChange}
                         />
