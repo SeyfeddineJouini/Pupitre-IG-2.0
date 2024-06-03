@@ -71,14 +71,30 @@ const CloseButton = styled.button`
   }
 `;
 
-export const KeyboardComponent = ({ onInput, onClose, numpadOnly }) => {
+export const KeyboardComponent = ({ onInput, onClose, numpadOnly, initialValue }) => {
   const [layoutName, setLayoutName] = useState("default");
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(initialValue || "");
   const keyboardRef = useRef(null);
+
+  useEffect(() => {
+    setInput(initialValue || "");
+  }, [initialValue]);
 
   const handleChange = (input) => {
     setInput(input);
     if (onInput) onInput(input);
+  };
+
+  const handleKeyPress = (button) => {
+    if (button === "{shift}" || button === "{lock}") {
+      handleShiftClick();
+    } else if (button === "{bksp}") {
+      handleChange(input.slice(0, -1));
+    } else if (button === "{enter}") {
+      onClose(); 
+    }else {
+      handleChange(input + button);
+    }
   };
 
   const handleShiftClick = () => {
@@ -138,11 +154,9 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly }) => {
         <Keyboard
           layoutName={layoutName}
           layout={frenchLayout}
-          onChange={handleChange}
-          onKeyPress={(button) =>
-            (button === "{shift}" || button === "{lock}") && handleShiftClick()
-          }
+          onKeyPress={handleKeyPress}
           display={display}
+          input={input}
         />
         <CloseButton onClick={onClose}>Fermer</CloseButton>
       </KeyboardContainer>

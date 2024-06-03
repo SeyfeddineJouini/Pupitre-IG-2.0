@@ -22,7 +22,7 @@ export const InactivityProvider = ({ children }) => {
         setIsInactive(true);
         logout();
         navigate('/');
-      }, 60000); // 5 minutes in milliseconds
+      }, 300000); // 5 minutes in milliseconds
     };
 
     window.addEventListener('mousemove', handleActivity);
@@ -32,7 +32,7 @@ export const InactivityProvider = ({ children }) => {
       setIsInactive(true);
       logout();
       navigate('/');
-    }, 60000);
+    }, 300000);
 
     return () => {
       clearTimeout(timer);
