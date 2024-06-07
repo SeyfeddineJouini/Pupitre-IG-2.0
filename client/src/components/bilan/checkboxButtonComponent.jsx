@@ -4,8 +4,8 @@ export default class CheckboxButtonComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            questionResponse: {...props.value},
-            question: props.question || {option: []},
+            questionResponse: { ...props.value },
+            question: props.question || { option: [] },
             onOptionChange: this.props.onOptionChange
         };
         this.handleOptionChange = this.handleOptionChange.bind(this);
@@ -16,14 +16,21 @@ export default class CheckboxButtonComponent extends React.Component {
         if (!response[this.state.question.id]) {
             response[this.state.question.id] = [];
         }
-        // response[this.state.question.id] = changeEvent.target.value;
-        if (response[this.state.question.id].includes(changeEvent.target.value)) {
-            response[this.state.question.id] = response[this.state.question.id].filter(element => element !== changeEvent.target.value);
+
+        const value = changeEvent.target.value;
+
+        if (response[this.state.question.id].includes(value)) {
+            response[this.state.question.id] = response[this.state.question.id].filter(element => element !== value);
         } else {
-            response[this.state.question.id].push(changeEvent.target.value)
+            if (value === 'Aucune') {
+                response[this.state.question.id] = ['Aucune'];
+            } else {
+                response[this.state.question.id] = response[this.state.question.id].filter(element => element !== 'Aucune');
+                response[this.state.question.id].push(value);
+            }
         }
 
-        this.setState({...this.state, questionResponse: response},
+        this.setState({ ...this.state, questionResponse: response },
             () => {
                 if (this.state.onOptionChange) {
                     this.state.onOptionChange(this.state.questionResponse);
@@ -36,6 +43,13 @@ export default class CheckboxButtonComponent extends React.Component {
             <div className="mt-4">
                 {this.state.question.type === "checkbox" &&
                     this.state.question.option.map((option, index) => {
+                        const isDisabled = 
+                          option.value !== 'Aucune' && 
+                          this.state.questionResponse[this.state.question.id]?.includes('Aucune') ||
+                          option.value === 'Aucune' && 
+                          this.state.questionResponse[this.state.question.id]?.length > 0 && 
+                          !this.state.questionResponse[this.state.question.id]?.includes('Aucune');
+
                         return (
                             <div
                                 key={this.state.question.id + index}
@@ -50,10 +64,11 @@ export default class CheckboxButtonComponent extends React.Component {
                                         this.state.questionResponse[this.state.question.id]?.includes(option.value)
                                     }
                                     onChange={this.handleOptionChange}
+                                    disabled={isDisabled}
                                 />
                                 <label
                                     htmlFor={this.state.question.id + index}
-                                    className="cursor-pointer"
+                                    className={`cursor-pointer ${isDisabled ? 'text-gray-400' : ''}`}
                                 >
                                     {option.title}
                                 </label>

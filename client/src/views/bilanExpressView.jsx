@@ -163,7 +163,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "grand_deplacement_avion_km",
-                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en avion ? （PS）Paris-Lyon:5 834 km ",
+                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en avion ?",
                             type: "number"
                         }
                     ]
@@ -187,7 +187,7 @@ export default function BilanExpressView() {
                     subQuestion: [
                         {
                             id: "grand_deplacement_train_km",
-                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en train ? （PS）Paris-Lyon:391 km ",
+                            title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en train ?",
                             type: "number"
                         }
                     ]
@@ -536,7 +536,7 @@ export default function BilanExpressView() {
                 },
                 {
                     id: "specialite",
-                    title: " Quelle est votre spécialité ?",
+                    title: " Quel est votre niveau d'étude ou votre rôle ?",
                     type: "radio",
                     description: "",
                     option: [
@@ -546,7 +546,7 @@ export default function BilanExpressView() {
                             subQuestion: [
                                 {
                                     id: "spe_ING",
-                                    title: "Veuillez précisez votre spécialité ",
+                                    title: "Quelle est votre spécialité ?",
                                     type: "radio",
                                     description: "",
                                     option: [
