@@ -64,101 +64,123 @@ const BilanResultComponent = (props) => {
       },
     },
   };
-
   const addStat = async (
     nom,
     score,
     specialite,
+    speMaster,
+    speLicence,
+    speING,
     transport,
     alimentation,
     logement,
     divers,
     mode = "Express"
-  ) => {
+) => {
     try {
-      const res = await fetch(`${apiUrl}/stats/AddStats`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: nom || "Anonyme",
-          mode: mode,
-          spe: specialite,
-          scoreTotal: score,
-          transport: transport,
-          alimentation: alimentation,
-          logement: logement,
-          divers: divers,
-        }),
-      });
-      if (!res.ok) {
-        throw new Error("La requête au backend ajout statistique a échoué");
-      }
+        let subSpecialty = "";
+        if (specialite.trim() === "Masters" && speMaster) {
+            subSpecialty = speMaster;
+        } else if (specialite.trim() === "Licence" && speLicence) {
+            subSpecialty = speLicence;
+        } else if (specialite.trim() === "ING" && speING) {
+            subSpecialty = speING;
+        }
+
+        const spe = `${specialite.trim()} / ${subSpecialty}`.trim();
+
+        const res = await fetch(`${apiUrl}/stats/AddStats`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: nom || "Anonyme",
+                mode: mode,
+                spe: spe,
+                scoreTotal: score,
+                transport: transport,
+                alimentation: alimentation,
+                logement: logement,
+                divers: divers,
+            }),
+        });
+        if (!res.ok) {
+            throw new Error("La requête au backend ajout statistique a échoué");
+        }
     } catch (erreur) {
-      console.error("Erreur lors de l’appel au backend - stat :", erreur);
+        console.error("Erreur lors de l’appel au backend - stat :", erreur);
     }
-  };
+};
+
 
   useEffect(() => {
     const appelerBackend = async () => {
-      try {
-        const res = await fetch(`${apiUrl}/quiz/calculate`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(questionResponse),
-        });
-        if (!res.ok) {
-          throw new Error("La requête au backend a échoué");
-        }
-        const donnees = await res.json();
-        setReponse(donnees);
-        setDonneesChart({
-          labels: donnees.result?.map((item) => item.label),
-          datasets: [
-            {
-              data: donnees.result?.map((item) => item.value),
-              backgroundColor: donnees.result?.map((item) => item.color),
-              hoverOffset: 4,
-            },
-          ],
-        });
-        const score = donnees?.result
-          ?.map((item) => item.value)
-          .reduce((accumulator, currentValue) => {
-            return accumulator + currentValue;
-          }, 0);
+        try {
+            console.log("questionResponse:", questionResponse); // Add this line
+            const res = await fetch(`${apiUrl}/quiz/calculate`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(questionResponse),
+            });
+            if (!res.ok) {
+                throw new Error("La requête au backend a échoué");
+            }
+            const donnees = await res.json();
+            setReponse(donnees);
+            setDonneesChart({
+                labels: donnees.result?.map((item) => item.label),
+                datasets: [
+                    {
+                        data: donnees.result?.map((item) => item.value),
+                        backgroundColor: donnees.result?.map((item) => item.color),
+                        hoverOffset: 4,
+                    },
+                ],
+            });
+            const score = donnees?.result
+                ?.map((item) => item.value)
+                .reduce((accumulator, currentValue) => {
+                    return accumulator + currentValue;
+                }, 0);
 
-        await addStat(
-          questionResponse["nom"],
-          score,
-          questionResponse["specialite"],
-          donnees.result
-            .find((item) => item.id === "transport")
-            .value.toString(),
-          donnees.result
-            .find((item) => item.id === "alimentation")
-            .value.toString(),
-          donnees.result
-            .find((item) => item.id === "logement")
-            .value.toString(),
-          donnees.result.find((item) => item.id === "divers").value.toString()
-        );
-      } catch (erreur) {
-        console.error("Erreur lors de l’appel au backend:", erreur);
-      }
+            console.log("Adding stat with:", {
+                nom: questionResponse["nom"],
+                score,
+                specialite: questionResponse["specialite"],
+                speMaster: questionResponse["spe_Masters"],
+                speLicence: questionResponse["spe_Licence"],
+                speING: questionResponse["spe_ING"]
+            }); // Add this line
+
+            await addStat(
+                questionResponse["nom"],
+                score,
+                questionResponse["specialite"],
+                questionResponse["spe_Masters"] || null,
+                questionResponse["spe_Licence"] || null,
+                questionResponse["spe_ING"] || null,
+                donnees.result.find((item) => item.id === "transport").value.toString(),
+                donnees.result.find((item) => item.id === "alimentation").value.toString(),
+                donnees.result.find((item) => item.id === "logement").value.toString(),
+                donnees.result.find((item) => item.id === "divers").value.toString()
+            );
+        } catch (erreur) {
+            console.error("Erreur lors de l’appel au backend:", erreur);
+        }
     };
 
     appelerBackend();
 
     const timer = setTimeout(() => {
-      setShowModal(true);
-    }, 10000); // Affiche le modal après 30 secondes
+        setShowModal(true);
+    }, 10000); // Affiche le modal après 10 secondes
 
     return () => clearTimeout(timer);
-  }, [questionResponse]);
+}, [questionResponse]);
+
 
   function handleMailChange(newValue) {
     setEmailSent(false);

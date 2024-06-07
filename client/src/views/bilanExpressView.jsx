@@ -256,7 +256,7 @@ export default function BilanExpressView() {
             image: Logement,
             option: [
                 {
-                    title: "Dans une maison en colocation",
+                    title: "Dans une maison en famille ou en colocation",
                     value: "Dans une maison en colocation",
                     subQuestion: [
                         {
@@ -278,7 +278,7 @@ export default function BilanExpressView() {
                     ]
                 },
                 {
-                    title: "Dans un appartement en colocation",
+                    title: "Dans un appartement en famille ou en colocation",
                     value: "Dans un appartement en colocation",
                     subQuestion: [
                         {
@@ -541,31 +541,121 @@ export default function BilanExpressView() {
                     description: "",
                     option: [
                         {
-                            title: "ING INFO",
-                            value: "ING INFO",
+                            title: "Ingénieurie ",
+                            value: "ING",
+                            subQuestion: [
+                                {
+                                    id: "spe_ING",
+                                    title: "Veuillez précisez votre spécialité ",
+                                    type: "radio",
+                                    description: "",
+                                    option: [
+                                        {
+                                            title: "Energétique",
+                                            value: "Energétique"
+                                        },
+                                        {
+                                            title: "Instrumentation",
+                                            value: "Instrumentation"
+                                        },
+                                        {
+                                            title: "MACS",
+                                            value: "MACS"
+                                        },
+                                        {
+                                            title: "Télecommunication & réseaux",
+                                            value: "Télecommunication & réseaux"
+                                        },
+                                        {
+                                            title: "Informatique",
+                                            value: "Informatique"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
-                            title: "ING ENER",
-                            value: "ING ENER",
+                            title: "Licence ",
+                            value: "Licence",
+                            subQuestion: [
+                                {
+                                    id: "spe_Licence",
+                                    title: "Veuillez précisez votre spécialité ",
+                                    type: "radio",
+                                    description: "",
+                                    option: [
+                                        {
+                                            title: "Informatique",
+                                            value: "Informatique"
+                                        },
+                                        {
+                                            title: "Mathématiques",
+                                            value: "Mathématiques"
+                                        },
+                                        {
+                                            title: "Physique Chimie",
+                                            value: "Physique Chimie"
+                                        },
+                                        {
+                                            title: "Science de l'ingénieure",
+                                            value: "Science de l'ingénieurie"
+                                        },
+                                        {
+                                            title: "Informatique & Mathématiques",
+                                            value: "Informatique & Mathématiques"
+                                        },
+                                        {
+                                            title: "CP2I",
+                                            value: "CP2I"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
-                            title: "ING INSTRU",
-                            value: "ING INSTRU",
+                            title: "Masters ",
+                            value: "Masters",
+                            subQuestion: [
+                                {
+                                    id: "spe_Masters",
+                                    title: "Veuillez précisez votre spécialité ",
+                                    type: "radio",
+                                    description: "",
+                                    option: [
+                                        {
+                                            title: "Informatique",
+                                            value: "Informatique"
+                                        },
+                                        {
+                                            title: "Mathématiques",
+                                            value: "Mathématiques"
+                                        },
+                                        {
+                                            title: "Science et génie des matériaux",
+                                            value: "Science et génie des matériaux"
+                                        },
+                                        {
+                                            title: "Ingénieurie et innovation en images et réseaux",
+                                            value: "Ingénieurie et innovation en images et réseaux"
+                                        },
+                                        {
+                                            title: "Génies des Procédés",
+                                            value: "Génies des Procédés"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
-                            title: "ING MACS",
-                            value: "ING MACS",
-                        },
-                        {
-                            title: "ING TELECOM",
-                            value: "ING TELECOM",
+                            title: "Personnels ou Enseignants",
+                            value: "Personnels ou Enseignants"
                         },
                         {
                             title: "Autres",
-                            value: "Autres",
-                        },
+                            value: "Autres"
+                        }
                     ]
-                },
+                }
             ]
         }
     ];
@@ -575,9 +665,14 @@ export default function BilanExpressView() {
     const [showResult, setShowResult] = useState(false);
 
     function handleResponseChange(value) {
-        setResponse({...response, ...value});
+        setResponse((prevResponse) => ({
+            ...prevResponse,
+            ...value,
+            spe_Masters: value["spe_Masters"] || prevResponse["spe_Masters"],
+            spe_Licence: value["spe_Licence"] || prevResponse["spe_Licence"],
+            spe_ING: value["spe_ING"] || prevResponse["spe_ING"]
+        }));
     }
-
     function handleTerminateChange(value) {
         setShowResult(true);
     }
