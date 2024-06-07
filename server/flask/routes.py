@@ -46,7 +46,6 @@ def calcul_emission_route():
         covoiturage = 1 if data.get('voiture_grand_deplacement_coivoiturage', 'non') == 'non' else int(data.get('voiture_grand_deplacement_covoiturage_personne', 1))
         transport_total += calculer_taux_voiture_grand_deplacement(int(data.get('voiture_grand_deplacement_km', 0)), covoiturage)
 
-
     # Calcul des émissions pour l'alimentation
     if data.get('régime_alimentaire') == 'oui':
         alimentation_total += CO2_VEGAN
@@ -57,50 +56,25 @@ def calcul_emission_route():
     alimentation_total += calculer_taux_eau(data.get('Alimentation_eau', 'Eau du robinet'))
     alimentation_total += calculer_taux_boissons(data.get('Alimentation_Boissons', []))
     
-    
     # Calcul des émissions pour les services divers
     divers_total += CO2_FIXE_SERVICES  # Ajout de la valeur fixe pour les services
     divers_total += calculer_taux_vetements(data.get('divers_vetements', 'Entre 1 à 3 vêtements'))
     divers_total += calculer_taux_internet(data.get('divers_internet', 'Moins de 3 heures'))
 
-    #Calcul emissions Logement 
-    #Calcul selon le type et la superficie
-  
-    if data.get('logement') == 'Dans une maison en colocation ':
-        if data.get('logement_récent') == 'oui':
-            logement_total += CO2_LOGREC * A_MAIS
-        elif data.get('logement_récent') == 'non':
-            logement_total += CO2_LOGANC * A_MAIS
-    elif data.get('logement') == 'Dans un appartement en colocation ':
-        if data.get('logement_récent') == 'oui':
-            logement_total += CO2_LOGREC * A_APPC
-        elif data.get('logement_récent') == 'non':
-            logement_total += CO2_LOGANC * A_APPC 
-    else :
-        if data.get('logement_récent') == 'oui':
-            logement_total += CO2_LOGREC * A_APPS
-        elif data.get('logement_récent') == 'non' :
-            logement_total += CO2_LOGANC * A_APPS 
-    # Calcul selon le type de chauffage
-    if data.get('logement_chauffage') == 'Gaz':
-            logement_total += CO2_GAZ
-    elif data.get('logement_chauffage') == 'Fioul':
-            logement_total += CO2_FIOUL
-    elif data.get('logement_chauffage') == 'Electricité':
-            logement_total += CO2_ELEC
-    elif data.get('logement_chauffage') == 'Je ne sais pas':
-            logement_total += CO2_PROBA
-            
-    # Calcul selon l'electroménager
+    # Calcul des émissions pour le logement
+    logement_total += calcul_emissions(data)
+    
+    # Calcul selon l'électroménager
     if 'logement_equipements' in data:
-       for equipement in data['logement_equipements']:
-           if equipement in CO2_EMISSIONS:
-               logement_total += CO2_EMISSIONS[equipement]
+        for equipement in data['logement_equipements']:
+            if equipement in CO2_EMISSIONS:
+                logement_total += CO2_EMISSIONS[equipement]
+
     # Construction du résultat final
     result = {
         "Transport": round(transport_total / 1000, 3),  # Convertir en tonnes de CO2 et arrondir
         "Alimentation": round(alimentation_total / 1000, 3),  # Convertir en tonnes de CO2 et arrondir
-        "Logement": round(logement_total / 1000, 3),  # À compléter
+        "Logement": round(logement_total / 1000, 3),  # Convertir en tonnes de CO2 et arrondir
         "Divers": round(divers_total / 1000, 3)  # Convertir en tonnes de CO2 et arrondir
     }
 

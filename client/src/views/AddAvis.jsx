@@ -210,7 +210,7 @@ export const AddAvis = () => {
                 <Title>Ajouter un Avis</Title>
                 <FormContainer onSubmit={handleSubmit}>
                   <div>
-                    <Label htmlFor="name">Nom:</Label>
+                    <Label htmlFor="name">Nom (optionel):</Label>
                     <Input
                       id="name"
                       type="text"
@@ -225,7 +225,7 @@ export const AddAvis = () => {
                     />
                   </div>
                   <div className="relative">
-                    <Label htmlFor="type">Type:</Label>
+                    <Label htmlFor="type">Catégorie:</Label>
                     <Select id="type" value={type} onChange={(e) => setType(e.target.value)} required>
                       <option value="">Select...</option>
                       <option value="Jeu">Jeu</option>

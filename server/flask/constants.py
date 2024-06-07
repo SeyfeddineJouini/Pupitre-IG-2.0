@@ -12,41 +12,56 @@ CO2_VIANDE_3_4 = 1200  # Taux de CO2 émis par an pour consommation de viande ro
 CO2_VIANDE_PLUS_4 = 1800  # Taux de CO2 émis par an pour consommation de viande rouge plus de 4 fois par semaine
 
 # Coefficients de CO2 pour les boissons
-CO2_CAFE = 12.38  # Taux de CO2 émis par an pour consommation de café
-CO2_THE = 18.25  # Taux de CO2 émis par an pour consommation de thé
+CO2_CAFE = 87.912  # Taux de CO2 émis par an pour consommation de café
+CO2_THE = 1.2  # Taux de CO2 émis par an pour consommation de thé
 CO2_EAU_ROBINET = 0  # Taux de CO2 émis par an pour consommation d'eau du robinet
-CO2_EAU_BOUTEILLE = 7048.3  # Taux de CO2 émis par an pour consommation d'eau en bouteille
-
+CO2_EAU_BOUTEILLE = 97.455  # Taux de CO2 émis par an pour consommation d'eau en bouteille
+CO2_CHOCOLAT = 120.56  # Taux de CO2 émis par an pour consommation de chocolat
 
 # Coefficients de CO2 pour les services divers
-CO2_VETEMENTS_1_3 = 100  # Taux de CO2 émis par an pour achat de 1 à 3 vêtements par mois
-CO2_VETEMENTS_4_8 = 200  # Taux de CO2 émis par an pour achat de 4 à 8 vêtements par mois
-CO2_VETEMENTS_PLUS_8 = 400  # Taux de CO2 émis par an pour achat de plus de 8 vêtements par mois
+# Coefficients de CO2 pour les vêtements (kg CO2/an)
+CO2_VETEMENTS_MOINS_2 = 111.66  # Moins de 2 vêtements par mois
+CO2_VETEMENTS_2_5 = (111.66 + 279.15) / 2  # Moyenne pour entre 2 et 5 vêtements par mois
+CO2_VETEMENTS_PLUS_5 = 279.15  # Plus de 5 vêtements par mois
 
-CO2_INTERNET_3H = 500  # Taux de CO2 émis par an pour utilisation d'internet moins de 3 heures par jour
-CO2_INTERNET_6_10H = 1500  # Taux de CO2 émis par an pour utilisation d'internet entre 6 et 10 heures par jour
-CO2_INTERNET_PLUS_10H = 3000  # Taux de CO2 émis par an pour utilisation d'internet plus de 10 heures par jour
+CO2_INTERNET_3H = 50  # Taux de CO2 émis par an pour utilisation d'internet moins de 3 heures par jour
+CO2_INTERNET_6_10H = 150  # Taux de CO2 émis par an pour utilisation d'internet entre 6 et 10 heures par jour
+CO2_INTERNET_PLUS_10H = 300  # Taux de CO2 émis par an pour utilisation d'internet plus de 10 heures par jour
 
 CO2_FIXE_SERVICES = 2000  # Valeur fixe de CO2 pour les services divers tels que la santé, l'éducation, l'armée, etc.
 
-# Coefficients de CO2 pour le logement 
-CO2_LOGREC = 60
-CO2_LOGANC = 130
-CO2_FIOUL=3602
-CO2_GAZ = 2457
-CO2_ELEC = 473
-CO2_PROBA= 1695.84
-A_APPS = 20
-A_MAIS = 15
-A_APPC = 30
+# Émissions de CO₂ par type de chauffage (kg CO₂/an)
+CO2_ELEC_MAIS = 178
+CO2_ELEC_APPS = 237
+CO2_ELEC_APPC = 355
+
+CO2_GAZ_MAIS = 585
+CO2_GAZ_APPS = 780
+CO2_GAZ_APPC = 1170
+
+CO2_FIOUL_MAIS = 857
+CO2_FIOUL_APPS = 1143
+CO2_FIOUL_APPC = 1715
+
+# Émissions de CO₂ par état du logement (multiplicateur)
+CO2_LOGREC = 1  # pour le logement récent
+CO2_LOGANC = 2  # pour le logement ancien
+
+# Pourcentage d'utilisation par les Français
+PERC_ELEC = 0.40
+PERC_GAZ = 0.32
+PERC_FIOUL = 0.20
+
+# Coefficients de CO2 pour les équipements électroménagers (kg CO2/an)
+
 CO2_EMISSIONS = {
-        "Four": 263,
-        "Réfrigérateur": 325,
-        "Aspirateur": 47.3,
-        "Lave-linges": 510,
-        "sèche-linges": 510,
-        "Lave-vaisselles": 468,
-        "TV": 425,
-        "Smartphone": 38,
-        "Ordinateurs/PC": 178
+        "Four": 21.922,
+        "Réfrigérateur": 32.5461,
+        "Aspirateur": 47.31,
+        "Lave-linges": 51.0257,
+        "sèche-linges": 51.0257,
+        "Lave-vaisselles": 46.7998,
+        "TV": 60.05,
+        "Smartphone": 33.67,
+        "Ordinateurs/PC": 43.76
 }

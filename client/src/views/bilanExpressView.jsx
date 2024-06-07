@@ -256,8 +256,8 @@ export default function BilanExpressView() {
             image: Logement,
             option: [
                 {
-                    title: "Dans une maison en colocation ",
-                    value: "Dans une maison en colocation ",
+                    title: "Dans une maison en colocation",
+                    value: "Dans une maison en colocation",
                     subQuestion: [
                         {
                             id: "logement_récent",
@@ -278,8 +278,8 @@ export default function BilanExpressView() {
                     ]
                 },
                 {
-                    title: "Dans un appartement en colocation  ",
-                    value: "Dans un appartement en colocation ",
+                    title: "Dans un appartement en colocation",
+                    value: "Dans un appartement en colocation",
                     subQuestion: [
                         {
                             id: "logement_récent",
@@ -300,8 +300,8 @@ export default function BilanExpressView() {
                     ]
                 },
                 {
-                    title: "Seul(e) dans un appartement ",
-                    value: "Seul(e) dans un appartement ",
+                    title: "Seul(e) dans un appartement",
+                    value: "Seul(e) dans un appartement",
                     subQuestion: [
                         {
                             id: "logement_récent",
@@ -482,12 +482,12 @@ export default function BilanExpressView() {
             image: Habit,
             option: [
                 {
-                    title: "Entre 1 et 2",
-                    value: "Entre 1 et 2",
+                    title: "Moins de 2",
+                    value: "Moins de 2",
                 },
                 {
-                    title: "Entre 3 et 5",
-                    value: "Entre 3 et 5",
+                    title: "Entre 2 et 5",
+                    value: "Entre 2 et 5",
                 },
                 {
                     title: "Plus de 5",
