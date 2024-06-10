@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 
-const CustomBarYearChart = ({ specialite }) => {
+const CustomBarYearChart = ({ specialite, subSpecialite }) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [chartData, setChartData] = useState({
     labels: [],
@@ -20,7 +20,12 @@ const CustomBarYearChart = ({ specialite }) => {
     const fetchStats = async () => {
       try {
         const response = await axios.get(`${apiUrl}/stats/GetStats`);
-        const data = response.data.filter(d => specialite === "default" || d.spe === specialite);
+        const data = response.data.filter(d => {
+          if (specialite === "default") return true;
+          if (subSpecialite === "default") return d.spe.startsWith(specialite);
+          return d.spe === `${specialite} / ${subSpecialite}`;
+        });
+
         const groupedData = data.reduce((acc, item) => {
           const year = new Date(item.date).getFullYear();
           acc[year] = acc[year] || [];
@@ -37,7 +42,7 @@ const CustomBarYearChart = ({ specialite }) => {
         setChartData({
           labels,
           datasets: [{
-            label: 'Score Moyen Annuel pour ' + (specialite === "default" ? 'toutes spécialités' : specialite),
+            label: `Score Moyen Annuel pour ${specialite === "default" ? 'toutes spécialités' : `${specialite}${subSpecialite !== "default" ? ` / ${subSpecialite}` : ''}`}`,
             data: scores,
             backgroundColor: 'rgba(75, 192, 192, 0.6)',
             borderColor: 'rgba(75, 192, 192, 1)',
@@ -50,7 +55,7 @@ const CustomBarYearChart = ({ specialite }) => {
     };
 
     fetchStats();
-  }, [specialite]);
+  }, [specialite, subSpecialite]);
 
   return (
     <div style={{ width: '100%', height: '400px' }}>
@@ -93,5 +98,6 @@ const CustomBarYearChart = ({ specialite }) => {
 };
 
 export default CustomBarYearChart;
+
 
 
