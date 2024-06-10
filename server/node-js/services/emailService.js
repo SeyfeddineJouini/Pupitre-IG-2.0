@@ -29,9 +29,10 @@ async function sendQuizResultEmail(emailAdress, resultResponse, resultRequest) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
   let htmlResultItemsLi = "";
-  resultResponse.result.forEach((item) => {
-    htmlResultItemsLi += `<li>${item.label} : ${item.value} TCO2</li>`;
-  });
+resultResponse.result.forEach((item) => {
+  let roundedValue = parseFloat(item.value).toFixed(3);
+  htmlResultItemsLi += `<li>${item.label} : ${roundedValue} TCO2</li>`;
+});
 
   const msg = {
     to: emailAdress,
@@ -212,13 +213,12 @@ async function sendQuizResultEmail(emailAdress, resultResponse, resultRequest) {
                                 <tr>
                                   <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:30px;word-break:break-word;">
                                     <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:11px;line-height:1;text-align:center;color:#9da3a3;"><span style="font-size: 14px; color: #e85034"> Taux d’émission <br /><br /><br />
-                                    <b>${resultResponse?.result
-                                      ?.map((item) => item.value)
-                                      .reduce(
-                                        (accumulator, currentValue) =>
-                                          accumulator + currentValue,
-                                        0
-                                      )} TCO2</b>
+                                    <b>${
+                                      resultResponse?.result
+                                        ?.map((item) => item.value)
+                                        .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                                        .toFixed(3)
+                                    } TCO2</b>
                                   </span>
                                   <br /><br />
                                   <ul>

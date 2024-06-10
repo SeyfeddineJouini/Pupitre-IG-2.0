@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import NavbarAdmin from "../components/NavbarAdmin";
-import Footer from '../components/Footer';
 import { useAuth } from "../context/AuthContext";
 import { KeyboardComponent } from "../components/KeyboardComponent/KeyboardComponent";
 import styled, { keyframes, ThemeProvider } from "styled-components";
-import backgroundImage from "../img/image.png"; // Ajoutez une image de fond en rapport avec l'écologie
+import backgroundImage from "../img/image.png";
 import { lightTheme, darkTheme } from '../themes';
+import InputComponent from "../components/bilan/inputComponent";
 
 // Animations
 const fadeIn = keyframes`
@@ -61,7 +61,7 @@ const Title = styled.h1`
   font-family: 'Outfit', Helvetica, sans-serif;
   font-weight: 700;
   color: #ffffff;
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);  // Increased shadow for better contrast
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
   font-size: 4rem;
   margin-bottom: 20px;
   animation: ${fadeIn} 1s ease-in-out;
@@ -74,21 +74,6 @@ const Label = styled.label`
   margin-bottom: 5px;
 `;
 
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  outline: none;
-  transition: border 0.3s;
-
-  &:focus {
-    border-color: #1a2a6c;
-  }
-`;
-
 const Select = styled.select`
   width: 100%;
   padding: 10px;
@@ -98,22 +83,6 @@ const Select = styled.select`
   margin-bottom: 10px;
   outline: none;
   transition: border 0.3s;
-
-  &:focus {
-    border-color: #1a2a6c;
-  }
-`;
-
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  font-size: 1em;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  outline: none;
-  transition: border 0.3s;
-  height: 150px;
 
   &:focus {
     border-color: #1a2a6c;
@@ -163,18 +132,12 @@ export const AddAvis = () => {
     }
 
     try {
-      const response = await axios.post(`${apiUrl}/avis/AddAvis`, { name, type, comment });
+      await axios.post(`${apiUrl}/avis/AddAvis`, { name, type, comment });
       setNameNumber(nameNumber + 1);
       localStorage.setItem('nameNumber', nameNumber + 1);
       setFormSubmitted(true);
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  const handleNameClick = () => {
-    if (name === `# ${nameNumber}`) {
-      setName('');
     }
   };
 
@@ -189,7 +152,7 @@ export const AddAvis = () => {
         navigate('/');
       }, 1000);
     }
-  }, [formSubmitted]);
+  }, [formSubmitted, navigate]);
 
   const toggleTheme = () => {
     setTheme(theme === lightTheme ? darkTheme : lightTheme);
@@ -211,17 +174,19 @@ export const AddAvis = () => {
                 <FormContainer onSubmit={handleSubmit}>
                   <div>
                     <Label htmlFor="name">Nom (optionel):</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      value={name}
-                      placeholder={name === '' ? `# ${nameNumber}` : ''}
-                      onClick={handleNameClick}
-                      onChange={e => setName(e.target.value)}
+                    <InputComponent
+                      question={{
+                        id: "name",
+                        type: "text",
+                        title: name === '' ? `# ${nameNumber}` : '',
+                      }}
+                      inputType="text"
+                      value={{ name }}
                       onFocus={() => {
                         setInputName("name");
                         setKeyboardOpen(true);
                       }}
+                      onValueChange={(newValue) => setName(newValue.name)}
                     />
                   </div>
                   <div className="relative">
@@ -235,15 +200,19 @@ export const AddAvis = () => {
                   </div>
                   <div>
                     <Label htmlFor="comment">Commentaire:</Label>
-                    <Textarea
-                      id="comment"
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                      required
+                    <InputComponent
+                      question={{
+                        id: "comment",
+                        type: "textarea",
+                        title: "Votre Commentaire",
+                      }}
+                      inputType="textarea"
+                      value={{ comment }}
                       onFocus={() => {
                         setInputName("comment");
                         setKeyboardOpen(true);
                       }}
+                      onValueChange={(newValue) => setComment(newValue.comment)}
                     />
                   </div>
                   <SubmitButton type="submit">Ajouter Avis</SubmitButton>
@@ -258,7 +227,6 @@ export const AddAvis = () => {
               onClose={() => setKeyboardOpen(false)}
             />
           )}
-          {/* <Footer /> */}
         </PageContainer>
       </>
     </ThemeProvider>

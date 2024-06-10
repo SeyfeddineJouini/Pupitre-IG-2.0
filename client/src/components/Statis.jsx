@@ -174,7 +174,7 @@ function Statistiques() {
                     />
                     <StatCard
                       title="Emissions par personne"
-                      value={`${(totalEmissions / count).toFixed(2)} TCO2e/an`}
+                      value={`${(totalEmissions / count).toFixed(3)} TCO2e/an`}
                       percentage=""
                       isNegative={false}
                       icon={faUser} // Ajoutez l'icône pour les émissions par personne

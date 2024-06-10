@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { KeyboardComponent } from "../KeyboardComponent/KeyboardComponent";
-import { Link } from 'react-router-dom';
-
 import logo from "../../img/logo.png";
 import homeIcon from "../../img/home-icon.svg";
 import { useAuth } from "../../context/AuthContext";
+import InputComponent from "../bilan/inputComponent";
 
 // Animations
 const fadeIn = keyframes`
@@ -173,14 +172,13 @@ const LogoImage = styled.img`
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [inputName, setInputName] = useState("");
-  const [layoutName, setLayoutName] = useState("default");
-
-  const { login } = useAuth();
+  const [inputActive, setInputActive] = useState("");
 
   const handleLoginClick = async (event) => {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -220,16 +218,9 @@ export const Login = () => {
     navigate("/");
   };
 
-  const [inputActive, setInputActive] = useState("");
-
   const handleInputFocus = (inputName) => {
-    setKeyboardOpen(false);
-    if (inputName === "email") setEmail('');
-    else if (inputName === "password") setPassword('');
     setInputActive(inputName);
-    setTimeout(() => {
-      setKeyboardOpen(true);
-    }, 100);
+    setKeyboardOpen(true);
   };
 
   const handleInputChange = (newValue) => {
@@ -239,53 +230,63 @@ export const Login = () => {
   };
 
   return (
-    <LoginContainer>
-      <LoginContent>
-        <LogoImage alt="Logo" src={logo} />
-        <Title>Connexion Admin</Title>
-        <InputContainer>
-          <Label>Email</Label>
-          <Input
-            type="email"
-            placeholder="Entrez votre mail"
-            value={email}
-            onFocus={() => handleInputFocus("email")}
-          />
-        </InputContainer>
-        <InputContainer>
-          <Label>Mot de passe</Label>
-          <Input
-            type="password"
-            placeholder="Entrer votre Mot de passe"
-            value={password}
-            onFocus={() => handleInputFocus("password")}
-          />
-        </InputContainer>
-        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-        <Button onClick={handleLoginClick}>Login</Button>
-        <HomeButton onClick={handleHomeClick}>
-          <img src={homeIcon} alt="Home" /> Retour à l'accueil
-        </HomeButton>
-        <ForgotPassword onClick={handleForgotPasswordClick}>Mot de passe oublié</ForgotPassword>
-        {keyboardOpen && (
-          <KeyboardComponent
-            inputActive={inputActive}
-            onInput={handleInputChange}
-            onClose={() => setKeyboardOpen(false)}
-          />
-        )}
-        <IconContainer>
-          <Icon>
-            <i className="fas fa-leaf"></i>
-          </Icon>
-          <Icon>
-            <i className="fas fa-wind"></i>
-          </Icon>
-          <Icon>
-            <i className="fas fa-solar-panel"></i>
-          </Icon>
-        </IconContainer>
-      </LoginContent>
-    </LoginContainer>
+      <LoginContainer>
+        <LoginContent>
+          <LogoImage alt="Logo" src={logo} />
+          <Title>Connexion Admin</Title>
+          <InputContainer>
+            <Label>Email</Label>
+            <InputComponent
+              question={{
+                id: "email",
+                type: "email",
+                title: "Votre adresse E-mail",
+              }}
+              inputType="email"
+              value={{ email }}
+              onFocus={() => handleInputFocus("email")}
+              onValueChange={(newValue) => setEmail(newValue.email)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <Label>Mot de passe</Label>
+            <InputComponent
+              question={{
+                id: "password",
+                type: "password",
+                title: "Votre mot de passe",
+              }}
+              inputType="password"
+              value={{ password }}
+              onFocus={() => handleInputFocus("password")}
+              onValueChange={(newValue) => setPassword(newValue.password)}
+            />
+          </InputContainer>
+          {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+          <Button onClick={handleLoginClick}>Login</Button>
+          <HomeButton onClick={handleHomeClick}>
+            <img src={homeIcon} alt="Home" /> Retour à l'accueil
+          </HomeButton>
+          <ForgotPassword onClick={handleForgotPasswordClick}>Mot de passe oublié</ForgotPassword>
+          {keyboardOpen && (
+            <KeyboardComponent
+              inputActive={inputActive}
+              onInput={handleInputChange}
+              onClose={() => setKeyboardOpen(false)}
+            />
+          )}
+          <IconContainer>
+            <Icon>
+              <i className="fas fa-leaf"></i>
+            </Icon>
+            <Icon>
+              <i className="fas fa-wind"></i>
+            </Icon>
+            <Icon>
+              <i className="fas fa-solar-panel"></i>
+            </Icon>
+          </IconContainer>
+        </LoginContent>
+      </LoginContainer>
   );
 };

@@ -107,7 +107,20 @@ export default class InputComponent extends React.Component {
       <div className="form-group">
         <label htmlFor={question.id}></label>
         <div className="input-group">
-          <input
+          {inputType === 'textarea' ? (
+            <textarea
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              id={question.id}
+              name={question.id}
+              placeholder={this.state.question.title}
+              value={inputValue}
+              onChange={this.handleValueChange}
+              ref={this.inputRef}
+              onFocus={this.openKeyboard} // Ouvrir le clavier au focus
+              style={{ height: '150px' }} // S'assure que la hauteur du textarea est correcte
+            />
+          ) : (
+            <input
             type={inputType}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id={question.id}
@@ -118,6 +131,7 @@ export default class InputComponent extends React.Component {
             ref={this.inputRef}
             onFocus={this.openKeyboard} // Ouvrir le clavier au focus
           />
+          )}
           {inputType === "number" && (
             <>
               <button className="btn btn-outline-secondary" type="button" onClick={this.handleIncrement}>
