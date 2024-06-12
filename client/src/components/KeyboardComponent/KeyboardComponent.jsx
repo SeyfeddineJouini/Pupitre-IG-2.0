@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import Draggable from "react-draggable";
@@ -85,15 +86,31 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly, initialValue }
     if (onInput) onInput(input);
   };
 
+  const handleClose = () => {
+    if (onClose) onClose();
+  };
+
   const handleKeyPress = (button) => {
-    if (button === "{shift}" || button === "{lock}") {
-      handleShiftClick();
-    } else if (button === "{bksp}") {
-      handleChange(input.slice(0, -1));
-    } else if (button === "{enter}") {
-      onClose(); 
-    }else {
-      handleChange(input + button);
+    switch (button) {
+      case "{shift}":
+      case "{lock}":
+        handleShiftClick();
+        break;
+      case "{bksp}":
+        handleChange(input.slice(0, -1));
+        break;
+      case "{enter}":
+        handleClose();
+        break;
+      case "{space}":
+        handleChange(input + " ");
+        break;
+      case "{tab}":
+        handleChange(input + "\t");
+        break;
+      default:
+        handleChange(input + button);
+        break;
     }
   };
 
@@ -106,7 +123,7 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly, initialValue }
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (keyboardRef.current && !keyboardRef.current.contains(event.target)) {
-        onClose();
+        handleClose();
       }
     };
 
@@ -114,7 +131,7 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly, initialValue }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [onClose]);
+  }, [handleClose]);
 
   const frenchLayout = numpadOnly
     ? {
@@ -158,10 +175,17 @@ export const KeyboardComponent = ({ onInput, onClose, numpadOnly, initialValue }
           display={display}
           input={input}
         />
-        <CloseButton onClick={onClose}>Fermer</CloseButton>
+        <CloseButton onClick={handleClose}>Fermer</CloseButton>
       </KeyboardContainer>
     </Draggable>
   );
+};
+
+KeyboardComponent.propTypes = {
+  onInput: PropTypes.func,
+  onClose: PropTypes.func.isRequired,
+  numpadOnly: PropTypes.bool,
+  initialValue: PropTypes.string,
 };
 
 export default KeyboardComponent;

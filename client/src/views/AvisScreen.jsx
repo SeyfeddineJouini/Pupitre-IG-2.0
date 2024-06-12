@@ -241,15 +241,15 @@ export const AvisScreen = () => {
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
               {currentAvis.map((avis, index) => (
                 <div className="bg-cool-gray050 flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto]">
-                  <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] [font-family:'Inter',Helvetica] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap">
-                    {avis.comment.substring(0, 30)}
-                    {avis.comment.length > 30 && (
-                      <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-normal text-xs uppercase font-bold text-cool-gray500 text-[length:var(--text-sm-font-normal-font-size)] tracking-[var(--text-sm-font-normal-letter-spacing)] leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-normal-font-style)]"
-                        onClick={() => handleDisplayFullComment(avis._id)}>
-                        <span className="bg-green-500 text-white rounded px-2 py-1">...</span>
-                      </a>
-                    )}
-                  </div>
+                  <div className="relative w-[370px] h-[22px] mt-[-1.00px] mr-[-29.00px] font-light text-cool-gray900 text-[14px] tracking-[0] leading-[21px] whitespace-nowrap overflow-hidden text-ellipsis" style={{ fontFamily: 'Inter, Helvetica, sans-serif' }}>
+  {avis.comment.substring(0, 35)}
+  {avis.comment.length > 35 && (
+    <a href="#" className="relative flex-1 h-[22px] mt-[-1.00px] text-xs uppercase font-bold text-cool-gray500 leading-[var(--text-sm-font-normal-line-height)] whitespace-nowrap hover:text-green-500 transition duration-300 ml-1" onClick={() => handleDisplayFullComment(avis._id)} style={{ fontFamily: 'Inter, Helvetica, sans-serif' }}>
+      <span className="bg-green-500 text-white rounded px-2 py-1 hover:bg-green-700 transition duration-300">...</span>
+    </a>
+  )}
+</div>
+
                 </div>
               ))}
             

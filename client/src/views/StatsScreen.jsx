@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { FaComments, FaChartBar, FaTachometerAlt } from "react-icons/fa";
-import { Tooltip } from 'react-tooltip';
 
 
 export const StatsScreen = () => {
@@ -264,7 +263,7 @@ export const StatsScreen = () => {
               {currentStats.map((stats, index) => (
               <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
                 <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
-                  {parseFloat(stats.scoreTotal).toFixed(3)}
+                {parseFloat(stats.scoreTotal).toFixed(3)}
                   </div>
                 </div>
               ))}     
@@ -277,14 +276,13 @@ export const StatsScreen = () => {
               </div>
             </div>
             <div className="relative self-stretch w-full h-px bg-cool-gray200" />
-            {currentStats.map((stats, index) => (
-                  <div key={index} className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-gray-050 rounded-l-lg">
-                    <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold text-gray-900 overflow-hidden text-overflow-ellipsis" data-tooltip-id={`tooltip-${index}`} data-tooltip-content={stats.spe}>
-                      {stats.spe}
-                    </div>
-                    <Tooltip id={`tooltip-${index}`} place="top" effect="solid" />
+              {currentStats.map((stats, index) => (
+                <div className="flex items-start p-[16px] relative self-stretch w-full flex-[0_0_auto] bg-cool-gray050 rounded-[12px_0px_0px_12px]">
+                  <div className="relative flex-1 h-[22px] mt-[-1.00px] font-text-sm-font-semibold font-[number:var(--text-sm-font-semibold-font-weight)] text-cool-gray900 text-[length:var(--text-sm-font-semibold-font-size)] tracking-[var(--text-sm-font-semibold-letter-spacing)] leading-[var(--text-sm-font-semibold-line-height)] whitespace-nowrap [font-style:var(--text-sm-font-semibold-font-style)]">
+                    {stats.spe.length > 35 ? stats.spe.substring(0, 35) + '...' : stats.spe}
                   </div>
-                ))}
+                </div>
+              ))}
             
           </div>
 
