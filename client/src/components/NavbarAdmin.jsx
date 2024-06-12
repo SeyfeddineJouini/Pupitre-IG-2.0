@@ -1,7 +1,7 @@
 // src/components/NavbarAdmin.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaHome, FaChartBar, FaGamepad, FaComments, FaSignInAlt, FaBars, FaArrowAltCircleDown } from 'react-icons/fa';
+import { FaHome, FaChartBar, FaGlobe, FaGamepad, FaComments, FaSignInAlt, FaBars, FaArrowAltCircleDown } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { NavbarContainer, Container, Logo, Icon, NavLinks, NavLink, Button } from './StyledNavbar';
 
@@ -45,6 +45,11 @@ const NavbarAdmin = ({ transparent, toggleTheme }) => {
           <NavLink transparent={transparent}>
             <Link to="/jeux">
               <FaGamepad /> JEUX LUDIQUE
+            </Link>
+          </NavLink>
+          <NavLink transparent={transparent}>
+            <Link to="/planetes-et-limites">
+              <FaGlobe /> PLANÈTES ET LIMITES
             </Link>
           </NavLink>
           <NavLink transparent={transparent}>

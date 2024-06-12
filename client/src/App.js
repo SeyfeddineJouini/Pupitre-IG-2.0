@@ -16,6 +16,9 @@ import { StatsScreen } from "./views/StatsScreen";
 import { AvisScreen } from "./views/AvisScreen"; 
 import "./App.css"; import { AddAvis } from "./views/AddAvis";
 import { InactivityProvider } from './views/InactivityHandler';
+import PlanetesEtLimites from './views/PlanetesEtLimites'; // Importer le nouveau composant
+
+
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -47,6 +50,7 @@ const App = () => {
           <Route path="/bilan/normal" element={<BilanNormalView />} />
           <Route path="/bilan/express" element={<BilanExpressView />} />
           <Route path="/statistiques" element={<Statistiques />} />
+          <Route path="/planetes-et-limites" element={<PlanetesEtLimites />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         </InactivityProvider>

@@ -1,7 +1,7 @@
 // src/components/Navbar.js
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaHome, FaChartBar, FaGamepad, FaComments, FaSignInAlt, FaBars, FaMoon, FaSun } from 'react-icons/fa';
+import { FaHome, FaChartBar, FaGlobe, FaGamepad, FaComments, FaSignInAlt, FaBars, FaMoon, FaSun } from 'react-icons/fa';
 import { NavbarContainer, Container, Logo, Icon, NavLinks, NavLink, Button } from './StyledNavbar';
 
 const Navbar = ({ transparent, toggleTheme }) => {
@@ -34,8 +34,13 @@ const Navbar = ({ transparent, toggleTheme }) => {
             </Link>
           </NavLink>
           <NavLink transparent={transparent}>
-            <Link to="/jeux">
+            <Link to="/jeux-ludique">
               <FaGamepad /> JEUX LUDIQUE
+            </Link>
+          </NavLink>
+          <NavLink transparent={transparent}>
+            <Link to="/planetes-et-limites">
+              <FaGlobe /> PLANÈTES ET LIMITES
             </Link>
           </NavLink>
           <NavLink transparent={transparent}>

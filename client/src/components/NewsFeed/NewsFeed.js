@@ -77,10 +77,11 @@ const NewsFeed = () => {
   const [loadingArticle, setLoadingArticle] = useState(null);
 
   useEffect(() => {
-    const rssUrl = 'https://rss2json.com/api.json?rss_url=https://reporterre.net/spip.php?page=backend-simple';
+    const rssUrl = 'https://rss2json.com/api.json?rss_url=http://feeds.bbci.co.uk/news/rss.xml';
 
     axios.get(rssUrl)
       .then(response => {
+        console.log('Articles reçus:', response.data.items); // Log des articles reçus
         setArticles(response.data.items);
       })
       .catch(error => {
@@ -96,7 +97,7 @@ const NewsFeed = () => {
       .then(response => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(response.data.contents, 'text/html');
-        const articleContent = doc.querySelector('.texte').innerHTML;
+        const articleContent = doc.querySelector('.texte')?.innerHTML || 'Contenu non disponible';
 
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = articleContent;
@@ -134,7 +135,7 @@ const NewsFeed = () => {
 
   return (
     <NewsContainer>
-      <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités de Reporterre</h2>
+      <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités de BBC News</h2>
       {articles.length === 0 ? (
         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
       ) : (
