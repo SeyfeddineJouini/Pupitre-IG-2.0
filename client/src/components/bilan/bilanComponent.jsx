@@ -138,7 +138,8 @@ const BilanComponent = (props) => {
     const avionKm = response.grand_deplacement_avion_km;
     const trainKm = response.grand_deplacement_train_km;
     const voitureKm = response.voiture_grand_deplacement_km;
-    if ((avionKm !== undefined && avionKm < 100) || (trainKm !== undefined && trainKm < 50) || (voitureKm !== undefined && voitureKm < 100)){
+    const teletrav = response.teletravail;
+    if ((avionKm !== undefined && avionKm < 100) || (trainKm !== undefined && trainKm < 50) || (voitureKm !== undefined && voitureKm < 100)||(teletrav !== undefined && teletrav > 6)){
       setAlertMessage(message);
     } else {
       setAlertMessage('');
@@ -170,6 +171,13 @@ const BilanComponent = (props) => {
         showalert("La distance parcourue en voiture doit être supérieure à 100 km.");
         return;
       }
+    }
+
+
+    const teletrav = response.teletravail;
+    if (teletrav !== undefined && teletrav > 6) {
+      showalert("La semaine de travail comprend 5 jours.");
+      return;
     }
 
     setErrorMessage('');

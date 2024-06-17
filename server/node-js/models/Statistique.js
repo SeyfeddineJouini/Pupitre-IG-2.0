@@ -26,7 +26,11 @@ const StatistiqueSchema = new Schema({
         type: String, 
         required: true 
     },
-    divers: {
+    biens: {
+        type: String, 
+        required: true 
+    },
+    services: {
         type: String, 
         required: true 
     },

@@ -65,3 +65,64 @@ CO2_EMISSIONS = {
         "Smartphone": 33.67,
         "Ordinateurs/PC": 43.76
 }
+################################### Ajout ENER AP
+#Alimentation Prot
+CO2_VIANDE_ROUGE = 1200
+CO2_VOLAILLE = 600
+CO2_POISS_GRAS = 450
+CO2_POISS_BL = 300
+CO2_VEGE = 380
+#Produits locaux
+CO2_MOINS_25 = 500
+CO2_25_50 = 375
+CO2_50_75 = 250
+CO2_PLUS_75= 125
+#Achats electronique
+CO2_ACHATS_ELEC_AN = 300
+CO2_ACHATS_ELEC_2_3 = 150
+CO2_ACHATS_ELEC_4_5 = 75
+CO2_ACHATS_ELEC_MOINS_FREQ = 50
+#Destinations Vacances
+CO2_VAC_LOCAL = 20
+CO2_VAC_NAT = 100
+CO2_VAC_INT_EU = 500
+CO2_VAC_INT_HR_EU = 1000
+#Avions
+CO2_PAR_VOY = 0.259 
+#Deconnexion
+CO2_DEC_OUI = -50
+CO2_DEC_NON = 0
+#Initiatives Eco
+CO2_ECO_OUI_REG = -100
+CO2_ECO_OUI_OCC = -50
+CO2_ECO_NON = 0
+#Tri des dechets
+CO2_TRI_OUI = -150
+CO2_TRI_NON = 0
+#Teletravail
+CO2_TELE_1 = 2240
+CO2_TELE_2 = 1792
+CO2_TELE_3 = 1344
+CO2_TELE_4 = 896
+CO2_TELE_5 = 448
+#Jardin Potager
+CO2_JARD_OUI = -100
+CO2_JARD_NON = 0
+#Source Energie Renouvelables
+CO2_SRC_ENER_OUI = -473
+CO2_SRC_ENER_NON = 0
+#Utilisation streaming
+CO2_STR_TT_JR = 500
+CO2_STR_PLS_SEM = 300
+CO2_STR_1_SEM = 150
+CO2_STR_MO_1_SEM = 50
+#Achats Responsable
+CO2_ACH_RES_TR_SOUV = -100
+CO2_ACH_RES_SOUV = -60
+CO2_ACH_RES_PAR = -20
+CO2_ACH_RES_RAR = 0
+#Repas a emporter
+CO2_REP_TT_JR= 300
+CO2_REP_PL_SEM = 200
+CO2_REP_1_SEM = 100
+CO2_REP_M_1_SEM = 50

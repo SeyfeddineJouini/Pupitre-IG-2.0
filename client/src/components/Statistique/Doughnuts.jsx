@@ -3,7 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
 import './Doughnuts.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartPie } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { faCar, faUtensils, faHome, faCogs } from '@fortawesome/free-solid-svg-icons';
 
 const CustomChart = () => {
@@ -25,7 +25,8 @@ const CustomChart = () => {
     Transport: faCar,
     Alimentation: faUtensils,
     Logement: faHome,
-    Divers: faCogs
+    Biens: faDesktop,
+    Services: faCogs
   };
   useEffect(() => {
     const fetchStats = async () => {
@@ -36,22 +37,24 @@ const CustomChart = () => {
             acc.transport += parseInt(curr.transport, 10);
             acc.alimentation += parseInt(curr.alimentation, 10);
             acc.logement += parseInt(curr.logement, 10);
-            acc.divers += parseInt(curr.divers, 10);
+            acc.biens += parseInt(curr.biens, 10);
+            acc.services += parseInt(curr.services, 10);
             return acc;
-          }, { transport: 0, alimentation: 0, logement: 0, divers: 0 });
+          }, { transport: 0, alimentation: 0, logement: 0, biens: 0, services: 0 });
 
           const totalValues = [
             totals.transport,
             totals.alimentation,
             totals.logement,
-            totals.divers
+            totals.biens,
+            totals.services
           ];
 
           setChartData({
-            labels: ['Transport', 'Alimentation', 'Logement', 'Divers'],
+            labels: ['Transport', 'Alimentation', 'Logement', 'Biens', 'Services'],
             datasets: [{
               data: totalValues,
-              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+              backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#4BC0C0'],
               hoverOffset: 4
             }]
           });

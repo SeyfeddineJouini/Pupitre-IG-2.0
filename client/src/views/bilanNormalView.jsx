@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import BilanComponent from "../components/bilan/bilanComponent";
-import BilanResultComponent from "../components/bilan/bilanResultComponent";
+import BilanResultComponent2 from "../components/bilan/bilanResultComponent2";
 import Habit from "../img/vet.png";
 import Vegetarien from "../img/vege.png";
 import Transport from "../img/transport.png";
@@ -18,7 +18,7 @@ import Avion from "../img/avion.png";
 import Voiture from "../img/voiture.png";
 import Budget from "../img/budg.png";
 
-export default function BilanExpressView() {
+export default function BilanNormalView() {
   let welcomePageContent = {
     title: "Bilan carbone en 3 minutes",
     description: "Le bilan carbone express vous aide à mesurer vos émissions de CO2 en explorant vos habitudes de transport, de logement, d'alimentation et de consommation.",
@@ -165,35 +165,29 @@ export default function BilanExpressView() {
         ]
     },
     {
-      id: "grand_deplacement_avion",
-      title: "Pour les grands déplacements, prenez-vous l'avion ?",
-      type: "radio",
-      description: "",
-      image: VoitureVac,
-      option: [
-        {
-          title: "Oui",
-          value: "oui",
-          subQuestion: [
+        id: "grand_deplacement_avion",
+        title: "Pour les grands déplacements, prenez-vous l'avion ?",
+        type: "radio",
+        description: "",
+        image:Avion,
+        option: [
             {
-              id: "grand_deplacement_avion_km",
-              title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en avion ? (PS : Paris-Lyon : 5 834 km)",
-              type: "number"
+                title: "Oui",
+                value: "oui",
+                subQuestion: [
+                    {
+                        id: "grand_deplacement_avion_km",
+                        title: "Combien de kilomètres parcourez-vous en moyenne par an (aller-retour) en avion ?",
+                        type: "number"
+                    }
+                ]
             },
-             {
-               id: "Voyages_avion",    
-               title: "Combien de voyages en avion faites-vous par an ?",
-               type: "number",
-               description: "",
-               image: Avion
-           }]
-        },
-        {
-          title: "Non",
-          value: "non"
-        }
-      ]
-    },
+            {
+                title: "Non",
+                value: "non"
+            }
+        ]
+    }, 
     {
         id: "grand_deplacement_train",
         title: "Pour les grands déplacements, voyagez-vous en TGV ?",
@@ -275,8 +269,8 @@ export default function BilanExpressView() {
         image: Logement,
         option: [
             {
-                title: "Dans une maison en colocation ",
-                value: "Dans une maison en colocation ",
+                title: "Dans une maison en colocation",
+                value: "Dans une maison en colocation",
                 subQuestion: [
                     {
                         id: "logement_récent",
@@ -297,8 +291,8 @@ export default function BilanExpressView() {
                 ]
             },
             {
-                title: "Dans un appartement en colocation  ",
-                value: "Dans un appartement en colocation ",
+                title: "Dans un appartement en colocation",
+                value: "Dans un appartement en colocation",
                 subQuestion: [
                     {
                         id: "logement_récent",
@@ -319,8 +313,8 @@ export default function BilanExpressView() {
                 ]
             },
             {
-                title: "Seul(e) dans un appartement ",
-                value: "Seul(e) dans un appartement ",
+                title: "Seul(e) dans un appartement",
+                value: "Seul(e) dans un appartement",
                 subQuestion: [
                     {
                         id: "logement_récent",
@@ -541,6 +535,10 @@ export default function BilanExpressView() {
                 title: "Chocolat",
                 value: "Chocolat",
             },
+            {
+                title: "Aucune",
+                value: "Aucune",
+              },
         ],
     },
     {
@@ -694,36 +692,126 @@ export default function BilanExpressView() {
             },
             {
                 id: "specialite",
-                title: " Quelle est votre specialité ?",
+                title: " Quel est votre niveau d'étude ou votre rôle ?",
                 type: "radio",
                 description: "",
                 option: [
                     {
-                        title: "ING INFO",
-                        value: "ING INFO",
+                        title: "Ingénieurie ",
+                        value: "ING",
+                        subQuestion: [
+                            {
+                                id: "spe_ING",
+                                title: "Quelle est votre spécialité ?",
+                                type: "radio",
+                                description: "",
+                                option: [
+                                    {
+                                        title: "Energétique",
+                                        value: "Energétique"
+                                    },
+                                    {
+                                        title: "Instrumentation",
+                                        value: "Instrumentation"
+                                    },
+                                    {
+                                        title: "MACS",
+                                        value: "MACS"
+                                    },
+                                    {
+                                        title: "Télecommunication & réseaux",
+                                        value: "Télecommunication & réseaux"
+                                    },
+                                    {
+                                        title: "Informatique",
+                                        value: "Informatique"
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
-                        title: "ING ENER",
-                        value: "ING ENER",
+                        title: "Licence ",
+                        value: "Licence",
+                        subQuestion: [
+                            {
+                                id: "spe_Licence",
+                                title: "Veuillez précisez votre spécialité ",
+                                type: "radio",
+                                description: "",
+                                option: [
+                                    {
+                                        title: "Informatique",
+                                        value: "Informatique"
+                                    },
+                                    {
+                                        title: "Mathématiques",
+                                        value: "Mathématiques"
+                                    },
+                                    {
+                                        title: "Physique Chimie",
+                                        value: "Physique Chimie"
+                                    },
+                                    {
+                                        title: "Science de l'ingénieure",
+                                        value: "Science de l'ingénieurie"
+                                    },
+                                    {
+                                        title: "Informatique & Mathématiques",
+                                        value: "Informatique & Mathématiques"
+                                    },
+                                    {
+                                        title: "CP2I",
+                                        value: "CP2I"
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
-                        title: "ING INSTRU",
-                        value: "ING INSTRU",
+                        title: "Masters ",
+                        value: "Masters",
+                        subQuestion: [
+                            {
+                                id: "spe_Masters",
+                                title: "Veuillez précisez votre spécialité ",
+                                type: "radio",
+                                description: "",
+                                option: [
+                                    {
+                                        title: "Informatique",
+                                        value: "Informatique"
+                                    },
+                                    {
+                                        title: "Mathématiques",
+                                        value: "Mathématiques"
+                                    },
+                                    {
+                                        title: "Science et génie des matériaux",
+                                        value: "Science et génie des matériaux"
+                                    },
+                                    {
+                                        title: "Ingénieurie et innovation en images et réseaux",
+                                        value: "Ingénieurie et innovation en images et réseaux"
+                                    },
+                                    {
+                                        title: "Génies des Procédés",
+                                        value: "Génies des Procédés"
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
-                        title: "ING MACS",
-                        value: "ING MACS",
-                    },
-                    {
-                        title: "ING TELECOM",
-                        value: "ING TELECOM",
+                        title: "Personnels ou Enseignants",
+                        value: "Personnels ou Enseignants"
                     },
                     {
                         title: "Autres",
-                        value: "Autres",
-                    },
+                        value: "Autres"
+                    }
                 ]
-            },
+            }
         ]
     }
 ];
@@ -751,9 +839,13 @@ export default function BilanExpressView() {
             onTerminateClicked={handleTerminateChange}
           />
         )}
-
-      
-
+        {showResult && (
+          
+          <BilanResultComponent2
+            userName={userName}
+            questionResponse={response}
+          />
+        )}
         {/* <hr />
         {JSON.stringify(response, null, 2)} */}
       </div>

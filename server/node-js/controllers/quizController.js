@@ -58,10 +58,16 @@ exports.sendResultEMail = async function(req, res) {
           color: "red",
         },
         {
-          label: "divers",
-          id: "divers",
-          value: flaskResponse.data.Divers,          
-          color: "green",
+          label: "Biens",
+          id: "biens",
+          value: flaskResponse.data.Biens,          
+          color: "lightgreen",
+        },
+        {
+          label: "Services",
+          id: "services",
+          value: flaskResponse.data.Services,          
+          color: "yellow",
         },
       ],
       budget: emissionBudget,
@@ -76,3 +82,59 @@ exports.sendResultEMail = async function(req, res) {
     res.status(500).json({ message: err.message }); // Renvoyer un code d'erreur 500 en cas d'erreur
   }
 }
+
+/* Bilan Normal*/
+
+
+exports.calculateresult2 = async (req, res) => {
+  const flaskServer2 = process.env.FLASK_SERVER_2;
+  try {
+    const data = req.body;
+    const flaskResponse2 = await axios.post(`${flaskServer2}/api/calcul_emission_2`, data);
+
+    let emissionBudget2 = 0;
+    if (req.body.budget) {
+      emissionBudget2 = parseFloat(((req.body.budget / 1000) * 2.1).toFixed(3));
+    }
+
+    res.send({
+      result: [
+        {
+          label: "Transport",
+          id: "transport",
+          value: flaskResponse2.data.Transport,
+          color: "rgb(255, 99, 132)",
+        },
+        {
+          label: "Alimentation",
+          id: "alimentation",
+          value: flaskResponse2.data.Alimentation,
+          color: "rgb(54, 162, 235)",
+        },
+        {
+          label: "Logement",
+          id: "logement",
+          value: flaskResponse2.data.Logement,
+          color: "red",
+        },
+        {
+          label: "Biens",
+          id: "biens",
+          value: flaskResponse2.data.Biens,
+          color: "lightgreen",
+        },
+        {
+          label: "Services",
+          id: "services",
+          value: flaskResponse2.data.Services,
+          color: "yellow",
+        },
+      ],
+      budget: emissionBudget2,
+    });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+};

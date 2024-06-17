@@ -7,6 +7,12 @@ cd server\flask
 start "" /min cmd /k "python app.py"
 cd ..\..
 
+REM Démarrer le serveur Flask2
+echo Démarrage du serveur Flask...
+cd server\flask
+start "" /min cmd /k "python app2.py"
+cd ..\..
+
 REM Démarrer le serveur
 echo Démarrage du serveur...
 cd server\node-js

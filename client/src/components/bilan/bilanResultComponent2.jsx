@@ -38,7 +38,7 @@ import {
 import ModalComponent from "./ModalRappelEmailComponent";
 ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
 
-const BilanResultComponent = (props) => {
+const BilanResultComponent2 = (props) => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const questionResponse = props.questionResponse || {};
 
@@ -102,7 +102,7 @@ const BilanResultComponent = (props) => {
     logement,
     biens,
     services,
-    mode = "Express"
+    mode = "Normal"
   ) => {
     try {
       let subSpecialty = "";
@@ -145,7 +145,7 @@ const BilanResultComponent = (props) => {
     const appelerBackend = async () => {
       try {
         console.log("questionResponse:", questionResponse); // Add this line
-        const res = await fetch(`${apiUrl}/quiz/calculate`, {
+        const res = await fetch(`${apiUrl}/quiz/calculate2`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -437,4 +437,4 @@ const BilanResultComponent = (props) => {
   );
 };
 
-export default BilanResultComponent;
+export default BilanResultComponent2;

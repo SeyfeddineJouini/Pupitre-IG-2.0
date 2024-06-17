@@ -1,4 +1,3 @@
-// styles.js
 import styled, { keyframes } from 'styled-components';
 
 export const fadeIn = keyframes`
@@ -35,13 +34,24 @@ export const Section = styled.div`
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   padding: 20px;
   margin-top: 20px;
-  max-width: 1200px;
+  max-width: 1400px; /* Increased max-width */
   width: 100%;
   animation: ${fadeIn} 2s ease-in-out;
   display: flex;
   flex-direction: row;
   gap: 20px;
 `;
+
+export const Column = styled.div`
+  flex: 1;
+  background: ${props => props.bg || '#f0f0f0'};
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 100%;
+`;
+
 
 export const Title = styled.h1`
   font-family: 'Outfit', Helvetica, sans-serif;
@@ -61,14 +71,7 @@ export const Subtitle = styled.p`
   text-align: center;
 `;
 
-export const Column = styled.div`
-  flex: 1;
-  background: ${props => props.bg || '#f0f0f0'};
-  border-radius: 16px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-`;
+
 
 export const IconWrapper = styled.div`
   font-size: 1.5rem;
@@ -95,6 +98,8 @@ export const ResultContainer = styled.div`
 export const LegendItem = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   margin-bottom: 8px;
 `;
 
@@ -115,8 +120,14 @@ export const LegendIcon = styled.div`
 
 export const LegendText = styled.div`
   font-size: 1rem;
-  text-align: justify;
-  margin-right: 8px;
+  flex: 1;
+  text-align: left;
+`;
+
+export const LegendDescription = styled.div`
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 20px; /* Add margin to create space */
 `;
 
 export const ModalOverlay = styled.div`
@@ -148,3 +159,6 @@ export const CloseButton = styled.button`
   font-size: 2rem;
   cursor: pointer;
 `;
+
+
+

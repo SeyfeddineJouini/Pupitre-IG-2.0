@@ -37,7 +37,8 @@ router.post('/AddStats', async (req, res) => {
       transport: req.body.transport,
       alimentation: req.body.alimentation,
       logement: req.body.logement,
-      divers: req.body.divers,
+      biens: req.body.biens,
+      services: req.body.services,
       spe: req.body.spe,
       date: Date.now(),
   });
