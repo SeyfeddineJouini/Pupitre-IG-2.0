@@ -1,0 +1,113 @@
+body {
+    font-family: 'Outfit', Helvetica, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+  }
+  
+  .navbar {
+    background: linear-gradient(90deg, #4b6cb7, #182848);
+    padding: 1rem;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar a {
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .navbar a:hover {
+    color: #ffd700;
+  }
+  
+  .sidebar {
+    background: #fff;
+    padding: 1rem;
+    border-right: 1px solid #ddd;
+    height: 100vh;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar ul li a {
+    color: #333;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    display: block;
+    border-radius: 4px;
+    transition: background 0.3s, color 0.3s;
+  }
+  
+  .sidebar ul li a:hover {
+    background: #4b6cb7;
+    color: white;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 2rem;
+    background: #f9fafb;
+  }
+  
+  .card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  
+  .badge.green-badge {
+    background: #28a745;
+    color: white;
+  }
+  
+  .badge.yellow-badge {
+    background: #ffc107; /* Jaune Bootstrap par défaut */
+    color: white; /* Pour assurer une bonne lisibilité */
+}
+  
+  .badge.red-badge {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .badge.blue-badge {
+    background: #007bff;
+    color: white;
+  }
+  
+  .footer {
+    background: #182848;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  

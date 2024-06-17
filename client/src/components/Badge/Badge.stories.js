@@ -5,7 +5,7 @@ export default {
   component: Badge,
   argTypes: {
     color: {
-      options: ["gray-badge", "blue-badge", "green-badge", "red-badge"],
+      options: ["gray-badge", "blue-badge", "green-badge", "red-badge", "yellow-badge"],
       control: { type: "select" },
     },
   },

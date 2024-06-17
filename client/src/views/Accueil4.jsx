@@ -145,6 +145,75 @@ const NewsSection = styled.div`
   padding: 20px;
   margin-top: 20px;
   animation: ${fadeIn} 2.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  &:before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 105, 135, 0.3);
+    border-radius: 50%;
+    z-index: 0;
+    animation: pulseEffect 5s infinite;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 100px;
+    height: 100px;
+    background-color: rgba(135, 206, 235, 0.3);
+    border-radius: 50%;
+    z-index: 0;
+    animation: pulseEffect 5s infinite 2.5s;
+  }
+
+  @keyframes pulseEffect {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(0.8);
+      opacity: 0.6;
+    }
+  }
+
+  blockquote {
+    position: relative;
+    z-index: 0;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    border-left: 5px solid #ff6f61;
+    margin: 0;
+    font-style: italic;
+    color: #333;
+
+    svg {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 50px;
+      height: 50px;
+      fill: rgba(255, 105, 135, 0.3);
+    }
+
+    h4 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      color: #ff6f61;
+      z-index: 1;
+    }
+  }
 `;
 
 export const Accueil4 = () => {
@@ -205,7 +274,6 @@ export const Accueil4 = () => {
               </div>
               <div className="w-full lg:w-5/12 mr-auto ml-auto">
                 <NewsSection>
-                  <NewsFeed />  {/* Ajoutez le composant NewsFeed ici */}
                   <blockquote className="relative p-6 mb-2">
                     <svg
                       preserveAspectRatio="none"
@@ -223,9 +291,10 @@ export const Accueil4 = () => {
                       ></polygon>
                     </svg>
                     <h4 className="text-xl font-bold text-black">
-                      Actualités
+                      Actualités du Ministère de la Transition Écologique et Solidaire
                     </h4>
                   </blockquote>
+                  <NewsFeed />  {/* Ajoutez le composant NewsFeed ici */}
                 </NewsSection>
               </div>
             </div>
