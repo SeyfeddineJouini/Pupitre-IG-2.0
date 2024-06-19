@@ -203,7 +203,7 @@ resultResponse.result.forEach((item) => {
                                       <tbody>
                                         <tr>
                                           <td style="width:50px;">
-                                            <img alt="" height="auto" src="http://191n.mj.am/img/191n/1t/hs.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="50" />
+                                            <img alt="" height="auto" src="https://img.icons8.com/cotton/64/000000/trophy--v2.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="50" />
                                           </td>
                                         </tr>
                                       </tbody>
@@ -240,7 +240,7 @@ resultResponse.result.forEach((item) => {
                                       <tbody>
                                         <tr>
                                           <td style="width:50px;">
-                                            <img alt="" height="auto" src="http://191n.mj.am/img/191n/1t/hm.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="50" />
+                                            <img alt="" height="auto" src="https://img.icons8.com/cotton/64/000000/money-bag.png" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;" width="50" />
                                           </td>
                                         </tr>
                                       </tbody>

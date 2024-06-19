@@ -291,7 +291,8 @@ export const Accueil4 = () => {
                       ></polygon>
                     </svg>
                     <h4 className="text-xl font-bold text-black">
-                      Actualités du Ministère de la Transition Écologique et Solidaire
+                    Actualités de Reporterre, le média de l'écologie
+                      {/* Actualités du Ministère de la Transition Écologique et Solidaire */}
                     </h4>
                   </blockquote>
                   <NewsFeed />  {/* Ajoutez le composant NewsFeed ici */}
@@ -303,7 +304,7 @@ export const Accueil4 = () => {
             className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
             style={{ height: "70px" }}
           >
-            <svg
+            {/* <svg
               className="absolute bottom-0 overflow-hidden"
               xmlns="http://www.w3.org/2000/svg"
               preserveAspectRatio="none"
@@ -316,7 +317,7 @@ export const Accueil4 = () => {
                 className="text-gray-300 fill-current"
                 points="2560 0 2560 100 0 100"
               ></polygon>
-            </svg>
+            </svg> */}
           </div>
         </MainContainer>
       </>

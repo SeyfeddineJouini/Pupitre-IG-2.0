@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import { customStyles, ModalContent, LoadingSpinner, fadeIn, CloseButton } from './ModalStyles';
 
 
-/**===================================Code Actualité site gouv======================================================== */
 
 const NewsContainer = styled.div`
   width: 100%;
@@ -89,113 +88,115 @@ const sanitizeContent = (html) => {
   return doc.body.innerHTML;
 };
 
-const NewsFeed = () => {
-  const [articles, setArticles] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingArticle, setLoadingArticle] = useState(null);
+/**===================================Code Actualité site gouv======================================================== */
 
-  useEffect(() => {
-    const rssUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.ecologie.gouv.fr/rss_presse.xml');
+// const NewsFeed = () => {
+//   const [articles, setArticles] = useState([]);
+//   const [modalIsOpen, setModalIsOpen] = useState(false);
+//   const [modalContent, setModalContent] = useState('');
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [loadingArticle, setLoadingArticle] = useState(null);
 
-    axios.get(rssUrl)
-      .then(response => {
-        const base64Content = response.data.contents.split(",")[1];
-        const decodedContent = decodeURIComponent(escape(atob(base64Content)));
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(decodedContent, 'application/xml');
-        const items = doc.querySelectorAll('item');
-        const articles = Array.from(items).map(item => ({
-          guid: item.querySelector('guid').textContent,
-          title: item.querySelector('title').textContent,
-          description: item.querySelector('description').textContent,
-          link: item.querySelector('link').textContent
-        }));
-        setArticles(articles);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des articles:', error);
-      });
-  }, []);
+//   useEffect(() => {
+//     const rssUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://www.ecologie.gouv.fr/rss_presse.xml');
 
-  const openModal = (link, articleGuid) => {
-    setIsLoading(true);
-    setLoadingArticle(articleGuid);
-    setModalIsOpen(true);
-    axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
-      .then(response => {
-        const articleContent = sanitizeContent(response.data.contents);
-        setModalContent(articleContent);
-        setIsLoading(false);
-        setLoadingArticle(null);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération du contenu de l\'article:', error);
-        setModalContent('Contenu non disponible');
-        setIsLoading(false);
-        setLoadingArticle(null);
-      });
-  };
+//     axios.get(rssUrl)
+//       .then(response => {
+//         const base64Content = response.data.contents.split(",")[1];
+//         const decodedContent = decodeURIComponent(escape(atob(base64Content)));
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(decodedContent, 'application/xml');
+//         const items = doc.querySelectorAll('item');
+//         const articles = Array.from(items).map(item => ({
+//           guid: item.querySelector('guid').textContent,
+//           title: item.querySelector('title').textContent,
+//           description: item.querySelector('description').textContent,
+//           link: item.querySelector('link').textContent
+//         }));
+//         setArticles(articles);
+//       })
+//       .catch(error => {
+//         console.error('Erreur lors de la récupération des articles:', error);
+//       });
+//   }, []);
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    setModalContent('');
-  };
+//   const openModal = (link, articleGuid) => {
+//     setIsLoading(true);
+//     setLoadingArticle(articleGuid);
+//     setModalIsOpen(true);
+//     axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
+//       .then(response => {
+//         const articleContent = sanitizeContent(response.data.contents);
+//         setModalContent(articleContent);
+//         setIsLoading(false);
+//         setLoadingArticle(null);
+//       })
+//       .catch(error => {
+//         console.error('Erreur lors de la récupération du contenu de l\'article:', error);
+//         setModalContent('Contenu non disponible');
+//         setIsLoading(false);
+//         setLoadingArticle(null);
+//       });
+//   };
 
-  const sanitizeDescription = (description) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = description;
-    const links = tempDiv.getElementsByTagName('a');
-    for (let link of links) {
-      link.removeAttribute('href');
-    }
-    return tempDiv.innerHTML;
-  };
+//   const closeModal = () => {
+//     setModalIsOpen(false);
+//     setModalContent('');
+//   };
 
-  return (
-    <NewsContainer>
-      {/* <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités du Ministère de la Transition Écologique et Solidaire</h2> */}
-      {articles.length === 0 ? (
-        <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
-      ) : (
-        articles.map(article => (
-          <Article key={article.guid} onClick={() => openModal(article.link, article.guid)}>
-            {loadingArticle === article.guid ? (
-              <LoadingSpinner>
-                <div className="spinner"></div>
-              </LoadingSpinner>
-            ) : (
-              <>
-                <ArticleTitle>
-                  <ArticleIcon /> {article.title}
-                </ArticleTitle>
-                <ArticleDescription dangerouslySetInnerHTML={{ __html: sanitizeDescription(article.description) }} />
-              </>
-            )}
-          </Article>
-        ))
-      )}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Article"
-      >
-        <CloseButton onClick={closeModal}>Fermer</CloseButton>
-        {isLoading ? (
-          <LoadingSpinner>
-            <div className="spinner"></div>
-          </LoadingSpinner>
-        ) : (
-          <ModalContent dangerouslySetInnerHTML={{ __html: modalContent }} />
-        )}
-      </Modal>
-    </NewsContainer>
-  );
-};
+//   const sanitizeDescription = (description) => {
+//     const tempDiv = document.createElement('div');
+//     tempDiv.innerHTML = description;
+//     const links = tempDiv.getElementsByTagName('a');
+//     for (let link of links) {
+//       link.removeAttribute('href');
+//     }
+//     return tempDiv.innerHTML;
+//   };
 
-export default NewsFeed;
+//   return (
+//     <NewsContainer>
+//       {/* <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités du Ministère de la Transition Écologique et Solidaire</h2> */}
+//       {articles.length === 0 ? (
+//         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
+//       ) : (
+//         articles.map(article => (
+//           <Article key={article.guid} onClick={() => openModal(article.link, article.guid)}>
+//             {loadingArticle === article.guid ? (
+//               <LoadingSpinner>
+//                 <div className="spinner"></div>
+//               </LoadingSpinner>
+//             ) : (
+//               <>
+//                 <ArticleTitle>
+//                   <ArticleIcon /> {article.title}
+//                 </ArticleTitle>
+//                 <ArticleDescription dangerouslySetInnerHTML={{ __html: sanitizeDescription(article.description) }} />
+//               </>
+//             )}
+//           </Article>
+//         ))
+//       )}
+//       <Modal
+//         isOpen={modalIsOpen}
+//         onRequestClose={closeModal}
+//         style={customStyles}
+//         contentLabel="Article"
+//       >
+//         <CloseButton onClick={closeModal}>Fermer</CloseButton>
+//         {isLoading ? (
+//           <LoadingSpinner>
+//             <div className="spinner"></div>
+//           </LoadingSpinner>
+//         ) : (
+//           <ModalContent dangerouslySetInnerHTML={{ __html: modalContent }} />
+//         )}
+//       </Modal>
+//     </NewsContainer>
+//   );
+// };
+
+// export default NewsFeed;
 
 
 
@@ -268,124 +269,124 @@ export default NewsFeed;
 
 /**===================================Code Actualité New York times======================================================== */
 
-// const NewsFeed = () => {
-//   const [articles, setArticles] = useState([]);
-//   const [modalIsOpen, setModalIsOpen] = useState(false);
-//   const [modalContent, setModalContent] = useState('');
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [loadingArticle, setLoadingArticle] = useState(null);
+const NewsFeed = () => {
+  const [articles, setArticles] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingArticle, setLoadingArticle] = useState(null);
 
-//   useEffect(() => {
-//     const rssUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://rss.nytimes.com/services/xml/rss/nyt/World.xml');
+  useEffect(() => {
+    const rssUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://rss.nytimes.com/services/xml/rss/nyt/World.xml');
 
-//     axios.get(rssUrl)
-//       .then(response => {
-//         console.log('Contenu brut de la réponse:', response.data.contents); // Afficher le contenu brut de la réponse
-//         const parser = new DOMParser();
-//         const doc = parser.parseFromString(response.data.contents, 'application/xml');
-//         const items = doc.querySelectorAll('item');
-//         const articles = Array.from(items).map(item => ({
-//           guid: item.querySelector('guid').textContent,
-//           title: item.querySelector('title').textContent,
-//           description: item.querySelector('description').textContent,
-//           link: item.querySelector('link').textContent
-//         }));
-//         setArticles(articles);
-//       })
-//       .catch(error => {
-//         console.error('Erreur lors de la récupération des articles:', error);
-//       });
-//   }, []);
+    axios.get(rssUrl)
+      .then(response => {
+        console.log('Contenu brut de la réponse:', response.data.contents); // Afficher le contenu brut de la réponse
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(response.data.contents, 'application/xml');
+        const items = doc.querySelectorAll('item');
+        const articles = Array.from(items).map(item => ({
+          guid: item.querySelector('guid').textContent,
+          title: item.querySelector('title').textContent,
+          description: item.querySelector('description').textContent,
+          link: item.querySelector('link').textContent
+        }));
+        setArticles(articles);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération des articles:', error);
+      });
+  }, []);
 
-//   const openModal = (link, articleGuid) => {
-//     setIsLoading(true);
-//     setLoadingArticle(articleGuid);
-//     setModalIsOpen(true);
-//     axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
-//       .then(response => {
-//         const parser = new DOMParser();
-//         const doc = parser.parseFromString(response.data.contents, 'text/html');
-//         const articleContent = doc.querySelector('body')?.innerHTML || 'Contenu non disponible';
+  const openModal = (link, articleGuid) => {
+    setIsLoading(true);
+    setLoadingArticle(articleGuid);
+    setModalIsOpen(true);
+    axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
+      .then(response => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(response.data.contents, 'text/html');
+        const articleContent = doc.querySelector('body')?.innerHTML || 'Contenu non disponible';
 
-//         const tempDiv = document.createElement('div');
-//         tempDiv.innerHTML = articleContent;
-//         const links = tempDiv.getElementsByTagName('a');
-//         for (let link of links) {
-//           link.removeAttribute('href');
-//         }
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = articleContent;
+        const links = tempDiv.getElementsByTagName('a');
+        for (let link of links) {
+          link.removeAttribute('href');
+        }
 
-//         setModalContent(tempDiv.innerHTML);
-//         setIsLoading(false);
-//         setLoadingArticle(null);
-//       })
-//       .catch(error => {
-//         console.error('Erreur lors de la récupération du contenu de l\'article:', error);
-//         setModalContent('Contenu non disponible');
-//         setIsLoading(false);
-//         setLoadingArticle(null);
-//       });
-//   };
+        setModalContent(tempDiv.innerHTML);
+        setIsLoading(false);
+        setLoadingArticle(null);
+      })
+      .catch(error => {
+        console.error('Erreur lors de la récupération du contenu de l\'article:', error);
+        setModalContent('Contenu non disponible');
+        setIsLoading(false);
+        setLoadingArticle(null);
+      });
+  };
 
-//   const closeModal = () => {
-//     setModalIsOpen(false);
-//     setModalContent('');
-//   };
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setModalContent('');
+  };
 
-//   const sanitizeDescription = (description) => {
-//     const tempDiv = document.createElement('div');
-//     tempDiv.innerHTML = description;
-//     const links = tempDiv.getElementsByTagName('a');
-//     for (let link of links) {
-//       link.removeAttribute('href');
-//     }
-//     return tempDiv.innerHTML;
-//   };
+  const sanitizeDescription = (description) => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = description;
+    const links = tempDiv.getElementsByTagName('a');
+    for (let link of links) {
+      link.removeAttribute('href');
+    }
+    return tempDiv.innerHTML;
+  };
 
-//   return (
-//     <NewsContainer>
-//       <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités du NY Times</h2>
-//       {articles.length === 0 ? (
-//         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
-//       ) : (
-//         articles.map(article => (
-//           <Article key={article.guid} onClick={() => openModal(article.link, article.guid)}>
-//             {loadingArticle === article.guid ? (
-//               <LoadingSpinner>
-//                 <div className="spinner"></div>
-//               </LoadingSpinner>
-//             ) : (
-//               <>
-//                 <ArticleTitle>
-//                   <ArticleIcon /> {article.title}
-//                 </ArticleTitle>
-//                 <ArticleDescription dangerouslySetInnerHTML={{ __html: sanitizeDescription(article.description) }} />
-//               </>
-//             )}
-//           </Article>
-//         ))
-//       )}
-//       <Modal
-//         isOpen={modalIsOpen}
-//         onRequestClose={closeModal}
-//         style={customStyles}
-//         contentLabel="Article"
-//       >
-//         <CloseButton onClick={closeModal}>Fermer</CloseButton>
-//         {isLoading ? (
-//           <LoadingSpinner>
-//             <div className="spinner"></div>
-//           </LoadingSpinner>
-//         ) : (
-//           <ModalContent dangerouslySetInnerHTML={{ __html: modalContent }} />
-//         )}
-//       </Modal>
-//     </NewsContainer>
-//   );
-// };
+  return (
+    <NewsContainer>
+      {/* <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités du NY Times</h2> */}
+      {articles.length === 0 ? (
+        <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
+      ) : (
+        articles.map(article => (
+          <Article key={article.guid} onClick={() => openModal(article.link, article.guid)}>
+            {loadingArticle === article.guid ? (
+              <LoadingSpinner>
+                <div className="spinner"></div>
+              </LoadingSpinner>
+            ) : (
+              <>
+                <ArticleTitle>
+                  <ArticleIcon /> {article.title}
+                </ArticleTitle>
+                <ArticleDescription dangerouslySetInnerHTML={{ __html: sanitizeDescription(article.description) }} />
+              </>
+            )}
+          </Article>
+        ))
+      )}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Article"
+      >
+        <CloseButton onClick={closeModal}>Fermer</CloseButton>
+        {isLoading ? (
+          <LoadingSpinner>
+            <div className="spinner"></div>
+          </LoadingSpinner>
+        ) : (
+          <ModalContent dangerouslySetInnerHTML={{ __html: modalContent }} />
+        )}
+      </Modal>
+    </NewsContainer>
+  );
+};
 
-// export default NewsFeed;
+export default NewsFeed;
 
-/**===================================Code Actualité Reporter======================================================== */
+/**===================================Code Actualité Reporterre======================================================== */
 
 // const NewsFeed = () => {
 //   const [articles, setArticles] = useState([]);
@@ -494,3 +495,6 @@ export default NewsFeed;
 // };
 
 // export default NewsFeed;
+
+
+/**===================================Code Actualité Reporterre, données en format xml (https://reporterre.net/spip.php?page=backend-simple)======================================================== */
