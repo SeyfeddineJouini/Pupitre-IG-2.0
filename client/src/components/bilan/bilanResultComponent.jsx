@@ -2,8 +2,20 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import NavbarAdmin from "../NavbarAdmin";
 import { useAuth } from "../../context/AuthContext";
-import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, BarElement, Tooltip, Legend, CategoryScale, LinearScale } from "chart.js";
+import { Line, Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LineElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Title as ChartTitle,
+  Filler,
+} from "chart.js";
+import annotationPlugin from "chartjs-plugin-annotation";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import BilanRessourcesAccordiantComponent from "./bilanRessourcesAccordiantComponent";
 import InputComponent from "./inputComponent";
 import { ThemeProvider } from "styled-components";
@@ -25,7 +37,9 @@ import {
   Section,
   Title,
   Subtitle,
+  Subtitle1,
   Column,
+  SmallColumn,
   IconWrapper,
   EmailContainer,
   ResultContainer,
@@ -33,10 +47,77 @@ import {
   LegendColor,
   LegendIcon,
   LegendText,
-  LegendDescription,
 } from "./stylesBilanResult";
 import ModalComponent from "./ModalRappelEmailComponent";
-ChartJS.register(BarElement, Tooltip, Legend, CategoryScale, LinearScale);
+
+ChartJS.register(
+  LineElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  ChartTitle,
+  Filler,
+  annotationPlugin,
+  ChartDataLabels
+);
+
+const data = {
+  labels: [
+    "Moins de 750 €",
+    "De 750 à 999 €",
+    "De 1 000 à 1 499 €",
+    "De 1 500 à 1 999 €",
+    "De 2 000 à 2 999 €",
+    "De 3 000 à 3 499 €",
+    "De 3 500 à 4 999 €",
+    "De 5 000 à 6 499 €",
+    "6 500 € ou plus",
+  ],
+  datasets: [
+    {
+      label: "Moyenne",
+      data: [7.0, 7.4, 7.2, 8.1, 8.0, 8.3, 8.5, 9.6, 11.6],
+      borderColor: "rgba(255, 99, 132, 1)",
+      backgroundColor: "rgba(255, 99, 132, 0.2)",
+      borderWidth: 1,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      pointBackgroundColor: "rgba(255, 99, 132, 1)",
+      fill: true,
+      datalabels: {
+        align: "end",
+        anchor: "end",
+        offset: 5, // Move the label 15 pixels above the point
+        font: {
+          size: 10, // Adjust font size if needed
+        },
+        color: 'black', // Label color
+      },
+    },
+    {
+      label: "Médiane",
+      data: [6.3, 6.6, 6.7, 7.1, 7.0, 7.5, 7.7, 8.3, 10.1],
+      borderColor: "rgba(255, 159, 64, 1)",
+      backgroundColor: "rgba(255, 159, 64, 0.2)",
+      borderWidth: 1,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      pointBackgroundColor: "rgba(255, 159, 64, 1)",
+      fill: true,
+      datalabels: {
+        align: "start",
+        anchor: "start",
+        offset: 10, // Move the label 10 pixels below the point
+        font: {
+          size: 10, // Adjust font size if needed
+        },
+        color: 'black', // Label color
+      },
+    },
+  ],
+};
 
 const BilanResultComponent = (props) => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -55,7 +136,80 @@ const BilanResultComponent = (props) => {
   const [theme, setTheme] = useState(lightTheme);
   const [showModal, setShowModal] = useState(false);
 
+  const [highlightIndex, setHighlightIndex] = useState(null);
+  const budget = questionResponse["budget"];
+
+  useEffect(() => {
+    if (budget !== undefined) {
+      let index = 0;
+      if (budget < 750) index = 0;
+      else if (budget < 1000) index = 1;
+      else if (budget < 1500) index = 2;
+      else if (budget < 2000) index = 3;
+      else if (budget < 3000) index = 4;
+      else if (budget < 3500) index = 5;
+      else if (budget < 5000) index = 6;
+      else if (budget < 6500) index = 7;
+      else index = 8;
+
+      setHighlightIndex(index);
+    }
+  }, [budget]);
+
+  const highlightColor = "rgba(255, 255, 0, 0.25)"; // Yellow color to match the highlight
+
   const options = {
+    responsive: true,
+    maintainAspectRatio: false, // Allow the chart to use the full height and width of the parent
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "L'empreinte carbone moyenne par revenus",
+      },
+      annotation: {
+        annotations: {
+          box1: {
+            type: "box",
+            xMin: highlightIndex - 0.5,
+            xMax: highlightIndex + 0.5,
+            yMin: 0,
+            yMax: 20, // Adjust the maximum y-value
+            backgroundColor: highlightColor,
+            borderColor: "rgba(255, 255, 0, 1)",
+            borderWidth: 2,
+          },
+        },
+      },
+      datalabels: {
+        color: "black",
+        formatter: (value) => `${value} t`,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 20, // Adjust the maximum y-value
+        ticks: {
+          stepSize: 0.5, // Each step represents 0.5 tonnes, so 2 steps = 1 tonne
+        },
+        title: {
+          display: true,
+          text: "Empreinte carbone (en tonnes)",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "Revenus mensuels nets du foyer",
+        },
+      },
+    },
+  };
+
+  const option = {
     plugins: {
       legend: {
         position: "bottom",
@@ -201,7 +355,7 @@ const BilanResultComponent = (props) => {
           speMaster: questionResponse["spe_Masters"],
           speLicence: questionResponse["spe_Licence"],
           speING: questionResponse["spe_ING"],
-        }); // Add this line
+        });
 
         await addStat(
           questionResponse["nom"],
@@ -263,7 +417,7 @@ const BilanResultComponent = (props) => {
       setEmailReset(true);
       setTimeout(() => {
         closeModal();
-      }, 2000); // Attend 5 secondes avant de fermer le modal
+      }, 2000); // Attend 2 secondes avant de fermer le modal
     } else {
       setMailIsValid(false);
     }
@@ -318,10 +472,10 @@ const BilanResultComponent = (props) => {
                         }, 0)
                         .toFixed(3)}
                     </span>
-                    <Subtitle>TCO2e/an</Subtitle>
+                    <Subtitle1>TCO2e/an</Subtitle1>
                   </div>
                   <div className="mx-auto mt-3 w-full chart-container">
-                    <Bar data={donneesChart} options={options} />
+                    <Bar data={donneesChart} options={option} />
                   </div>
                 </div>
                 <ResultContainer>
@@ -339,22 +493,62 @@ const BilanResultComponent = (props) => {
               </Column>
 
               <Column bg="#f0f0f0">
-                <Title>Taux d’émission du salaire</Title>
+                <Title>Calcul de l'empreinte carbone par revenus</Title>
                 <Subtitle>
-                  Avec un budget de <b>{questionResponse["budget"]} euros</b>{" "}
+                 
+                  Le graphique ci-dessous, issu de l'Ademe, montre l'empreinte carbone moyenne par
+                  revenus mensuels nets du foyer français. Les données sont basées sur
+                  une estimation qui prend en compte divers facteurs tels que
+                  le transport, l'alimentation, le logement, les biens et les
+                  services. La ligne rouge représente la moyenne des émissions
+                  de carbone pour chaque catégorie de revenus, tandis que la
+                  ligne orange représente la médiane. Ainsi avec un budget de <b>{questionResponse["budget"]} euros</b>{" "}
                   par an, votre émission est équivalente à
-                </Subtitle>
-                <b>{reponse.budget?.toFixed(3).replace(".", ",")} TCO2</b>
-                <p>
-                  Pour calculer le taux d’émission du salaire, nous avons
-                  considéré d’une part, le budget annuel français qui est
-                  d’environ 312 000 millions d’euros en 2024 et d’autre part, le
-                  taux de CO2 émis par toute la France est de 604 millions de
-                  tonne de CO2.
-                </p>
+                
+                  </Subtitle>
+                {highlightIndex !== null && (
+                  <div>
+                    <p>
+                      {" "}
+                      {data.datasets[0].data[highlightIndex]} tonnes
+                    </p>
+                  </div>
+                )}
+                <div
+                  className="mx-auto mt-3 w-full chart-container"
+                  style={{ height: "400px" }}
+                >
+                  <Line
+                    data={{
+                      ...data,
+                      datasets: data.datasets.map((dataset, datasetIndex) => ({
+                        ...dataset,
+                        backgroundColor: dataset.data.map((value, dataIndex) =>
+                          dataIndex === highlightIndex
+                            ? "rgba(54, 162, 235, 0.2)"
+                            : dataset.backgroundColor
+                        ),
+                        borderColor: dataset.data.map((value, dataIndex) =>
+                          dataIndex === highlightIndex
+                            ? "rgba(54, 162, 235, 1)"
+                            : dataset.borderColor
+                        ),
+                      })),
+                    }}
+                    options={options}
+                  />
+                </div>
+                <div className="legend">
+                  <LegendItem>
+                    <LegendColor
+                      style={{ backgroundColor: highlightColor }}
+                    />
+                    <LegendText>Vous vous trouvez ici</LegendText>
+                  </LegendItem>
+                </div>
               </Column>
 
-              <Column bg="#e0f7fa">
+              <SmallColumn bg="#e0f7fa">
                 <EmailContainer>
                   <IconWrapper>
                     <FaEnvelope />
@@ -416,7 +610,7 @@ const BilanResultComponent = (props) => {
                 )}
 
                 <BilanRessourcesAccordiantComponent />
-              </Column>
+              </SmallColumn>
             </Section>
           )}
         </ContentContainer>

@@ -1,3 +1,4 @@
+// src/views/InactivityHandler.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -10,41 +11,55 @@ export const useInactivity = () => {
 
 export const InactivityProvider = ({ children }) => {
   const [isInactive, setIsInactive] = useState(false);
+  const [isScreensaverActive, setIsScreensaverActive] = useState(false);
   const navigate = useNavigate();
   const { logout } = useAuth();
 
   useEffect(() => {
-    let timer;
+    let activityTimer;
+    let screensaverTimer;
+
     const handleActivity = () => {
-      clearTimeout(timer);
+      clearTimeout(activityTimer);
+      clearTimeout(screensaverTimer);
       setIsInactive(false);
-      timer = setTimeout(() => {
+      setIsScreensaverActive(false);
+
+      screensaverTimer = setTimeout(() => {
+        setIsScreensaverActive(true);
+      }, 600000); // 10 minutes in milliseconds
+
+      activityTimer = setTimeout(() => {
         setIsInactive(true);
         logout();
         navigate('/');
-      }, 1200000); // 5 minutes in milliseconds
+      }, 300000); // 15 minutes in milliseconds
     };
 
     window.addEventListener('mousemove', handleActivity);
     window.addEventListener('keypress', handleActivity);
 
-    timer = setTimeout(() => {
+    screensaverTimer = setTimeout(() => {
+      setIsScreensaverActive(true);
+    }, 600000);
+
+    activityTimer = setTimeout(() => {
       setIsInactive(true);
       logout();
       navigate('/');
-    }, 1200000);
+    }, 300000);
 
     return () => {
-      clearTimeout(timer);
+      clearTimeout(activityTimer);
+      clearTimeout(screensaverTimer);
       window.removeEventListener('mousemove', handleActivity);
       window.removeEventListener('keypress', handleActivity);
     };
   }, [logout, navigate]);
 
   return (
-    <InactivityContext.Provider value={{ isInactive }}>
+    <InactivityContext.Provider value={{ isInactive, isScreensaverActive }}>
       {children}
     </InactivityContext.Provider>
   );
 };
-

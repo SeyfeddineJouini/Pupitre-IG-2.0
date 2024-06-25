@@ -49,9 +49,9 @@ export const Column = styled.div`
   padding: 20px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
-
 
 export const Title = styled.h1`
   font-family: 'Outfit', Helvetica, sans-serif;
@@ -68,9 +68,16 @@ export const Subtitle = styled.p`
   font-size: 1rem;
   color: #555;
   margin-bottom: 20px;
-  text-align: center;
+  text-align: justify;
 `;
 
+export const Subtitle1 = styled.p`
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
+`;
 
 
 export const IconWrapper = styled.div`
@@ -160,5 +167,6 @@ export const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-
-
+export const SmallColumn = styled(Column)`
+  flex: 0.5;
+`;
