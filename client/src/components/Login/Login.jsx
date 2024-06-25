@@ -177,7 +177,7 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [keyboardOpen, setKeyboardOpen] = useState(false);
-  const [inputName, setInputName] = useState("");
+  // const [inputName, setInputName] = useState("");
   const [inputActive, setInputActive] = useState("");
 
   const handleLoginClick = async (event) => {
