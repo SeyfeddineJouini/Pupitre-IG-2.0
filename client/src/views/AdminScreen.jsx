@@ -66,12 +66,12 @@ export const AdminScreen = () => {
           </button>
           <ul>
             <li>
-              <Link to="/data-avis" className="flex items-center px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">
+              <Link to="/data-avis" className="flex items-center px-4 py-3 bg-gradient-to-r from-purple-400 to-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaComments className="mr-2" /> Gestion Avis
               </Link>
             </li>
             <li>
-              <Link to="/data-stats" className="flex items-center px-3 py-2 bg-green-600 text-white rounded hover:bg-green-800">
+              <Link to="/data-stats" className="flex items-center px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaChartBar className="mr-2" /> Gestion Stats
               </Link>
             </li>
@@ -110,7 +110,7 @@ export const AdminScreen = () => {
                   <div className="badge-container">
                     <Badge color={avi.type === 'Jeu' ? 'green-badge' : avi.type === 'Calculateur' ? 'yellow-badge' : 'blue-badge'} text={avi.type} />
                   </div>
-                  <div className="mt-4">{avi.comment.substring(0, 50)}{avi.comment.length > 50 && (
+                  <div className="mt-4">{avi.comment.substring(0, 38)}{avi.comment.length > 38 && (
                     <a href="#" onClick={() => handleDisplayFullComment(avi._id)} className="text-blue-500 hover:underline">...</a>
                   )}</div>
                   <div className="mt-2">Date: {new Date(avi.date).toLocaleDateString()}</div>

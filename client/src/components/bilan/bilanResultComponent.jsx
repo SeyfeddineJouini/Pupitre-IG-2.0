@@ -268,7 +268,12 @@ const BilanResultComponent = (props) => {
         subSpecialty = speING;
       }
 
-      const spe = `${specialite.trim()} / ${subSpecialty}`.trim();
+      let spe = "";
+        if (specialite.trim() === "Autres" || specialite.trim() === "Personnels ou Enseignants") {
+            spe = specialite.trim();
+        } else {
+            spe = `${specialite.trim()} / ${subSpecialty}`.trim();
+        }
 
       const res = await fetch(`${apiUrl}/stats/AddStats`, {
         method: "POST",

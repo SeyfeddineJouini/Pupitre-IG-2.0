@@ -50,24 +50,52 @@ export const StatsScreen = () => {
       }
 
       // Filtrer les statistiques par specialite
-      if (filterSpe === 'ING INFO') {
-        data = data.filter(stats => stats.spe === 'ING INFO');
-      }
-      if (filterSpe === 'ING ENER') {
-        data = data.filter(stats => stats.spe === 'ING ENER');
-      }
-      if (filterSpe === 'ING MACS') {
-        data = data.filter(stats => stats.spe === 'ING MACS');
-      }
-      if (filterSpe === 'ING TELECOM') {
-        data = data.filter(stats => stats.spe === 'ING TELECOM');
-      }
-      if (filterSpe === 'ING INSTRU') {
-        data = data.filter(stats => stats.spe === 'ING INSTRU');
-      }
-      if (filterSpe === 'Autres') {
+      if (filterSpe === 'Informatique') {
+        data = data.filter(stats => stats.spe === 'Licence / Informatique' || stats.spe === 'ING / Informatique' || stats.spe === 'Masters / Informatique');
+    }
+    if (filterSpe === 'Mathématiques') {
+        data = data.filter(stats => stats.spe === 'Licence / Mathématiques' || stats.spe === 'Masters / Mathématiques');
+    }
+    if (filterSpe === 'Physique Chimie') {
+        data = data.filter(stats => stats.spe === 'Licence / Physique Chimie');
+    }
+    if (filterSpe === 'Science de l\'ingénieurie') {
+        data = data.filter(stats => stats.spe === 'Licence / Science de l\'ingénieurie');
+    }
+    if (filterSpe === 'Informatique & Mathématiques') {
+        data = data.filter(stats => stats.spe === 'Licence / Informatique & Mathématiques');
+    }
+    if (filterSpe === 'CP2I') {
+        data = data.filter(stats => stats.spe === 'Licence / CP2I');
+    }
+    if (filterSpe === 'Energétique') {
+        data = data.filter(stats => stats.spe === 'ING / Energétique');
+    }
+    if (filterSpe === 'Instrumentation') {
+        data = data.filter(stats => stats.spe === 'ING / Instrumentation');
+    }
+    if (filterSpe === 'MACS') {
+        data = data.filter(stats => stats.spe === 'ING / MACS');
+    }
+    if (filterSpe === 'Télecommunication & réseaux') {
+        data = data.filter(stats => stats.spe === 'ING / Télecommunication & réseaux');
+    }
+    if (filterSpe === 'Science et génie des matériaux') {
+        data = data.filter(stats => stats.spe === 'Masters / Science et génie des matériaux');
+    }
+    if (filterSpe === 'Ingénieurie et innovation en images et réseaux') {
+        data = data.filter(stats => stats.spe === 'Masters / Ingénieurie et innovation en images et réseaux');
+    }
+    if (filterSpe === 'Génies des Procédés') {
+        data = data.filter(stats => stats.spe === 'Masters / Génies des Procédés');
+    }
+    if (filterSpe === 'Autres') {
         data = data.filter(stats => stats.spe === 'Autres');
-      }
+    }
+    if (filterSpe === 'Personnels ou Enseignants') {
+        data = data.filter(stats => stats.spe === 'Personnels ou Enseignants');
+    }
+    
 
       setStats(data);
     } catch (error) {
@@ -81,7 +109,7 @@ export const StatsScreen = () => {
 
   // ------------------pour la pagination------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [statsPerPage] = useState(10);
+  const [statsPerPage] = useState(12);
   // Calculer le nombre total de pages
   const totalPages = Math.ceil(stats.length / statsPerPage);
 
@@ -129,17 +157,17 @@ export const StatsScreen = () => {
           </button>
           <ul>
             <li>
-              <Link to="/data-avis" className="flex items-center px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">
+              <Link to="/data-avis" className="flex items-center px-4 py-3 bg-gradient-to-r from-purple-400 to-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaComments className="mr-2" /> Gestion Avis
               </Link>
             </li>
             <li>
-              <Link to="/data-stats" className="flex items-center px-3 py-2 bg-green-600 text-white rounded hover:bg-green-800">
+              <Link to="/data-stats" className="flex items-center px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaChartBar className="mr-2" /> Gestion Stats
               </Link>
             </li>
             <li>
-              <Link to="/dashboard-admin" className="flex items-center px-3 py-2 bg-red-600 text-white rounded hover:bg-red-800">
+              <Link to="/dashboard-admin" className="flex items-center px-4 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaTachometerAlt className="mr-2" /> Dashboard Admin
               </Link>
             </li>
@@ -177,13 +205,23 @@ export const StatsScreen = () => {
                 onChange={(e) => setFilterSpe(e.target.value)}
                 className="border rounded p-2 shadow"
               >
-                <option value="all">Toutes les Spé...</option>
-                <option value="ING INFO">ING INFO</option>
-                <option value="ING ENER">ING ENER</option>
-                <option value="ING MACS">ING MACS</option>
-                <option value="ING TELECOM">ING TELECOM</option>
-                <option value="ING INSTRU">ING INSTRU</option>
-                <option value="Autres">Autres</option>
+                <option value="all">Toutes les spécialité</option>
+<option value="Informatique">Informatique</option>
+<option value="Mathématiques">Mathématiques</option>
+<option value="Physique Chimie">Physique Chimie</option>
+<option value="Science de l'ingénieurie">Science de l'ingénieurie</option>
+<option value="Informatique & Mathématiques">Informatique & Mathématiques</option>
+<option value="CP2I">CP2I</option>
+<option value="Energétique">Energétique</option>
+<option value="Instrumentation">Instrumentation</option>
+<option value="MACS">MACS</option>
+<option value="Télecommunication & réseaux">Télecommunication & réseaux</option>
+<option value="Science et génie des matériaux">Science et génie des matériaux</option>
+<option value="Ingénieurie et innovation en images et réseaux">Ingénieurie et innovation en images et réseaux</option>
+<option value="Génies des Procédés">Génies des Procédés</option>
+<option value="Autres">Autres</option>
+<option value="Personnels ou Enseignants">Personnels ou Enseignants</option>
+
               </select>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -194,14 +232,15 @@ export const StatsScreen = () => {
                     {stats.mode}
                   </div>
                   <div className="mt-4">Score Total: {parseFloat(stats.scoreTotal).toFixed(3)} tonnes</div>
-                  <div className="mt-2">Spécialité: {stats.spe.length > 35 ? stats.spe.substring(0, 35) + '...' : stats.spe}</div>
+                  <div className="mt-2">Spécialité: {stats.spe.length > 60 ? stats.spe.substring(0, 60) + '...' : stats.spe}</div>
                   <div className="mt-2">Date: {new Date(stats.date).toLocaleDateString()}</div>
                   <button
                     onClick={() => handleDelete(stats._id)}
-                    className="mt-4 bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition duration-200"
+                    className="mt-4 bg-gradient-to-r from-red-400 to-red-600 text-white font-bold rounded-full px-6 py-3 shadow-lg hover:bg-red-700 transform hover:scale-105 transition duration-300 ease-in-out"
                   >
                     Supprimer
                   </button>
+
                 </div>
               ))}
             </div>

@@ -57,7 +57,7 @@ export const AvisScreen = () => {
 
   // ------------------pour la pagination------------------------------
   const [currentPage, setCurrentPage] = useState(1);
-  const [avisPerPage] = useState(10);
+  const [avisPerPage] = useState(12);
   // Calculer le nombre total de pages
   const totalPages = Math.ceil(avis.length / avisPerPage);
 
@@ -90,6 +90,11 @@ export const AvisScreen = () => {
     }
   };
 
+  const handleDisplayFullComment = (id) => {
+    const avisToDisplay = avis.find(a => a._id === id);
+    alert(`${avisToDisplay.comment}`);
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <NavbarAdmin className="navbar" />
@@ -105,17 +110,17 @@ export const AvisScreen = () => {
           </button>
           <ul>
             <li>
-              <Link to="/data-avis" className="flex items-center px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-800">
+              <Link to="/data-avis" className="flex items-center px-4 py-3 bg-gradient-to-r from-purple-400 to-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaComments className="mr-2" /> Gestion Avis
               </Link>
             </li>
             <li>
-              <Link to="/data-stats" className="flex items-center px-3 py-2 bg-green-600 text-white rounded hover:bg-green-800">
+              <Link to="/data-stats" className="flex items-center px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaChartBar className="mr-2" /> Gestion Stats
               </Link>
             </li>
             <li>
-              <Link to="/dashboard-admin" className="flex items-center px-3 py-2 bg-red-600 text-white rounded hover:bg-red-800">
+              <Link to="/dashboard-admin" className="flex items-center px-4 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaTachometerAlt className="mr-2" /> Dashboard Admin
               </Link>
             </li>
@@ -148,31 +153,29 @@ export const AvisScreen = () => {
               </select>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              {currentAvis.map((avis, index) => (
-                <div key={index} className="card">
-                  <div className="card-title">{avis.name}</div>
-                  <div className={`badge ${avis.type === 'Jeu' ? 'green-badge' : avis.type === 'Calculateur' ? 'yellow-badge' : 'blue-badge'}`}>
-                    {avis.type}
-                  </div>
-                  <div className="mt-4">
-                    <details className="group">
-                      <summary className="cursor-pointer text-blue-500 hover:underline">
-                        {avis.comment.substring(0, 35)}{avis.comment.length > 35 && '...'}
-                      </summary>
-                      <p className="mt-2 text-gray-700 group-open:block">
-                        {avis.comment}
-                      </p>
-                    </details>
-                  </div>
-                  <div className="mt-2">Date: {new Date(avis.date).toLocaleDateString()}</div>
-                  <button
-                    onClick={() => handleDelete(avis._id)}
-                    className="mt-4 bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600 transition duration-200"
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              ))}
+            {currentAvis.map((avis, index) => (
+  <div key={index} className="card">
+    <div className="card-title">{avis.name}</div>
+    <div className={`badge ${avis.type === 'Jeu' ? 'green-badge' : avis.type === 'Calculateur' ? 'yellow-badge' : 'blue-badge'}`}>
+      {avis.type}
+    </div>
+    <div className="mt-4">
+      {avis.comment.substring(0, 35)}
+      {avis.comment.length > 35 && (
+        <a href="#" onClick={() => handleDisplayFullComment(avis._id)} className="text-blue-500 hover:underline">
+          ...
+        </a>
+      )}
+    </div>
+    <div className="mt-2">Date: {new Date(avis.date).toLocaleDateString()}</div>
+    <button
+      onClick={() => handleDelete(avis._id)}
+      className="mt-4 bg-gradient-to-r from-red-400 to-red-600 text-white font-bold rounded-full px-6 py-3 shadow-lg hover:bg-red-700 transform hover:scale-105 transition duration-300 ease-in-out"
+    >
+      Supprimer
+    </button>
+  </div>
+))}
             </div>
           </section>
           <section className="flex justify-center mb-10">

@@ -1,0 +1,19 @@
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    font-size: 20px;
+    color: #0fbcf9;
+  }
+  
+  .sheet-select {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    background: #1a1a2e;
+    color: #eaeaea;
+    border: 1px solid #0fbcf9;
+    width: 100%;
+  }
+  
