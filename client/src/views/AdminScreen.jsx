@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Badge } from "../components/Badge";
 import NavbarAdmin from "../components/NavbarAdmin";
-import Footer from "../components/Footer";
+// import Footer from "../components/Footer";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { FaComments, FaChartBar } from "react-icons/fa";

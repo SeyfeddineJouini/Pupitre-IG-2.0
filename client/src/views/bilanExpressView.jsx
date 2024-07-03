@@ -686,6 +686,7 @@ export default function BilanExpressView() {
             welcomeContent={welcomePageContent}
             onResponseChange={handleResponseChange}
             onTerminateClicked={handleTerminateChange}
+            background="linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)"
           />
         )}
 

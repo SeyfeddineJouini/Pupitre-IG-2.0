@@ -19,7 +19,7 @@ const fadeIn = keyframes`
 const BilanContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  background: ${(props) => props.background || 'linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)'};
   height: 100vh;
   justify-content: center;
   align-items: center;
@@ -218,7 +218,7 @@ const BilanComponent = (props) => {
   }
 
   return (
-    <BilanContainer>
+    <BilanContainer background={props.background}>
       <BilanBox>
         <ContentContainer>
           {currentQuestionIndex != null && (

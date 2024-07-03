@@ -837,6 +837,7 @@ export default function BilanNormalView() {
             welcomeContent={welcomePageContent}
             onResponseChange={handleResponseChange}
             onTerminateClicked={handleTerminateChange}
+            background="linear-gradient(135deg, #2c3e50, #3498db, #8e44ad)"
           />
         )}
         {showResult && (

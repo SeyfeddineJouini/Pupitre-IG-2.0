@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavbarAdmin from "../components/NavbarAdmin";
-import Footer from "../components/Footer";
+// import Footer from "../components/Footer";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { FaComments, FaChartBar, FaTachometerAlt } from "react-icons/fa";
