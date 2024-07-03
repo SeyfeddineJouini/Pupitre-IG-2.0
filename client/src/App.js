@@ -9,8 +9,9 @@ import Statistiques from "./components/Statis";
 import LockPage from "./components/LockPage/LockPage"; 
 // import Navbar from "./components/Navbar"; 
 import {Accueil4} from "./views/Accueil4"; 
-import BilanExpressView from "./views/bilanExpressView"; 
-import BilanNormalView from "./views/bilanNormalView";  
+import BilanExpressView from "./views/BilanExpressView"; 
+import BilanNormalView from "./views/BilanNormalView"; 
+import BilanLongView from "./views/BilanLongView.jsx";  
 import { AdminScreen } from "./views/AdminScreen"; 
 import { StatsScreen } from "./views/StatsScreen"; 
 import { AvisScreen } from "./views/AvisScreen"; 
@@ -56,6 +57,7 @@ const AppContent = () => {
           <Route path="/reset-password/:token" element={<PerformReset />} />
           <Route path="/bilan/normal" element={<BilanNormalView />} />
           <Route path="/bilan/express" element={<BilanExpressView />} />
+          <Route path="/bilan/long" element={<BilanLongView />} />
           <Route path="/statistiques" element={<Statistiques />} />
           <Route path="/planetes-et-limites" element={<PlanetesEtLimites />} />
           <Route path="/projects" element={<StudentProjects />} />

@@ -42,8 +42,8 @@ export const StatsScreen = () => {
       if (filterMode === 'Express') {
         data = data.filter(stats => stats.mode === 'Express');
       }
-      if (filterMode === 'Normal') {
-        data = data.filter(stats => stats.mode === 'Normal');
+      if (filterMode === 'Moyen') {
+        data = data.filter(stats => stats.mode === 'Moyen');
       }
       if (filterMode === 'Complet') {
         data = data.filter(stats => stats.mode === 'Complet');
@@ -157,17 +157,17 @@ export const StatsScreen = () => {
           </button>
           <ul>
             <li>
-              <Link to="/data-avis" className="flex items-center px-4 py-3 bg-gradient-to-r from-purple-400 to-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition duration-300 ease-in-out">
-                <FaComments className="mr-2" /> Gestion Avis
-              </Link>
+            <Link to="/data-avis" className="flex items-center px-4 py-3 bg-purple-100 text-purple-800 font-bold rounded-full shadow-lg hover:bg-purple-200 transform hover:scale-105 transition duration-300 ease-in-out">
+              <FaComments className="mr-2" /> Gestion des avis
+            </Link>
             </li>
             <li>
-              <Link to="/data-stats" className="flex items-center px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300 ease-in-out">
-                <FaChartBar className="mr-2" /> Gestion Stats
-              </Link>
+            <Link to="/data-stats" className="flex items-center px-4 py-3 bg-blue-100 text-blue-800 font-bold rounded-full shadow-lg hover:bg-blue-200 transform hover:scale-105 transition duration-300 ease-in-out">
+              <FaChartBar className="mr-2" /> Gestion des statistiques
+            </Link>
             </li>
             <li>
-              <Link to="/dashboard-admin" className="flex items-center px-4 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transform hover:scale-105 transition duration-300 ease-in-out">
+              <Link to="/dashboard-admin" className="flex items-center px-4 py-3 bg-green-100 text-green-800 font-bold rounded-full shadow-lg hover:bg-green-200 transform hover:scale-105 transition duration-300 ease-in-out">
                 <FaTachometerAlt className="mr-2" /> Dashboard Admin
               </Link>
             </li>
@@ -195,7 +195,7 @@ export const StatsScreen = () => {
               >
                 <option value="all">Tous les Modes</option>
                 <option value="Express" className="text-green-500">Express</option>
-                <option value="Normal" className="text-red-500">Normal</option>
+                <option value="Moyen" className="text-red-500">Moyen</option>
                 <option value="Complet" className="text-blue-500">Complet</option>
               </select>
 
@@ -228,7 +228,7 @@ export const StatsScreen = () => {
               {currentStats.map((stats, index) => (
                 <div key={index} className="card">
                   <div className="card-title">{stats.name}</div>
-                  <div className={`badge ${stats.mode === 'Express' ? 'green-badge' : stats.mode === 'Normal' ? 'red-badge' : 'blue-badge'}`}>
+                  <div className={`badge ${stats.mode === 'Express' ? 'green-badge' : stats.mode === 'Moyen' ? 'red-badge' : 'blue-badge'}`}>
                     {stats.mode}
                   </div>
                   <div className="mt-4">Score Total: {parseFloat(stats.scoreTotal).toFixed(3)} tonnes</div>

@@ -269,33 +269,157 @@ const sanitizeContent = (html) => {
 
 /**===================================Code Actualité New York times======================================================== */
 
+// const NewsFeed = () => {
+//   const [articles, setArticles] = useState([]);
+//   const [modalIsOpen, setModalIsOpen] = useState(false);
+//   const [modalContent, setModalContent] = useState('');
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [loadingArticle, setLoadingArticle] = useState(null);
+
+//   useEffect(() => {
+//     const rssUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://rss.nytimes.com/services/xml/rss/nyt/World.xml');
+
+//     axios.get(rssUrl)
+//       .then(response => {
+//         console.log('Contenu brut de la réponse:', response.data.contents); // Afficher le contenu brut de la réponse
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(response.data.contents, 'application/xml');
+//         const items = doc.querySelectorAll('item');
+//         const articles = Array.from(items).map(item => ({
+//           guid: item.querySelector('guid').textContent,
+//           title: item.querySelector('title').textContent,
+//           description: item.querySelector('description').textContent,
+//           link: item.querySelector('link').textContent
+//         }));
+//         setArticles(articles);
+//       })
+//       .catch(error => {
+//         console.error('Erreur lors de la récupération des articles:', error);
+//       });
+//   }, []);
+
+//   const openModal = (link, articleGuid) => {
+//     setIsLoading(true);
+//     setLoadingArticle(articleGuid);
+//     setModalIsOpen(true);
+//     axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
+//       .then(response => {
+//         const parser = new DOMParser();
+//         const doc = parser.parseFromString(response.data.contents, 'text/html');
+//         const articleContent = doc.querySelector('body')?.innerHTML || 'Contenu non disponible';
+
+//         const tempDiv = document.createElement('div');
+//         tempDiv.innerHTML = articleContent;
+//         const links = tempDiv.getElementsByTagName('a');
+//         for (let link of links) {
+//           link.removeAttribute('href');
+//         }
+
+//         setModalContent(tempDiv.innerHTML);
+//         setIsLoading(false);
+//         setLoadingArticle(null);
+//       })
+//       .catch(error => {
+//         console.error('Erreur lors de la récupération du contenu de l\'article:', error);
+//         setModalContent('Contenu non disponible');
+//         setIsLoading(false);
+//         setLoadingArticle(null);
+//       });
+//   };
+
+//   const closeModal = () => {
+//     setModalIsOpen(false);
+//     setModalContent('');
+//   };
+
+//   const sanitizeDescription = (description) => {
+//     const tempDiv = document.createElement('div');
+//     tempDiv.innerHTML = description;
+//     const links = tempDiv.getElementsByTagName('a');
+//     for (let link of links) {
+//       link.removeAttribute('href');
+//     }
+//     return tempDiv.innerHTML;
+//   };
+
+//   return (
+//     <NewsContainer>
+//       {/* <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités du NY Times</h2> */}
+//       {articles.length === 0 ? (
+//         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
+//       ) : (
+//         articles.map(article => (
+//           <Article key={article.guid} onClick={() => openModal(article.link, article.guid)}>
+//             {loadingArticle === article.guid ? (
+//               <LoadingSpinner>
+//                 <div className="spinner"></div>
+//               </LoadingSpinner>
+//             ) : (
+//               <>
+//                 <ArticleTitle>
+//                   <ArticleIcon /> {article.title}
+//                 </ArticleTitle>
+//                 <ArticleDescription dangerouslySetInnerHTML={{ __html: sanitizeDescription(article.description) }} />
+//               </>
+//             )}
+//           </Article>
+//         ))
+//       )}
+//       <Modal
+//         isOpen={modalIsOpen}
+//         onRequestClose={closeModal}
+//         style={customStyles}
+//         contentLabel="Article"
+//       >
+//         <CloseButton onClick={closeModal}>Fermer</CloseButton>
+//         {isLoading ? (
+//           <LoadingSpinner>
+//             <div className="spinner"></div>
+//           </LoadingSpinner>
+//         ) : (
+//           <ModalContent dangerouslySetInnerHTML={{ __html: modalContent }} />
+//         )}
+//       </Modal>
+//     </NewsContainer>
+//   );
+// };
+
+// export default NewsFeed;
+
+/**===================================Actualité Reporterre======================================================== */
+
 const NewsFeed = () => {
   const [articles, setArticles] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loadingArticle, setLoadingArticle] = useState(null);
+  const [lastFetchTime, setLastFetchTime] = useState(null);
+
+  const fetchArticles = async () => {
+    const rssUrl = 'https://rss2json.com/api.json?rss_url=https://reporterre.net/spip.php?page=backend-simple';
+    try {
+      const response = await axios.get(rssUrl);
+      console.log('Articles reçus:', response.data.items); // Log des articles reçus
+      setArticles(response.data.items);
+      setLastFetchTime(Date.now());
+    } catch (error) {
+      console.error('Erreur lors de la récupération des articles:', error);
+    }
+  };
 
   useEffect(() => {
-    const rssUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent('https://rss.nytimes.com/services/xml/rss/nyt/World.xml');
+    const fetchTime = localStorage.getItem('lastFetchTime');
+    const cachedArticles = localStorage.getItem('articles');
 
-    axios.get(rssUrl)
-      .then(response => {
-        console.log('Contenu brut de la réponse:', response.data.contents); // Afficher le contenu brut de la réponse
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(response.data.contents, 'application/xml');
-        const items = doc.querySelectorAll('item');
-        const articles = Array.from(items).map(item => ({
-          guid: item.querySelector('guid').textContent,
-          title: item.querySelector('title').textContent,
-          description: item.querySelector('description').textContent,
-          link: item.querySelector('link').textContent
-        }));
-        setArticles(articles);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des articles:', error);
+    if (fetchTime && cachedArticles && (Date.now() - fetchTime) < 3600000) {
+      setArticles(JSON.parse(cachedArticles));
+    } else {
+      fetchArticles().then(() => {
+        localStorage.setItem('articles', JSON.stringify(articles));
+        localStorage.setItem('lastFetchTime', Date.now());
       });
+    }
   }, []);
 
   const openModal = (link, articleGuid) => {
@@ -306,7 +430,7 @@ const NewsFeed = () => {
       .then(response => {
         const parser = new DOMParser();
         const doc = parser.parseFromString(response.data.contents, 'text/html');
-        const articleContent = doc.querySelector('body')?.innerHTML || 'Contenu non disponible';
+        const articleContent = doc.querySelector('.texte')?.innerHTML || 'Contenu non disponible';
 
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = articleContent;
@@ -344,7 +468,7 @@ const NewsFeed = () => {
 
   return (
     <NewsContainer>
-      {/* <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités du NY Times</h2> */}
+      <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Reporterre</h2>
       {articles.length === 0 ? (
         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
       ) : (
@@ -386,115 +510,6 @@ const NewsFeed = () => {
 
 export default NewsFeed;
 
-/**===================================Code Actualité Reporterre======================================================== */
-
-// const NewsFeed = () => {
-//   const [articles, setArticles] = useState([]);
-//   const [modalIsOpen, setModalIsOpen] = useState(false);
-//   const [modalContent, setModalContent] = useState('');
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [loadingArticle, setLoadingArticle] = useState(null);
-
-//   useEffect(() => {
-//     const rssUrl = 'https://rss2json.com/api.json?rss_url=https://reporterre.net/spip.php?page=backend-simple';
-
-//     axios.get(rssUrl)
-//       .then(response => {
-//         console.log('Articles reçus:', response.data.items); // Log des articles reçus
-//         setArticles(response.data.items);
-//       })
-//       .catch(error => {
-//         console.error('Erreur lors de la récupération des articles:', error);
-//       });
-//   }, []);
-
-//   const openModal = (link, articleGuid) => {
-//     setIsLoading(true);
-//     setLoadingArticle(articleGuid);
-//     setModalIsOpen(true);
-//     axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(link)}`)
-//       .then(response => {
-//         const parser = new DOMParser();
-//         const doc = parser.parseFromString(response.data.contents, 'text/html');
-//         const articleContent = doc.querySelector('.texte')?.innerHTML || 'Contenu non disponible';
-
-//         const tempDiv = document.createElement('div');
-//         tempDiv.innerHTML = articleContent;
-//         const links = tempDiv.getElementsByTagName('a');
-//         for (let link of links) {
-//           link.removeAttribute('href');
-//         }
-
-//         setModalContent(tempDiv.innerHTML);
-//         setIsLoading(false);
-//         setLoadingArticle(null);
-//       })
-//       .catch(error => {
-//         console.error('Erreur lors de la récupération du contenu de l\'article:', error);
-//         setModalContent('Contenu non disponible');
-//         setIsLoading(false);
-//         setLoadingArticle(null);
-//       });
-//   };
-
-//   const closeModal = () => {
-//     setModalIsOpen(false);
-//     setModalContent('');
-//   };
-
-//   const sanitizeDescription = (description) => {
-//     const tempDiv = document.createElement('div');
-//     tempDiv.innerHTML = description;
-//     const links = tempDiv.getElementsByTagName('a');
-//     for (let link of links) {
-//       link.removeAttribute('href');
-//     }
-//     return tempDiv.innerHTML;
-//   };
-
-//   return (
-//     <NewsContainer>
-//       <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Actualités de Reporterre</h2>
-//       {articles.length === 0 ? (
-//         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
-//       ) : (
-//         articles.map(article => (
-//           <Article key={article.guid} onClick={() => openModal(article.link, article.guid)}>
-//             {loadingArticle === article.guid ? (
-//               <LoadingSpinner>
-//                 <div className="spinner"></div>
-//               </LoadingSpinner>
-//             ) : (
-//               <>
-//                 <ArticleTitle>
-//                   <ArticleIcon /> {article.title}
-//                 </ArticleTitle>
-//                 <ArticleDescription dangerouslySetInnerHTML={{ __html: sanitizeDescription(article.description) }} />
-//               </>
-//             )}
-//           </Article>
-//         ))
-//       )}
-//       <Modal
-//         isOpen={modalIsOpen}
-//         onRequestClose={closeModal}
-//         style={customStyles}
-//         contentLabel="Article"
-//       >
-//         <CloseButton onClick={closeModal}>Fermer</CloseButton>
-//         {isLoading ? (
-//           <LoadingSpinner>
-//             <div className="spinner"></div>
-//           </LoadingSpinner>
-//         ) : (
-//           <ModalContent dangerouslySetInnerHTML={{ __html: modalContent }} />
-//         )}
-//       </Modal>
-//     </NewsContainer>
-//   );
-// };
-
-// export default NewsFeed;
 
 
 /**===================================Code Actualité Reporterre, données en format xml (https://reporterre.net/spip.php?page=backend-simple)======================================================== */

@@ -160,9 +160,9 @@ def calcul_emissions(data):
     logement_total = 0
 
     # Déterminer le multiplicateur basé sur l'état du logement
-    if data.get('logement_récent') == 'oui':
+    if data.get('logement_recent') == 'oui':
         multiplicateur = CO2_LOGREC
-    elif data.get('logement_récent') == 'non':
+    elif data.get('logement_recent') == 'non':
         multiplicateur = CO2_LOGANC
    #########################################################Ajouts ENER APP
     if data.get('sources_energie_renouvelable') == 'oui':

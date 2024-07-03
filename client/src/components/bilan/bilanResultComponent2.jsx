@@ -256,7 +256,7 @@ const BilanResultComponent2 = (props) => {
     logement,
     biens,
     services,
-    mode = "Complet"
+    mode = "Moyen"
   ) => {
     try {
       let subSpecialty = "";

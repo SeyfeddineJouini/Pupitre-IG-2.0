@@ -56,7 +56,7 @@ export default function BilanExpressView() {
                     value: "voiture",
                     subQuestion: [
                         {
-                            id: "voiture_coivoiturage",
+                            id: "voiture_covoiturage",
                             title: "Faites-vous du Covoiturage ?",
                             type: "radio",
                             description: "",
@@ -117,7 +117,7 @@ export default function BilanExpressView() {
                     value: "voiture",
                     subQuestion: [
                         {
-                            id: "voiture_weekend_coivoiturage",
+                            id: "voiture_weekend_covoiturage",
                             title: "Faites-vous du Covoiturage ?",
                             type: "radio",
                             description: "",
@@ -211,7 +211,7 @@ export default function BilanExpressView() {
                     value: "oui",
                     subQuestion: [
                         {
-                            id: "voiture_grand_deplacement_coivoiturage",
+                            id: "voiture_grand_deplacement_covoiturage",
                             title: "Faites-vous du Covoiturage ?",
                             type: "radio",
                             description: "",
@@ -260,8 +260,8 @@ export default function BilanExpressView() {
                     value: "Dans une maison en colocation",
                     subQuestion: [
                         {
-                            id: "logement_récent",
-                            title: "Votre logement est-il récent (Construit après les années 2000) ?",
+                            id: "logement_recent",
+                            title: "Votre logement est-il récent (construit après les années 2000) ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -282,8 +282,8 @@ export default function BilanExpressView() {
                     value: "Dans un appartement en colocation",
                     subQuestion: [
                         {
-                            id: "logement_récent",
-                            title: "Votre logement est-il récent (Construit après les années 2000) ?",
+                            id: "logement_recent",
+                            title: "Votre logement est-il récent (construit après les années 2000) ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -304,8 +304,8 @@ export default function BilanExpressView() {
                     value: "Seul(e) dans un appartement",
                     subQuestion: [
                         {
-                            id: "logement_récent",
-                            title: "Votre logement est-il récent (Construit après les années 2000) ?",
+                            id: "logement_recent",
+                            title: "Votre logement est-il récent (construit après les années 2000) ?",
                             type: "radio",
                             description: "",
                             option: [
@@ -394,7 +394,7 @@ export default function BilanExpressView() {
             ],
         },
         {
-            id: "régime_alimentaire",
+            id: "regime_alimentaire",
             title: "Êtes-vous végétarien ?",
             type: "radio",
             description: "",

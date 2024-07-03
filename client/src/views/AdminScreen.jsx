@@ -66,14 +66,14 @@ export const AdminScreen = () => {
           </button>
           <ul>
             <li>
-              <Link to="/data-avis" className="flex items-center px-4 py-3 bg-gradient-to-r from-purple-400 to-purple-600 text-white font-bold rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition duration-300 ease-in-out">
-                <FaComments className="mr-2" /> Gestion Avis
-              </Link>
+            <Link to="/data-avis" className="flex items-center px-4 py-3 bg-purple-100 text-purple-800 font-bold rounded-full shadow-lg hover:bg-purple-200 transform hover:scale-105 transition duration-300 ease-in-out">
+              <FaComments className="mr-2" /> Gestion des avis
+            </Link>
             </li>
             <li>
-              <Link to="/data-stats" className="flex items-center px-4 py-3 bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transform hover:scale-105 transition duration-300 ease-in-out">
-                <FaChartBar className="mr-2" /> Gestion Stats
-              </Link>
+            <Link to="/data-stats" className="flex items-center px-4 py-3 bg-blue-100 text-blue-800 font-bold rounded-full shadow-lg hover:bg-blue-200 transform hover:scale-105 transition duration-300 ease-in-out">
+              <FaChartBar className="mr-2" /> Gestion des statistiques
+            </Link>
             </li>
           </ul>
         </aside>
