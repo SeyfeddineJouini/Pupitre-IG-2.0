@@ -496,26 +496,88 @@ export default function BilanExpressView() {
             ],
         },
         {
-            id: "divers_internet",
+            id: "utilisation_streaming",
             type: "radio",
-            title: "À combien s’élève en moyenne le nombre d’heures que vous passez sur Internet par jour ?",
+            title: "Regardez-vous des vidéos en streaming (Netflix, YouTube, etc.) ?",
             description: "",
-            image:Internet,
+            image: Internet,
             option: [
-                {
-                    title: "Moins de 3 heures",
-                    value: "Moins de 3 heures",
-                },
-                {
-                    title: "Entre 6 et 10 heures",
-                    value: "Entre 6 et 10 heures",
-                },
-                {
-                    title: "Plus de 10 heures",
-                    value: "Plus de 10 heures",
-                },
-            ],
-        },
+              {
+                title: "Oui",
+                value: "oui",
+                subQuestion: [
+                  {
+                    id: "streaming_heure_jour",
+                    type: "radio",
+                    title: "Combien d'heures par jour passez-vous en streaming vidéo ?",
+                    description: "La durée de streaming vidéo a un impact significatif sur votre empreinte carbone.",
+                    option: [
+                        { title: "Moins de 30 minutes", value: "moins_30m" },
+                        { title: "30 minutes à 3 heures", value: "30m_3h" },
+                        { title: "3 heures à 6 heures", value: "3h_6h" },
+                        { title: "Plus de 6 heures", value: "plus_6h" }
+                    ]
+                  },
+                  {
+                    id: "streaming_appareil",
+                    type: "radio",
+                    title: "Quel appareil utilisez-vous principalement pour le streaming vidéo ?",
+                    description: "Le type d'appareil utilisé influence également les émissions de CO₂.",
+                    option: [
+                      { title: "Télévision", value: "television" },
+                      { title: "Ordinateur portable", value: "ordinateur_portable" },
+                      { title: "Smartphone", value: "smartphone" }
+                    ]
+                  },
+                  {
+                    "id": "connexion_streaming",
+                    "type": "radio",
+                    "title": "Quel type de connexion utilisez-vous pour le streaming vidéo ?",
+                    "description": "Le type de connexion (Wi-Fi ou 4G/5G) a un impact sur les émissions de CO₂.",
+                    "option": [
+                      { "title": "Wi-Fi", "value": "wifi" },
+                      { "title": "4G/5G", "value": "4g_5g" }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Non",
+                "value": "non"
+              }
+            ]
+          },
+          {
+            "id": "utilisation_reseaux_sociaux",
+            "type": "radio",
+            "title": "Utilisez-vous les réseaux sociaux ?",
+            "description": "",
+            "image": Internet,
+            "option": [
+              {
+                "title": "Oui",
+                "value": "oui",
+                "subQuestion": [
+                  {
+                    "id": "reseaux_sociaux_heure_jour",
+                    "type": "radio",
+                    "title": "Combien d'heures par jour passez-vous sur les réseaux sociaux ?",
+                    "description": "La durée passée sur les réseaux sociaux a un impact significatif sur votre empreinte carbone.",
+                    "option": [
+                      { "title": "Moins de 30 minutes", "value": "moins_30m" },
+                      { "title": "30 minutes à 1 heure", "value": "30m_1h" },
+                      { "title": "1 à 2 heures", "value": "1h_2h" },
+                      { "title": "Plus de 2 heures", "value": "plus_2h" }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "Non",
+                "value": "non"
+              }
+            ]
+          },
         {
             id: "budget",
             title: "Quels sont vos revenus/dépenses mensuels ?",

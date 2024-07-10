@@ -62,7 +62,15 @@ def calcul_emission_route():
         # Calcul des émissions pour les services divers
         services_total += CO2_FIXE_SERVICES  # Ajout de la valeur fixe pour les services
         biens_total += calculer_taux_vetements(data.get('divers_vetements', 'Moins de 2'))
-        biens_total += calculer_taux_internet(data.get('divers_internet', 'Moins de 3 heures'))
+        biens_total += calculer_taux_internet({
+            'utilisation_streaming': data.get('utilisation_streaming', 'non'),
+            'streaming_heure_jour': data.get('streaming_heure_jour', 'moins_30m'),
+            'streaming_appareil': data.get('streaming_appareil', 'smartphone'),
+            'connexion_streaming': data.get('connexion_streaming', 'wifi'),
+            'utilisation_reseaux_sociaux': data.get('utilisation_reseaux_sociaux', 'non'),
+            'reseaux_sociaux_heure_jour': data.get('reseaux_sociaux_heure_jour', 'moins_30m')
+        })
+
 
         # Calcul des émissions pour le logement
         logement_total += calcul_emissions(data)

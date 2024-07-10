@@ -256,7 +256,7 @@ export const Accueil4 = () => {
                     <CardIcon bgColor="#42a5f5">
                       <img src="https://c.animaapp.com/VcwknbTN/img/time-2@2x.png" alt="Time" />
                     </CardIcon>
-                    <CardTitle>Normal</CardTitle>
+                    <CardTitle>Moyen</CardTitle>
                     <CardDescription>
                       Un bilan complet pour des résultats détaillés et précis.
                     </CardDescription>

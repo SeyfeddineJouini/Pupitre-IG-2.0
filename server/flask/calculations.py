@@ -1,6 +1,6 @@
 from constants import *
 
-# Fonctions de calcul du CO2 pour différents modes de transport
+# ===================Fonctions de calcul du CO2 pour différents modes de transport===========================
 def calculer_taux_transport_commun(d, J):
     return d * CO2_TRANSPORT_COMMUN * J * WEEKS_PER_YEAR
 
@@ -17,7 +17,7 @@ def calculer_taux_tgv(d):
     return d * CO2_TGV
 
 
-# Fonctions de calcul du CO2 pour l'alimentation
+# ==============Fonctions de calcul du CO2 pour l'alimentation=======================
 def calculer_taux_alimentation_viande(frequence):
     if frequence == '1 à 2 fois par semaine':
         return CO2_VIANDE_1_2
@@ -27,6 +27,7 @@ def calculer_taux_alimentation_viande(frequence):
         return CO2_VIANDE_PLUS_4
     return 0
 
+# ==================Fonctions de calcul du CO2 pour les boissons=======================
 def calculer_taux_eau(boisson):
     if boisson == 'Eau en bouteille':
         return CO2_EAU_BOUTEILLE
@@ -45,7 +46,7 @@ def calculer_taux_boissons(boissons):
     return total
 
 
-# Fonctions de calcul du CO2 pour les services divers
+# ================Fonctions de calcul du CO2 pour les services divers=======================
 def calculer_taux_vetements(frequence):
     if frequence == 'Moins de 2':
         return CO2_VETEMENTS_MOINS_2
@@ -55,17 +56,49 @@ def calculer_taux_vetements(frequence):
         return CO2_VETEMENTS_PLUS_5
     return 0
 
-def calculer_taux_internet(frequence):
-    if frequence == 'Moins de 3 heures':
-        return CO2_INTERNET_3H
-    elif frequence == 'Entre 6 et 10 heures':
-        return CO2_INTERNET_6_10H
-    elif frequence == 'Plus de 10 heures':
-        return CO2_INTERNET_PLUS_10H
+# ======================Fonctions de calcul du CO2 pour l'utilisation d'internet============================
+def calculer_taux_streaming_heure_jour(heure_jour, appareil, connexion):
+    if heure_jour == 'moins_30m':
+        return CO2_STREAMING_MOINS_30M[appareil][connexion]
+    elif heure_jour == '30m_3h':
+        return CO2_STREAMING_30M_3H[appareil][connexion]
+    elif heure_jour == '3h_6h':
+        return CO2_STREAMING_3H_6H[appareil][connexion]
+    elif heure_jour == 'plus_6h':
+        return CO2_STREAMING_PLUS_6H[appareil][connexion]
     return 0
 
+def calculer_taux_reseaux_sociaux(heure_jour):
+    if heure_jour == 'moins_30m':
+        return CO2_RESEAUX_SOCIAUX_MOINS_30M
+    elif heure_jour == '30m_1h':
+        return CO2_RESEAUX_SOCIAUX_30M_1H
+    elif heure_jour == '1h_2h':
+        return CO2_RESEAUX_SOCIAUX_1H_2H
+    elif heure_jour == 'plus_2h':
+        return CO2_RESEAUX_SOCIAUX_PLUS_2H
+    return 0
 
-# Fonction de calcul des émissions de CO2 pour le logement
+def calculer_taux_internet(data):
+    total = 0  # Initialize total emissions
+    
+    usage_streaming = data.get('utilisation_streaming', 'non')
+    if usage_streaming == 'oui':
+        heure_jour = data.get('streaming_heure_jour', 'moins_30m')
+        appareil = data.get('streaming_appareil', 'smartphone')
+        connexion = data.get('connexion_streaming', 'wifi')
+        total += calculer_taux_streaming_heure_jour(heure_jour, appareil, connexion)
+    
+    usage_reseaux_sociaux = data.get('utilisation_reseaux_sociaux', 'non')
+    if usage_reseaux_sociaux == 'oui':
+        heure_jour = data.get('reseaux_sociaux_heure_jour', 'moins_30m')
+        total += calculer_taux_reseaux_sociaux(heure_jour)
+    
+    return total
+
+
+
+#========================Fonction de calcul des émissions de CO2 pour le logement============================
 def calcul_emissions(data):
     logement_total = 0
 

@@ -42,7 +42,7 @@ def calculer_taux_boissons(boissons):
     if 'Aucune' in boissons:
         total += 0
     return total
-###################################~#####################################Ajout ENER AP
+############################Ajout ENER AP ##############################################
 def calculer_taux_alimentation_prot(proteine):
     if proteine == 'viande_rouge':
         return CO2_VIANDE_ROUGE
@@ -119,22 +119,13 @@ def calculer_taux_dest_vacances(freq):
     elif freq == 'international_hors_europe':
         return CO2_VAC_INT_HR_EU
 
-def calculer_taux_uti_stream(freq):
-    if freq == 'tous_les_jours':
-        return CO2_STR_TT_JR
-    elif freq == 'plusieurs_fois_par_semaine':
-        return CO2_STR_PLS_SEM
-    elif freq == 'une_fois_par_semaine':
-        return CO2_STR_1_SEM
-    elif freq == 'moins_d_une_fois_par_semaine':
-        return CO2_STR_MO_1_SEM
-        
+       
 def calculer_taux_dec(freq):
     if freq == 'oui':
         return CO2_DEC_OUI
     elif freq == 'non':
         return CO2_DEC_NON
-################################################################### FIN Ajout ENER AP
+##################### FIN Ajout ENER AP ##############################################
 # Fonctions de calcul du CO2 pour les services divers
 def calculer_taux_vetements(frequence):
     if frequence == 'Moins de 2':
@@ -145,14 +136,48 @@ def calculer_taux_vetements(frequence):
         return CO2_VETEMENTS_PLUS_5
     return 0
 
-def calculer_taux_internet(frequence):
-    if frequence == 'Moins de 3 heures':
-        return CO2_INTERNET_3H
-    elif frequence == 'Entre 6 et 10 heures':
-        return CO2_INTERNET_6_10H
-    elif frequence == 'Plus de 10 heures':
-        return CO2_INTERNET_PLUS_10H
+# ======================Fonctions de calcul du CO2 pour l'utilisation d'internet============================
+def calculer_taux_streaming_heure_jour(heure_jour, appareil, connexion):
+    if heure_jour == 'moins_30m':
+        return CO2_STREAMING_MOINS_30M[appareil][connexion]
+    elif heure_jour == '30m_3h':
+        return CO2_STREAMING_30M_3H[appareil][connexion]
+    elif heure_jour == '3h_6h':
+        return CO2_STREAMING_3H_6H[appareil][connexion]
+    elif heure_jour == 'plus_6h':
+        return CO2_STREAMING_PLUS_6H[appareil][connexion]
     return 0
+
+def calculer_taux_reseaux_sociaux(heure_jour):
+    if heure_jour == 'moins_30m':
+        return CO2_RESEAUX_SOCIAUX_MOINS_30M
+    elif heure_jour == '30m_1h':
+        return CO2_RESEAUX_SOCIAUX_30M_1H
+    elif heure_jour == '1h_2h':
+        return CO2_RESEAUX_SOCIAUX_1H_2H
+    elif heure_jour == 'plus_2h':
+        return CO2_RESEAUX_SOCIAUX_PLUS_2H
+    return 0
+
+def calculer_taux_internet(data):
+    total = 0  # Initialize total emissions
+    
+    usage_streaming = data.get('utilisation_streaming', 'non')
+    if usage_streaming == 'oui':
+        heure_jour = data.get('streaming_heure_jour', 'moins_30m')
+        appareil = data.get('streaming_appareil', 'smartphone')
+        connexion = data.get('connexion_streaming', 'wifi')
+        total += calculer_taux_streaming_heure_jour(heure_jour, appareil, connexion)
+    
+    usage_reseaux_sociaux = data.get('utilisation_reseaux_sociaux', 'non')
+    if usage_reseaux_sociaux == 'oui':
+        heure_jour = data.get('reseaux_sociaux_heure_jour', 'moins_30m')
+        total += calculer_taux_reseaux_sociaux(heure_jour)
+    
+    return total
+
+
+#========================Fonction de calcul des émissions de CO2 pour le logement============================
 
 
 # Fonction de calcul des émissions de CO2 pour le logement
@@ -164,7 +189,8 @@ def calcul_emissions(data):
         multiplicateur = CO2_LOGREC
     elif data.get('logement_recent') == 'non':
         multiplicateur = CO2_LOGANC
-   #########################################################Ajouts ENER APP
+
+   #############################Ajouts ENER APP#################################
     if data.get('sources_energie_renouvelable') == 'oui':
         logement_total += CO2_SRC_ENER_OUI
     elif data.get('sources_energie_renouvelable') == 'non':
@@ -185,7 +211,8 @@ def calcul_emissions(data):
         logement_total += CO2_TRI_OUI
     elif data.get('tri_dechets') == 'non':
         logement_total += CO2_TRI_NON
-   ###################################################### FIN Ajouts ENER APP
+    
+   ####################### FIN Ajouts ENER APP ################################
     # Calcul selon le type de logement et son état
     if data.get('logement') == 'Dans une maison en colocation':
         if data.get('logement_chauffage') == 'Gaz':

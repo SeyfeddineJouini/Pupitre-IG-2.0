@@ -11,7 +11,7 @@ import { customStyles, ModalContent, LoadingSpinner, fadeIn, CloseButton } from 
 
 const CACHE_KEY = 'news_articles';
 const CACHE_EXPIRY_KEY = 'news_articles_expiry';
-const CACHE_EXPIRY_TIME = 3600000; // 1 heure en millisecondes
+const CACHE_EXPIRY_TIME = 10 * 60 * 60 * 1000; // 5 heures en millisecondes
 
 
 const NewsContainer = styled.div`
@@ -190,7 +190,7 @@ const NewsFeed = () => {
   return (
     <NewsContainer>
       <h2 style={{ fontSize: '1.8em', fontWeight: 'bold', color: '#333', marginBottom: '20px' }}>Reporterre</h2>
-      <button
+      {/* <button
         onClick={clearCache}
         style={{
           marginBottom: '20px',
@@ -208,7 +208,7 @@ const NewsFeed = () => {
       >
         <FontAwesomeIcon icon={faSyncAlt} />
         Vider le cache
-      </button>
+      </button> */}
       {isLoading ? (
         <p style={{ fontSize: '1.2em', color: '#777' }}>Chargement des articles...</p>
       ) : error ? (

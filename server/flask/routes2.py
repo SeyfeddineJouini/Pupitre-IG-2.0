@@ -1,4 +1,4 @@
-from flask import  Flask,request, jsonify
+from flask import Flask, request, jsonify
 from calculations2 import *
 from constants2 import *
 
@@ -48,6 +48,9 @@ def calcul_emission_route():
             covoiturage = 1 if data.get('voiture_grand_deplacement_covoiturage', 'non') == 'non' else int(data.get('voiture_grand_deplacement_covoiturage_personne', 1))
             transport_total += calculer_taux_voiture_grand_deplacement(int(data.get('voiture_grand_deplacement_km', 0)), covoiturage)
 
+        # Destination vacances
+        transport_total += calculer_taux_dest_vacances(data.get('destination_vacances', 'local'))
+
         # Calcul des émissions pour l'alimentation
         if data.get('regime_alimentaire') == 'oui':
             alimentation_total += CO2_VEGAN
@@ -57,11 +60,25 @@ def calcul_emission_route():
 
         alimentation_total += calculer_taux_eau(data.get('alimentation_eau', 'Eau du robinet'))
         alimentation_total += calculer_taux_boissons(data.get('alimentation_boissons', []))
-        
-        # Calcul des émissions pour les services divers
-        services_total += CO2_FIXE_SERVICES  # Ajout de la valeur fixe pour les services
+        alimentation_total += calculer_taux_repas_emp(data.get('repas_a_emporter', 'tous_les_jours'))
+        alimentation_total += calculer_taux_jard_pot(data.get('jardin_potager', 'oui'))
+        alimentation_total += calculer_taux_produits_loc(data.get('produits_locaux', 'moins_25'))
+        alimentation_total += calculer_taux_alimentation_prot(data.get('alimentation_proteine', 'viande_rouge'))
+
+        # Calcul des émissions pour les biens
         biens_total += calculer_taux_vetements(data.get('divers_vetements', 'Moins de 2'))
-        biens_total += calculer_taux_internet(data.get('divers_internet', 'Moins de 3 heures'))
+        biens_total += calculer_taux_achats_resp(data.get('achats_responsables', 'tres_souvent'))
+        biens_total += calculer_taux_init_eco(data.get('initiatives_ecologiques', 'oui_regulier'))
+        biens_total += calculer_taux_ach_elec(data.get('achat_electronique', 'annuel'))
+        biens_total += calculer_taux_dec(data.get('pratiques_deconnexion', 'oui'))
+        biens_total += calculer_taux_internet({
+            'utilisation_streaming': data.get('utilisation_streaming', 'non'),
+            'streaming_heure_jour': data.get('streaming_heure_jour', 'moins_30m'),
+            'streaming_appareil': data.get('streaming_appareil', 'smartphone'),
+            'connexion_streaming': data.get('connexion_streaming', 'wifi'),
+            'utilisation_reseaux_sociaux': data.get('utilisation_reseaux_sociaux', 'non'),
+            'reseaux_sociaux_heure_jour': data.get('reseaux_sociaux_heure_jour', 'moins_30m')
+        })
 
         # Calcul des émissions pour le logement
         logement_total += calcul_emissions(data)
@@ -74,19 +91,11 @@ def calcul_emission_route():
 
         print("Logement total after appliances: ", logement_total)
 
-        ###############################################Ajouts ENER APP#################################""
-        alimentation_total += calculer_taux_repas_emp(data.get('repas_a_emporter','tous_les_jours'))
-        alimentation_total += calculer_taux_jard_pot(data.get('jardin_potager','oui'))
-        alimentation_total += calculer_taux_produits_loc(data.get('produits_locaux', 'moins_25'))
-        alimentation_total += calculer_taux_alimentation_prot(data.get('alimentation_proteine', 'viande_rouge'))
-        biens_total += calculer_taux_achats_resp(data.get('achats_responsables', 'tres_souvent'))
-        biens_total += calculer_taux_init_eco(data.get('initiatives_ecologiques', 'oui_regulier'))
-        biens_total += calculer_taux_ach_elec(data.get('achat_electronique', 'annuel'))
-        transport_total += calculer_taux_dest_vacances(data.get('destination_vacances', 'local'))
-        biens_total += calculer_taux_dec(data.get('pratiques_deconnexion', 'oui'))
-        biens_total += calculer_taux_uti_stream(data.get('utilisation_streaming', 'tous_les_jours'))
-        ###############################################FIN Ajouts ENER APP#################################""
+        # Calcul des émissions pour les services divers
+        services_total += CO2_FIXE_SERVICES  # Ajout de la valeur fixe pour les services
+
         print("Alimentation total: ", alimentation_total)
+
         # Construction du résultat final
         result = {
             "Transport": round(transport_total / 1000, 3),  # Convertir en tonnes de CO2 et arrondir

@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import RadioButtonComponent from "./radioButtonComponent";
@@ -16,7 +15,6 @@ const fadeIn = keyframes`
     transform: translateY(0);
   }
 `;
-
 
 const QuestionContainer = styled.div`
   background: #ffffff;
@@ -54,13 +52,6 @@ const FormContainer = styled.form`
 const SubQuestionContainer = styled.div`
   margin-top: 20px;
 `;
-const AlertDiv = styled.div`
-  color: red;
-  text-align: center;
-  margin-top: 10px;
-`;
-
-
 
 export default class QuestionComponent extends React.Component {
   constructor(props) {
@@ -195,6 +186,17 @@ export default class QuestionComponent extends React.Component {
               onValueChange={this.handleOptionChange}
             />
           )}
+          {this.state.question.type === "group" &&
+            this.state.question.questions?.map((subQuestion, index) => (
+              <SubQuestionContainer key={subQuestion.id + index}>
+                <QuestionComponent
+                  questionResponse={this.state.questionResponse}
+                  question={subQuestion}
+                  isValid={this.state.isValid}
+                  onResponseChange={this.handleOptionChange}
+                />
+              </SubQuestionContainer>
+            ))}
           {this.hasSubQuestion() &&
             this.getSubQuestion()?.map((question, index) => {
               return (

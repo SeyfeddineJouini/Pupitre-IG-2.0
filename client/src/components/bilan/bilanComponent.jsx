@@ -4,6 +4,9 @@ import QuestionComponent from "./questionComponent";
 import WelcomeBilanComponent from "./welcomeBilanComponent";
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
+import { FaSearchPlus } from 'react-icons/fa';
 
 const fadeIn = keyframes`
   from {
@@ -145,7 +148,7 @@ const BilanComponent = (props) => {
       setAlertMessage('');
     }
   }
-  
+
   function nextQuestion() {
     const currentQuestion = questionsList[currentQuestionIndex];
 
@@ -172,7 +175,6 @@ const BilanComponent = (props) => {
         return;
       }
     }
-
 
     const teletrav = response.teletravail;
     if (teletrav !== undefined && teletrav > 6) {
@@ -274,10 +276,36 @@ const BilanComponent = (props) => {
         </ContentContainer>
 
         <ImageContainer>
-          <img
-            src={currentQuestionIndex !== null ? questionsList[currentQuestionIndex].image : welcomePageContent.image}
-            alt="Illustration"
-          />
+          <Zoom
+            defaultStyles={{
+              overlay: { background: 'rgba(0, 0, 0, 0.5)' },
+              image: { width: 'auto', maxHeight: '80vh' },
+              zoomImage: { maxWidth: '90vw', maxHeight: '90vh' }
+            }}
+            className="zoom-image"
+          >
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <img
+                src={currentQuestionIndex !== null ? questionsList[currentQuestionIndex].image : welcomePageContent.image}
+                alt="Illustration"
+                style={{ maxWidth: '100%', cursor: 'pointer' }}
+              />
+              <div style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'rgba(0, 0, 0, 0.5)',
+                color: 'white',
+                padding: '5px 10px',
+                borderRadius: '5px',
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <FaSearchPlus style={{ marginRight: '5px' }} />
+                <span>Cliquez sur l'image pour agrandir</span>
+              </div>
+            </div>
+          </Zoom>
         </ImageContainer>
       </BilanBox>
     </BilanContainer>
@@ -285,4 +313,3 @@ const BilanComponent = (props) => {
 };
 
 export default BilanComponent;
-
