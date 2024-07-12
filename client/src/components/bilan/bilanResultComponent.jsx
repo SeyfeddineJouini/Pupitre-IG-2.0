@@ -384,7 +384,7 @@ const BilanResultComponent = (props) => {
 
     const timer = setTimeout(() => {
       setShowModal(true);
-    }, 20000); // Affiche le modal après 10 secondes
+    }, 20000); // Affiche le modal après 20 secondes
 
     return () => clearTimeout(timer);
   }, [questionResponse]);

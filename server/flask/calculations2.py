@@ -48,10 +48,8 @@ def calculer_taux_alimentation_prot(proteine):
         return CO2_VIANDE_ROUGE
     elif proteine == 'volaille':
         return CO2_VOLAILLE
-    elif proteine == 'poisson_gras':
-        return CO2_POISS_GRAS
-    elif proteine == 'poisson_blanc':
-        return CO2_POISS_BL
+    elif proteine == 'poisson':
+        return CO2_POISSON
     elif proteine == 'vegetarien':
         return CO2_VEGE
 
