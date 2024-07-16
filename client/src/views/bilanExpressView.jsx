@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import BilanComponent from "../components/bilan/bilanComponent";
 import BilanResultComponent from "../components/bilan/bilanResultComponent";
+import IntermediairePage from "../components/bilan/IntermediairePage";
 import Habit from "../img/vet.png";
 import Vegetarien from "../img/vege.png";
 import Transport from "../img/transport.png";
@@ -722,46 +723,77 @@ export default function BilanExpressView() {
         }
     ];
 
-    const [userName, setUserName] = useState('');
-    const [response, setResponse] = useState({});
-    const [showResult, setShowResult] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [response, setResponse] = useState({});
+  const [showResult, setShowResult] = useState(false);
+  const [showIntermediaire, setShowIntermediaire] = useState(false);
+  const [startQuestionnaire, setStartQuestionnaire] = useState(false);
 
-    function handleResponseChange(value) {
-        setResponse((prevResponse) => ({
-            ...prevResponse,
-            ...value,
-            spe_Masters: value["spe_Masters"] || prevResponse["spe_Masters"],
-            spe_Licence: value["spe_Licence"] || prevResponse["spe_Licence"],
-            spe_ING: value["spe_ING"] || prevResponse["spe_ING"]
-        }));
-    }
-    function handleTerminateChange(value) {
-        setShowResult(true);
-    }
+  const handleResponseChange = (value) => {
+    setResponse((prevResponse) => ({
+      ...prevResponse,
+      ...value,
+      spe_Masters: value.spe_Masters || prevResponse.spe_Masters,
+      spe_Licence: value.spe_Licence || prevResponse.spe_Licence,
+      spe_ING: value.spe_ING || prevResponse.spe_ING
+    }));
+  };
 
-    return (
-      <div>
-        {showResult === false && (
-          <BilanComponent
-            userName={userName}
-            questionsList={questionsList}
-            welcomeContent={welcomePageContent}
-            onResponseChange={handleResponseChange}
-            onTerminateClicked={handleTerminateChange}
-            background="linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)"
-          />
-        )}
+  const handleTerminateChange = () => {
+    setShowResult(true);
+  };
 
-        {showResult && (
-          
-          <BilanResultComponent
-            userName={userName}
-            questionResponse={response}
-          />
-        )}
+  const handleContinue = () => {
+    setShowIntermediaire(false);
+    setStartQuestionnaire(true);
+  };
 
-        {/* <hr />
-        {JSON.stringify(response, null, 2)} */}
-      </div>
-    );
+  const handleStart = () => {
+    setShowIntermediaire(true);
+  };
+
+  return (
+    <div>
+      {showResult === false && showIntermediaire === true && (
+        <IntermediairePage
+        onContinue={handleContinue}
+        background="linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)"
+      />
+      )}
+
+      {showResult === false && showIntermediaire === false && startQuestionnaire === false && (
+        <BilanComponent
+          userName={userName}
+          questionsList={questionsList}
+          welcomeContent={welcomePageContent}
+          onResponseChange={handleResponseChange}
+          onTerminateClicked={handleTerminateChange}
+          onStartClicked={handleStart} // Pass the new handler here
+          background="linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)"
+        />
+      )}
+
+      {showResult === false && startQuestionnaire === true && (
+        <BilanComponent
+          userName={userName}
+          questionsList={questionsList}
+          welcomeContent={welcomePageContent}
+          onResponseChange={handleResponseChange}
+          onTerminateClicked={handleTerminateChange}
+          background="linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)"
+          startImmediately={true} // Start immediately with the first question
+        />
+      )}
+
+      {showResult && (
+        <BilanResultComponent
+          userName={userName}
+          questionResponse={response}
+        />
+      )}
+
+      {/* <hr />
+      {JSON.stringify(response, null, 2)} */}
+    </div>
+  );
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import BilanComponent from "../components/bilan/bilanComponent";
 import BilanResultComponent2 from "../components/bilan/bilanResultComponent2";
+import IntermediairePage from "../components/bilan/IntermediairePage";
 import Habit from "../img/vet.png";
 import Vegetarien from "../img/vege.png";
 import Transport from "../img/transport.png";
@@ -903,18 +904,54 @@ export default function BilanNormalView() {
   const [userName, setUserName] = useState("");
   const [response, setResponse] = useState({});
   const [showResult, setShowResult] = useState(false);
+  const [showIntermediaire, setShowIntermediaire] = useState(false);
+  const [startQuestionnaire, setStartQuestionnaire] = useState(false);
 
-  function handleResponseChange(value) {
-    setResponse({ ...response, ...value });
-  }
+  const handleResponseChange = (value) => {
+    setResponse((prevResponse) => ({
+      ...prevResponse,
+      ...value,
+      spe_Masters: value.spe_Masters || prevResponse.spe_Masters,
+      spe_Licence: value.spe_Licence || prevResponse.spe_Licence,
+      spe_ING: value.spe_ING || prevResponse.spe_ING
+    }));
+  };
 
-  function handleTerminateChange(value) {
+  const handleTerminateChange = () => {
     setShowResult(true);
-  }
+  };
 
+  const handleContinue = () => {
+    setShowIntermediaire(false);
+    setStartQuestionnaire(true);
+  };
+
+  const handleStart = () => {
+    setShowIntermediaire(true);
+  };
   return (
     <div>
-      {showResult === false && (
+      {showResult === false && showIntermediaire === true && (
+        <IntermediairePage
+        onContinue={handleContinue}
+        background="linear-gradient(135deg, #2c3e50, #3498db, #8e44ad)"
+      />
+      )}
+
+      {showResult === false && showIntermediaire === false && startQuestionnaire === false && (
+        <BilanComponent
+          userName={userName}
+          questionsList={questionsList}
+          welcomeContent={welcomePageContent}
+          onResponseChange={handleResponseChange}
+          onTerminateClicked={handleTerminateChange}
+          onStartClicked={handleStart} // Pass the new handler here
+          background="linear-gradient(135deg, #2c3e50, #3498db, #8e44ad)"
+        />
+      )
+      }
+
+      {showResult === false && startQuestionnaire === true && (
         <BilanComponent
           userName={userName}
           questionsList={questionsList}
@@ -922,16 +959,18 @@ export default function BilanNormalView() {
           onResponseChange={handleResponseChange}
           onTerminateClicked={handleTerminateChange}
           background="linear-gradient(135deg, #2c3e50, #3498db, #8e44ad)"
+          startImmediately={true} // Start immediately with the first question
         />
       )}
+
       {showResult && (
         <BilanResultComponent2
           userName={userName}
           questionResponse={response}
         />
       )}
-      <hr />
-      {JSON.stringify(response, null, 2)}
+      {/* <hr />
+      {JSON.stringify(response, null, 2)} */}
     </div>
   );
 }

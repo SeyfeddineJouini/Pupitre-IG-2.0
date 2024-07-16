@@ -11,7 +11,7 @@ import { customStyles, ModalContent, LoadingSpinner, fadeIn, CloseButton } from 
 
 const CACHE_KEY = 'news_articles';
 const CACHE_EXPIRY_KEY = 'news_articles_expiry';
-const CACHE_EXPIRY_TIME = 10 * 60 * 60 * 1000; // 5 heures en millisecondes
+const CACHE_EXPIRY_TIME = 10 * 60 * 60 * 1000; // 10 heures en millisecondes
 
 
 const NewsContainer = styled.div`

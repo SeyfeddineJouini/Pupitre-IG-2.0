@@ -63,7 +63,7 @@ const AppContent = () => {
           <Route path="/projects" element={<StudentProjects />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="/add-project" element={<ProtectedRoute><AddProject /></ProtectedRoute>} />
-          {/* <Route path="*" element={<Navigate to="/" />} /> */}
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         </InactivityProvider>
         </ProjectProvider>

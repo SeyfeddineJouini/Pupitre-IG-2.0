@@ -114,9 +114,11 @@ const BilanComponent = (props) => {
   const questionsList = props.questionsList || [];
   const onResponseChange = props.onResponseChange;
   const onTerminateClicked = props.onTerminateClicked;
+  const onStartClicked = props.onStartClicked; // New prop for handling the start button click
+  const startImmediately = props.startImmediately || false; // New prop for starting immediately
 
   const [currentQuestionIsValid, setCurrentQuestionIsValid] = useState(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(startImmediately ? 0 : null);
   const [response, setResponse] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const [alertMessage, setAlertMessage] = useState(''); // New state for alert message
@@ -130,7 +132,11 @@ const BilanComponent = (props) => {
   }, [currentQuestionIndex]);
 
   function start() {
-    setCurrentQuestionIndex(0);
+    if (onStartClicked) {
+      onStartClicked();
+    } else {
+      setCurrentQuestionIndex(0);
+    }
   }
 
   function quit() {
