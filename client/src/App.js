@@ -22,6 +22,8 @@ import StudentProjects from './components/StudentProjects/StudentProjects'; // I
 import ProjectDetails from './components/StudentProjects/ProjectDetails'; // Importer le nouveau composant
 import AddProject from './components/StudentProjects/AddProject'; // Importer le nouveau composant
 import { ProjectProvider } from "../src/components/StudentProjects/ProjectContext"; // Importer le nouveau composant
+import GameSelection from './views/Jeu';
+import CrosswordUI from './components/Jeux/MotsCroisés'
 
 
 
@@ -63,6 +65,8 @@ const AppContent = () => {
           <Route path="/projects" element={<StudentProjects />} />
           <Route path="/projects/:id" element={<ProjectDetails />} />
           <Route path="/add-project" element={<ProtectedRoute><AddProject /></ProtectedRoute>} />
+          <Route path="/jeux-ludiques" element={<GameSelection />} />
+          <Route path="/jeux-ludiques/mots-croisés" element={<CrosswordUI />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         </InactivityProvider>

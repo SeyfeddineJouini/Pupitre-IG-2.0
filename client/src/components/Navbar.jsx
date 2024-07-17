@@ -34,8 +34,8 @@ const Navbar = ({ transparent, toggleTheme }) => {
             </Link>
           </NavLink>
           <NavLink transparent={transparent}>
-            <Link to="/jeux-ludique">
-              <FaGamepad /> JEUX LUDIQUE
+            <Link to="/jeux-ludiques">
+              <FaGamepad /> JEUX LUDIQUES
             </Link>
           </NavLink>
           <NavLink transparent={transparent}>
