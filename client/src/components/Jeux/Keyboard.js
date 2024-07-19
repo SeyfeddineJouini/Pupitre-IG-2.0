@@ -14,8 +14,8 @@ const KeyRow = styled.div`
 `;
 
 const KeyButton = styled.button`
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   margin: 2px;
   display: flex;
   align-items: center;
@@ -33,7 +33,8 @@ const Keyboard = ({ onKeyPress }) => {
   const keys = [
     ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
     ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'],
-    ['U', 'V', 'W', 'X', 'Y', 'Z','1','2','3']
+    ['U', 'V', 'W', 'X', 'Y', 'Z'],
+      ['1','2','3']
   ];
 
   return (

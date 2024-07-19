@@ -16,7 +16,7 @@ import stepImage1 from '../../img/steps.png';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 83vh;
   padding: 20px;
   align-items: center;
 `;
@@ -31,7 +31,7 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  min-height: 100vh;
+  min-height: 80vh;
   overflow: hidden;
   align-items:center;
 `;

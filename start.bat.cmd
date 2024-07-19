@@ -26,7 +26,7 @@ start "" /min cmd /k "npm start"
 cd ..
 
 REM Attendre quelques secondes pour s'assurer que les serveurs sont lancés
-timeout /t 10
+timeout /t 2
 
 REM Lancer Google Chrome en plein écran via PowerShell
 echo Lancement du navigateur en mode plein écran...

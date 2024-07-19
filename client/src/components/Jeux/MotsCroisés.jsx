@@ -83,7 +83,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  min-height: 100vh;
+  min-height: 83vh;
   overflow: hidden;
 `;
 
@@ -366,7 +366,7 @@ const CrosswordUI = () => {
           progressClassName: 'toast-success-progress'
         }
       );
-      setTimeout(() => setShowConfetti(false), 6000);
+      setTimeout(() => setShowConfetti(false), 7000);
     } else {
       toast.error('Il y a des erreurs. Veuillez vérifier vos réponses.', {
         position: 'top-center',

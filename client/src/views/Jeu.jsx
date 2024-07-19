@@ -84,7 +84,7 @@ const CustomCard = styled.div`
   background: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  width: 300px;
+  width: 400px;
   margin: 20px;
   padding: 20px;
   text-align: center;
@@ -101,14 +101,14 @@ const CustomCard = styled.div`
 const CardIcon = styled.div`
   background-color: ${props => props.bgColor || '#333'};
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 200px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
   img {
-    width: 30px;
+    width: 200px;
   }
 `;
 
