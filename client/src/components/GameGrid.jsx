@@ -124,6 +124,14 @@ const CardDescription = styled.p`
   color: #777;
 `;
 
+const Note = styled.p`
+  font-size: 1rem;
+  color: #fff;
+  margin-top: 20px;
+  text-align: center;
+  max-width: 600px;
+`;
+
 const GameGrid = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -160,6 +168,7 @@ const GameGrid = () => {
                 </CardDescription>
               </CustomCard>
             </GridContainer>
+            <Note>Note: Le jeu "Recycling Waste" nécessite l'utilisation d'une souris pour déplacer les objets dans les poubelles correspondantes. Une solution pour les utilisateurs d'écrans tactiles sera bientôt disponible.</Note>
           </div>
         </MainContainer>
       </>

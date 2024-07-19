@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import Navbar from "../components/Navbar";
 import NavbarAdmin from "../components/NavbarAdmin";
@@ -11,6 +11,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   background: linear-gradient(135deg, #a8e063, #56ab2f);
+  overflow: hidden; /* Désactiver le défilement global */
+  // transform: scale(0.9); /* Réduire l'échelle pour éviter le défilement */
 `;
 
 const GameContainer = styled.div`
@@ -26,7 +28,7 @@ const IframeContainer = styled.div`
   position: relative;
   width: 100%;
   max-width: 1000px;
-  padding-bottom: 60%;
+  padding-bottom: 70%; /* Augmenter la hauteur */
   height: 0;
   overflow: hidden;
   border: 1px solid #ccc;
@@ -52,9 +54,9 @@ const Overlay = styled.div`
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 1) 8%,
+    rgba(0, 0, 0, 1) 5%,
     transparent 0%,
-    transparent 70%,
+    transparent 90%,
     rgba(0, 0, 0, 1) 0%
   );
   z-index: 1;
@@ -88,6 +90,14 @@ const MenuButton = styled.button`
   }
 `;
 
+const Note = styled.p`
+  font-size: 1rem;
+  color: #fff;
+  margin-top: 20px;
+  text-align: center;
+  max-width: 600px;
+`;
+
 const EcoGame = ({ gameUrl }) => {
   const { isAuthenticated } = useAuth();
   const [theme, setTheme] = useState(lightTheme);
@@ -117,6 +127,9 @@ const EcoGame = ({ gameUrl }) => {
               ></iframe>
               <Overlay />
             </IframeContainer>
+            {gameUrl.includes('recycling-waste') && (
+              <Note>Note: Ce jeu nécessite l'utilisation d'une souris pour déplacer les objets dans les poubelles correspondantes.</Note>
+            )}
           </GameContainer>
         </PageContainer>
       </>
