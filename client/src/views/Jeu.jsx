@@ -141,7 +141,7 @@ const GameSelection = () => {
           <div className="container relative mx-auto">
             <Title>Choisissez un jeu</Title>
             <CardContainer>
-              <CustomCard onClick={() => navigate('/jeux-ludiques/mots-croisés')}>
+              <CustomCard onClick={() => navigate('/jeux-ludiques/mots-croises/explication')}>
                 <CardIcon bgColor="#6f42c1">
                   <img src={motsCroisesImage} alt="Mots-Croisés" />
                 </CardIcon>

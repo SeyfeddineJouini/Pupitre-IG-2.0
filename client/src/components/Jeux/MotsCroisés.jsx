@@ -1,37 +1,69 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../../themes';
 import Navbar from "../Navbar";
 import NavbarAdmin from "../NavbarAdmin";
 import { useAuth } from "../../context/AuthContext";
-import backgroundImage from '../../img/choix3.jpg';
+import backgroundImage from '../../img/choix1.jpg';
 import Cell from './Cell';
 import ClueList from './ClueList';
+import Keyboard from './Keyboard';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { FaCheckCircle } from 'react-icons/fa';
+import Confetti from 'react-confetti';
+
+
+
 
 const words = [
-  "emission", "carbone", "empreinte", "neutralité", "durabilite",
-  "energie", "transition", "climat", "pollution", "CO2",
-  "Transport", "Alimentation", "logement", "effetdeserre", "environnement"
+  "BIODIVERSITE", "RECYCLAGE", "ENERGIE", "CARBONE", "DURABLE",
+  "POLLUTION", "DEFORESTATION", "ECOLOGIE", "CLIMAT", "RENOUVELABLE",
+  "TRANSITION", "RECHAUFFEMENT", "AGRICULTURE", "COMPOSTAGE", "ECORESPONSABLE",
+  "CYCLISME", "DECHET", "EMISSION", "EFFETDESERRE", "BIODEGRADABLE",
+  "EOLIENNE", "REUTILISATION", "ISOLATION", "CONSERVATION", "HABITAT","ECOSYSTEME", "BIOSPHERE", "NATURE", "PLANTE", "CO2","REDUCTION","TRI","RESSOURCE","EAU"
 ];
 
+
 const definitions = {
-  "emission": "Libération de substances (telles que des polluants) dans l'atmosphère",
-  "carbone": "Élément formant la base de la vie organique; présent dans le CO2",
-  "empreinte": "Marque ou effet laissé par une activité, souvent liée à l'environnement",
-  "neutralité": "État de ne soutenir ni n'aider aucun des côtés dans un conflit; émissions nettes nulles",
-  "durabilite": "Capacité à être maintenue à un certain taux ou niveau; durabilité",
-  "energie": "Puissance dérivée de l'utilisation de ressources physiques ou chimiques",
-  "transition": "Processus de passage d'un état ou d'une condition à une autre",
-  "climat": "Conditions météorologiques prévalant dans une région sur une longue période",
-  "pollution": "Présence ou introduction dans l'environnement d'une substance ayant des effets nocifs",
-  "CO2": "Formule chimique du dioxyde de carbone, un gaz à effet de serre",
-  "Transport": "Mouvement de personnes ou de biens d'un endroit à un autre",
-  "Alimentation": "Processus de fourniture ou d'obtention de la nourriture nécessaire à la santé et à la croissance",
-  "logement": "Hébergement; logement",
-  "effetdeserre": "Réchauffement de la surface de la Terre dû à la rétention de la chaleur par les gaz à effet de serre",
-  "environnement": "Conditions environnantes dans lesquelles une personne, un animal ou une plante vit ou opère"
+ "BIODIVERSITE":"La variété des formes de vie sur Terre.", 
+ "RECYCLAGE":"Processus de transformation des déchets en nouveaux produits.", 
+ "ENERGIE":"Capacité à effectuer un travail ou à produire de la chaleur.", 
+ "CARBONE":"Élément chimique de base des composés organiques.", 
+ "DURABLE":"Capable de durer sans nuire à l'environnement.",
+"POLLUTION":"Introduction de contaminants dans l'environnement.", 
+"DEFORESTATION":"Destruction des forêts par l'homme", 
+"ECOLOGIE":"Science qui étudie les interactions des êtres vivants avec leur environnement.", 
+"CLIMAT":"Conditions météorologiques moyennes sur une longue période.", 
+"RENOUVELABLE":" Source d'énergie qui se régénère naturellement.",
+"TRANSITION":"Passage à des systèmes énergétiques durables.", 
+"RECHAUFFEMENT":"Augmentation de la température moyenne globale.", 
+"AGRICULTURE":"Pratique de cultiver la terre et d'élever des animaux.", 
+"COMPOSTAGE":"Décomposition des déchets organiques pour produire du compost.", 
+"ECORESPONSABLE":"Qui prend en compte les impacts environnementaux.",
+"CYCLISME":"Utilisation du vélo comme moyen de transport écologique.", 
+"DECHET":"Résidu inutilisable provenant des activités humaines.", 
+"EMISSION":"Libération de substances dans l'atmosphère.", 
+"EFFETDESERRE":"Phénomène de rétention de la chaleur dans l'atmosphère.", 
+"BIODEGRADABLE":"Qui peut être décomposé par des organismes vivants.",
+"EOLIENNE":" Appareil qui convertit l'énergie du vent en électricité.", 
+"REUTILISATION":"Action de réutiliser des objets ou matériaux.", 
+"ISOLATION":"Technique visant à réduire les pertes de chaleur.", 
+"CONSERVATION":"Protection et gestion des ressources naturelles.", 
+"HABITAT":" Environnement où vivent des organismes spécifiques.",
+"ECOSYSTEME":"Ensemble formé par une communauté d'êtres vivants et son environnement.", 
+"BIOSPHERE":"Partie de la Terre où la vie existe.", 
+"NATURE":"Ensemble des éléments de l'univers non modifiés par l'homme.", 
+"PLANTE":"Organisme vivant végétal capable de photosynthèse.", 
+"CO2":"Symbole chimique du dioxyde de carbone, gaz à effet de serre",
+"REDUCTION":"Action de diminuer la quantité de quelque chose.",
+"TRI":"Séparation des déchets en différentes catégories pour faciliter leur recyclage.",
+"RESSOURCE":"Matières premières disponibles dans l'environnement.",
+"EAU":"Liquide, indispensable à la vie.",
+"RECUPERATION": "Action de recueillir des matériaux pour les réutiliser."
 };
+
 
 const fadeIn = keyframes`
   from {
@@ -44,6 +76,7 @@ const fadeIn = keyframes`
   }
 `;
 
+
 const MainContainer = styled.div`
   position: relative;
   display: flex;
@@ -53,6 +86,7 @@ const MainContainer = styled.div`
   min-height: 100vh;
   overflow: hidden;
 `;
+
 
 const Title = styled.h1`
   font-family: 'Outfit', Helvetica, sans-serif;
@@ -64,6 +98,7 @@ const Title = styled.h1`
   animation: ${fadeIn} 1s ease-in-out;
 `;
 
+
 const CrosswordContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -71,6 +106,7 @@ const CrosswordContainer = styled.div`
   gap: 40px;
   margin-top: 20px;
 `;
+
 
 const GridContainer = styled.div`
   position: relative;
@@ -80,15 +116,18 @@ const GridContainer = styled.div`
   gap: 1px;
 `;
 
+
 const ClueContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
 `;
 
+
 const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
+
 
 const Button = styled.button`
   margin-right: 10px;
@@ -101,6 +140,7 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
+
 const BackgroundContainer = styled.div`
   position: absolute;
   top: 0;
@@ -111,12 +151,14 @@ const BackgroundContainer = styled.div`
   background-size: cover;
   animation: gradientAnimation 15s ease infinite;
 
+
   @keyframes gradientAnimation {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
 `;
+
 
 const WordOutline = styled.div`
   position: absolute;
@@ -125,59 +167,101 @@ const WordOutline = styled.div`
   z-index: 1;
 `;
 
-const getLetterIndex = (index) => String.fromCharCode(64 + index); // Convert number to letter
 
 const CrosswordUI = () => {
-  const [grid, setGrid] = useState(Array.from({ length: 15 }, () => Array(15).fill(null)));
+  const [grid, setGrid] = useState(Array.from({ length: 15 }, () => Array(15).fill({})));
   const [clues, setClues] = useState([]);
   const [acrossClues, setAcrossClues] = useState([]);
   const [downClues, setDownClues] = useState([]);
   const { isAuthenticated } = useAuth();
   const [theme, setTheme] = useState(lightTheme);
+  const [selectedCell, setSelectedCell] = useState({ row: 0, col: 0 });
+  const [showConfetti, setShowConfetti] = useState(false);
+  const confettiRef = useRef(null);
+
 
   const toggleTheme = () => {
     setTheme(theme === lightTheme ? darkTheme : lightTheme);
   };
 
+
   useEffect(() => {
     generateCrossword();
   }, []);
 
+
+  const getRandomWords = (wordList, count) => {
+    const shuffled = [...wordList].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+
+
   const generateCrossword = () => {
-    const newGrid = Array.from({ length: 15 }, () => Array(15).fill(false));
+    const newGrid = Array.from({ length: 15 }, () => Array(15).fill({}));
     const newClues = [];
-    placeWords(newGrid, newClues);
+    const selectedWords = getRandomWords(words, 10);
+    placeWords(newGrid, newClues, selectedWords);
+    assignMissingIndices(newGrid, newClues);
     setGrid(newGrid);
     setClues(newClues);
     generateClues(newClues);
   };
 
-  const placeWords = (newGrid, newClues) => {
+
+  const assignMissingIndices = (newGrid, newClues) => {
+    let currentNumber = 1;
+    const assignedNumbers = new Set();
+
+
+    newClues.forEach((clue, index) => {
+      if (!clue.number || assignedNumbers.has(clue.number)) {
+        while (assignedNumbers.has(currentNumber)) {
+          currentNumber++;
+        }
+        clue.number = currentNumber;
+        assignedNumbers.add(clue.number);
+      } else {
+        assignedNumbers.add(clue.number);
+      }
+
+
+      if (!newGrid[clue.row][clue.col]) {
+        newGrid[clue.row][clue.col] = { letter: clue.word[0], numbers: {}, direction: clue.direction };
+      }
+      newGrid[clue.row][clue.col].numbers[clue.direction] = clue.number;
+    });
+  };
+
+
+  const placeWords = (newGrid, newClues, selectedWords) => {
     const centerRow = Math.floor(newGrid.length / 2);
     const centerCol = Math.floor(newGrid[0].length / 2);
 
+
     // Place the first word in the center horizontally
-    const firstWord = words[0];
+    const firstWord = selectedWords[0];
     for (let i = 0; i < firstWord.length; i++) {
-      newGrid[centerRow][centerCol - Math.floor(firstWord.length / 2) + i] = { letter: firstWord[i], number: i === 0 ? 1 : null, direction: 'H' };
+      newGrid[centerRow][centerCol - Math.floor(firstWord.length / 2) + i] = { letter: firstWord[i], numbers: { 'H': i === 0 ? 1 : null }, direction: 'H' };
     }
     newClues.push({ word: firstWord, row: centerRow, col: centerCol - Math.floor(firstWord.length / 2), direction: 'H', number: 1 });
 
+
     // Place the remaining words
-    words.slice(1).forEach((word, index) => {
+    selectedWords.slice(1).forEach((word, index) => {
       let placed = false;
       let attempts = 0;
       while (!placed && attempts < 100) {
         const { row, col, direction } = findIntersection(word, newGrid);
         if (row !== -1 && canPlaceWord(word, row, col, direction, newGrid)) {
           placeWordInGrid(word, row, col, direction, index + 2, newGrid);
-          newClues.push({ word, row, col, direction, number: index + 2 });
+          newClues.push({ word, row, col, direction, number: null });
           placed = true;
         }
         attempts++;
       }
     });
   };
+
 
   const findIntersection = (word, grid) => {
     for (let i = 0; i < grid.length; i++) {
@@ -199,6 +283,7 @@ const CrosswordUI = () => {
     return { row: Math.floor(Math.random() * 15), col: Math.floor(Math.random() * 15), direction: Math.random() < 0.5 ? 'H' : 'V' };
   };
 
+
   const canPlaceWord = (word, row, col, direction, grid) => {
     if (direction === 'H') {
       if (col < 0 || col + word.length > 15) return false;
@@ -218,34 +303,39 @@ const CrosswordUI = () => {
     return true;
   };
 
+
   const placeWordInGrid = (word, row, col, direction, number, grid) => {
     if (direction === 'H') {
       for (let i = 0; i < word.length; i++) {
-        grid[row][col + i] = { letter: word[i], number: i === 0 ? number : null, direction: 'H' };
+        grid[row][col + i] = { letter: word[i], numbers: { 'H': i === 0 ? number : null }, direction: 'H' };
       }
     } else {
       for (let i = 0; i < word.length; i++) {
-        grid[row + i][col] = { letter: word[i], number: i === 0 ? number : null, direction: 'V' };
+        grid[row + i][col] = { letter: word[i], numbers: { 'V': i === 0 ? number : null }, direction: 'V' };
       }
     }
   };
+
 
   const generateClues = (clues) => {
     const across = [];
     const down = [];
 
+
     clues.forEach((clue) => {
       const { word, row, col, direction, number } = clue;
       if (direction === 'H') {
-        across.push(`${getLetterIndex(number)}. ${definitions[word]} (${row + 1},${col + 1})`);
+        across.push(`${number}. ${definitions[word]} (${row + 1},${col + 1})`);
       } else {
         down.push(`${number}. ${definitions[word]} (${row + 1},${col + 1})`);
       }
     });
 
+
     setAcrossClues(across);
     setDownClues(down);
   };
+
 
   const checkWords = () => {
     let correct = true;
@@ -253,26 +343,56 @@ const CrosswordUI = () => {
       if (!checkClue(clue)) {
         correct = false;
         markIncorrect(clue);
+      } else {
+        markCorrect(clue);
       }
     });
+    setGrid([...grid]);
     if (correct) {
-      alert('Félicitations ! Vous avez trouvé tous les mots !');
+      setShowConfetti(true);
+      toast.success(
+        <div>
+
+
+          Félicitations ! Vous avez trouvé tous les mots !
+        </div>,
+        {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeButton: false,
+          className: 'toast-success',
+          bodyClassName: 'toast-success-body',
+          progressClassName: 'toast-success-progress'
+        }
+      );
+      setTimeout(() => setShowConfetti(false), 6000);
     } else {
-      alert('Il y a des erreurs. Veuillez vérifier vos réponses.');
+      toast.error('Il y a des erreurs. Veuillez vérifier vos réponses.', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeButton: false,
+        className: 'toast-error',
+        bodyClassName: 'toast-error-body',
+        progressClassName: 'toast-error-progress'
+      });
     }
+    setSelectedCell(selectedCell); // Ensure selected cell is retained
   };
+
 
   const checkClue = (clue) => {
     const { word, row, col, direction } = clue;
     if (direction === 'H') {
       for (let i = 0; i < word.length; i++) {
-        if (grid[row][col + i].letter !== word[i]) {
+        if (!grid[row][col + i] || grid[row][col + i].userLetter !== word[i]) {
           return false;
         }
       }
     } else {
       for (let i = 0; i < word.length; i++) {
-        if (grid[row + i][col].letter !== word[i]) {
+        if (!grid[row + i][col] || grid[row + i][col].userLetter !== word[i]) {
           return false;
         }
       }
@@ -280,29 +400,82 @@ const CrosswordUI = () => {
     return true;
   };
 
+
   const markIncorrect = (clue) => {
-    const { row, col, direction } = clue;
+    const { word, row, col, direction } = clue;
     if (direction === 'H') {
-      for (let i = 0; i < clue.word.length; i++) {
-        grid[row][col + i] = '';
+      for (let i = 0; i < word.length; i++) {
+        if (grid[row][col + i]) {
+          grid[row][col + i].incorrect = grid[row][col + i].userLetter !== word[i];
+          grid[row][col + i].correct = false;
+        }
       }
     } else {
-      for (let i = 0; i < clue.word.length; i++) {
-        grid[row + i][col] = '';
+      for (let i = 0; i < word.length; i++) {
+        if (grid[row + i][col]) {
+          grid[row + i][col].incorrect = grid[row + i][col].userLetter !== word[i];
+          grid[row + i][col].correct = false;
+        }
       }
     }
-    setGrid([...grid]);
   };
 
-  const handleInputChange = (event, row, col) => {
-    const newValue = event.target.value;
-    if (typeof newValue !== 'string') return;
 
-    const upperCaseValue = newValue.toUpperCase();
+  const markCorrect = (clue) => {
+    const { word, row, col, direction } = clue;
+    if (direction === 'H') {
+      for (let i = 0; i < word.length; i++) {
+        if (grid[row][col + i]) {
+          grid[row][col + i].correct = grid[row][col + i].userLetter === word[i];
+          grid[row][col + i].incorrect = false;
+        }
+      }
+    } else {
+      for (let i = 0; i < word.length; i++) {
+        if (grid[row + i][col]) {
+          grid[row + i][col].correct = grid[row + i][col].userLetter === word[i];
+          grid[row + i][col].incorrect = false;
+        }
+      }
+    }
+  };
+
+
+  const handleInputChange = (letter) => {
+    const { row, col } = selectedCell;
     const newGrid = [...grid];
-    newGrid[row][col] = { ...newGrid[row][col], userLetter: upperCaseValue };
-    setGrid(newGrid);
+    if (typeof letter === 'string' && letter.length === 1) {
+      newGrid[row][col] = { ...newGrid[row][col], userLetter: letter.toUpperCase(), incorrect: false, correct: false };
+      setGrid(newGrid);
+
+
+      // Move to the next cell
+      const nextCell = getNextCell(row, col, newGrid[row][col].direction);
+      if (nextCell) {
+        setSelectedCell(nextCell);
+      }
+    }
   };
+
+
+  const handleCellClick = (row, col) => {
+    setSelectedCell({ row, col });
+  };
+
+
+  const getNextCell = (row, col, direction) => {
+    if (direction === 'H') {
+      if (col < 14 && grid[row][col + 1] && grid[row][col + 1].letter) {
+        return { row, col: col + 1 };
+      }
+    } else if (direction === 'V') {
+      if (row < 14 && grid[row + 1][col] && grid[row + 1][col].letter) {
+        return { row: row + 1, col };
+      }
+    }
+    return null;
+  };
+
 
   const renderOutlines = () => {
     return clues.map((clue, index) => {
@@ -313,14 +486,17 @@ const CrosswordUI = () => {
         left: `${col * 31}px`,
         width: direction === 'H' ? `${length * 31}px` : '31px',
         height: direction === 'V' ? `${length * 31}px` : '31px',
+        border: direction === 'H' ? '2px solid blue' : '2px solid red'
       };
       return <WordOutline key={index} style={style} />;
     });
   };
 
+
   return (
     <ThemeProvider theme={theme}>
       <>
+        {showConfetti && <Confetti ref={confettiRef} />}
         {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
         <MainContainer>
           <BackgroundContainer />
@@ -335,12 +511,15 @@ const CrosswordUI = () => {
                       <Cell
                         key={`${rowIndex}-${colIndex}`}
                         value={{ ...cell, row: rowIndex, col: colIndex }}
-                        onChange={(event) => handleInputChange(event, rowIndex, colIndex)}
-                        index={(cell && cell.number) ? cell.number : null}
-                        isHorizontal={cell && cell.direction === 'H'}
+                        onClick={() => handleCellClick(rowIndex, colIndex)}
+                        index={cell.numbers}
+                        isHorizontal={cell.direction === 'H'}
+                        incorrect={cell.incorrect}
+                        correct={cell.correct}
+                        isSelected={selectedCell.row === rowIndex && selectedCell.col === colIndex}
                       />
                     ) : (
-                      <div style={{ width: '30px', height: '30px', backgroundColor: 'black' }} key={`${rowIndex}-${colIndex}`} />
+                      <div style={{ width: '30px', height: '30px' }} key={`${rowIndex}-${colIndex}`} />
                     )
                   ))
                 ))}
@@ -349,6 +528,7 @@ const CrosswordUI = () => {
                 <ClueList acrossClues={acrossClues} downClues={downClues} />
               </ClueContainer>
             </CrosswordContainer>
+            <Keyboard onKeyPress={handleInputChange} />
             <ButtonContainer>
               <Button variant="primary" onClick={checkWords}>
                 Vérifier
@@ -359,9 +539,13 @@ const CrosswordUI = () => {
             </ButtonContainer>
           </div>
         </MainContainer>
+        <ToastContainer transition={Slide} />
       </>
     </ThemeProvider>
   );
 };
 
+
 export default CrosswordUI;
+
+

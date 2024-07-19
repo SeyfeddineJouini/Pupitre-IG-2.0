@@ -1,0 +1,28 @@
+.toast-success {
+    background-color: #ccffcc;
+    color: #000;
+    border: 1px solid #4CAF50;
+  }
+  
+  .toast-success-body {
+    font-size: 1.2rem;
+  }
+  
+  .toast-success-progress {
+    background-color: #4CAF50;
+  }
+  
+  .toast-error {
+    background-color: #ffcccc;
+    color: #000;
+    border: 1px solid #f44336;
+  }
+  
+  .toast-error-body {
+    font-size: 1.2rem;
+  }
+  
+  .toast-error-progress {
+    background-color: #f44336;
+  }
+  

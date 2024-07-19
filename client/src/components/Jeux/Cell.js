@@ -1,55 +1,76 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 const CellContainer = styled.div`
-  position: relative;
   width: 30px;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid #ddd;
+  background-color: ${({ incorrect, correct, isSelected }) => 
+    incorrect ? '#ffcccc' : 
+    correct ? '#ccffcc' : 
+    'white'};
+  position: relative;
+  &:focus-within {
+    outline: 2px solid black;
+    background-color: ${({ incorrect, correct, isSelected }) => 
+    incorrect ? 'white' : 
+    correct ? 'white' : 
+    'yellow'};
+  }
 `;
 
-const StyledInput = styled.input`
+const Input = styled.input`
   width: 100%;
   height: 100%;
-  font-size: 1.2rem;
   text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: white;
-  color: black;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1rem;
+  text-transform: uppercase;
+  padding: 0;
 `;
 
-const IndexLabel = styled.span`
+const Index = styled.div`
   position: absolute;
   top: 2px;
   left: 2px;
-  font-size: 0.6rem;
-  color: black;
-  background: white;
-  border-radius: 3px;
-  padding: 0 2px;
+  font-size: 0.5rem;
+  color: #888;
 `;
 
-const getLetterIndex = (index) => String.fromCharCode(64 + index); // Convert number to letter
+const Cell = ({ value, onClick, index, isHorizontal, incorrect, correct, isSelected }) => {
+  const inputRef = useRef(null);
 
-const Cell = ({ value, onChange, index, isHorizontal }) => {
-  const isBlack = value === null || (typeof value === 'string' && value.trim() === '');
-
-  const handleInputChange = (newValue) => {
-    onChange({ target: { value: newValue } });
-  };
+  useEffect(() => {
+    if (isSelected && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSelected]);
 
   return (
-    <CellContainer>
-      {index && <IndexLabel>{isHorizontal ? getLetterIndex(index) : index}</IndexLabel>}
-      <StyledInput
-        isBlack={isBlack}
-        value={isBlack ? '' : value.userLetter || ''}
-        onChange={(e) => handleInputChange(e.target.value)}
-        readOnly={isBlack}
+    <CellContainer
+      onClick={onClick}
+      incorrect={incorrect}
+      correct={correct}
+      isSelected={isSelected}
+      tabIndex={0}
+    >
+      <Input
+        ref={inputRef}
+        id={`cell-${value.row}-${value.col}`}
+        value={value.userLetter || ''}
+        readOnly
       />
+      {index && (
+        <>
+          {index.H && <Index direction="H" style={{ color:'blue'}}>{index.H}</Index>}
+          {index.V && <Index direction="V" style={{ top: '16px' , color:'red'}}>{index.V}</Index>}
+        </>
+      )}
     </CellContainer>
   );
 };

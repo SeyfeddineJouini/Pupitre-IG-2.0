@@ -36,10 +36,7 @@ set "chrome_path=C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 if exist "%chrome_path%" (
     powershell -Command "Start-Process '%chrome_path%' -ArgumentList '--kiosk http://localhost:3000'"
-) else (
-    echo Google Chrome n'est pas installé à l'emplacement par défaut, utilisation de Microsoft Edge...
-    start msedge --kiosk http://localhost:3000
-)
+) 
 
 ENDLOCAL
 
