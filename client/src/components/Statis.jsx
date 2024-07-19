@@ -190,12 +190,7 @@ function Statistiques() {
     <ThemeProvider theme={theme}>
       <div 
         className="flex flex-col pt-4 bg-cover bg-center rounded-xl"
-        style={{ 
-          backgroundImage: `url(${backgroundImage})`, 
-          zoom: '1',  // Adjust the zoom level to fit the screen
-          height: '100vh',  // Ensure the height fits within the viewport
-          overflow: 'hidden'  // Hide overflow to prevent scrollbars
-        }}
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         {isAuthenticated ? <NavbarAdmin /> : <Navbar toggleTheme={toggleTheme} />}
         <div className="self-center mt-10 mb-6 w-full max-w-6xl max-md:mt-8 max-md:max-w-full">
