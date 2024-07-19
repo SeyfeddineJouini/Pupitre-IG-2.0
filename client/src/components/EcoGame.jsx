@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
-import Navbar from "../components/Navbar";
-import NavbarAdmin from "../components/NavbarAdmin";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useAuth } from "../context/AuthContext";
 import { lightTheme, darkTheme } from "../themes";
 import { useNavigate } from 'react-router-dom';
@@ -108,13 +106,7 @@ const EcoGame = ({ gameUrl }) => {
   const navigate = useNavigate();
 
   return (
-    <ThemeProvider theme={theme}>
       <>
-        {isAuthenticated ? (
-          <NavbarAdmin />
-        ) : (
-          <Navbar toggleTheme={toggleTheme} />
-        )}
         <PageContainer>
           <GameContainer>
             <Title>Jeu Écologique</Title>
@@ -133,7 +125,6 @@ const EcoGame = ({ gameUrl }) => {
           </GameContainer>
         </PageContainer>
       </>
-    </ThemeProvider>
   );
 };
 
