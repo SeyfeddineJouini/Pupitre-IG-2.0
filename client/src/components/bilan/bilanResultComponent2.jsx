@@ -29,6 +29,8 @@ import {
   FaUtensils,
   FaBox,
   FaDesktop,
+  FaSmile,
+  FaFrown,
 } from "react-icons/fa";
 
 import {
@@ -136,8 +138,9 @@ const BilanResultComponent2 = (props) => {
   const [theme, setTheme] = useState(lightTheme);
   const [showModal, setShowModal] = useState(false);
 
-  const [highlightIndex, setHighlightIndex] = useState(null);
+  const [highlightIndex, setHighlightIndex] = useState(0);
   const budget = questionResponse["budget"];
+  const [personalizedMessage, setPersonalizedMessage] = useState('');
 
   useEffect(() => {
     if (budget !== undefined) {
@@ -156,11 +159,11 @@ const BilanResultComponent2 = (props) => {
     }
   }, [budget]);
 
-  const highlightColor = "rgba(255, 255, 0, 0.25)"; // Yellow color to match the highlight
+  const highlightColor = "rgba(255, 255, 0, 0.25)"; // Couleur jaune pour le surlignage
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Allow the chart to use the full height and width of the parent
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top",
@@ -176,7 +179,7 @@ const BilanResultComponent2 = (props) => {
             xMin: highlightIndex - 0.5,
             xMax: highlightIndex + 0.5,
             yMin: 0,
-            yMax: 20, // Adjust the maximum y-value
+            yMax: 20, // Ajustez la valeur y maximale
             backgroundColor: highlightColor,
             borderColor: "rgba(255, 255, 0, 1)",
             borderWidth: 2,
@@ -190,10 +193,11 @@ const BilanResultComponent2 = (props) => {
     },
     scales: {
       y: {
-        beginAtZero: true,
-        max: 20, // Adjust the maximum y-value
+        beginAtZero: false, // Permet de commencer l'échelle à une valeur différente de zéro
+        min: 5, // Définir la valeur minimale de l'échelle Y
+        max: 12, // Définir la valeur maximale de l'échelle Y
         ticks: {
-          stepSize: 0.5, // Each step represents 0.5 tonnes, so 2 steps = 1 tonne
+          stepSize: 1, // Chaque étape représente 1 tonne
         },
         title: {
           display: true,
@@ -219,7 +223,6 @@ const BilanResultComponent2 = (props) => {
         },
         labels: {
           filter: function (legendItem, chartData) {
-            // Filter out "Vos émissions" label
             return legendItem.datasetIndex !== 0;
           },
         },
@@ -269,11 +272,11 @@ const BilanResultComponent2 = (props) => {
       }
 
       let spe = "";
-        if (specialite.trim() === "Autres" || specialite.trim() === "Personnels ou Enseignants") {
-            spe = specialite.trim();
-        } else {
-            spe = `${specialite.trim()} / ${subSpecialty}`.trim();
-        }
+      if (specialite.trim() === "Autres" || specialite.trim() === "Personnels ou Enseignants") {
+        spe = specialite.trim();
+      } else {
+        spe = `${specialite.trim()} / ${subSpecialty}`.trim();
+      }
 
       const res = await fetch(`${apiUrl}/stats/AddStats`, {
         method: "POST",
@@ -303,7 +306,7 @@ const BilanResultComponent2 = (props) => {
   useEffect(() => {
     const appelerBackend = async () => {
       try {
-        console.log("questionResponse:", questionResponse); // Add this line
+        console.log("questionResponse:", questionResponse);
         const res = await fetch(`${apiUrl}/quiz/calculate2`, {
           method: "POST",
           headers: {
@@ -347,6 +350,7 @@ const BilanResultComponent2 = (props) => {
           ],
         });
 
+        // Garder cette partie ici pour ajouter les statistiques
         const score = donnees?.result
           ?.map((item) => item.value)
           .reduce((accumulator, currentValue) => {
@@ -388,6 +392,49 @@ const BilanResultComponent2 = (props) => {
 
     return () => clearTimeout(timer);
   }, [questionResponse]);
+
+  // Ajout du nouvel effet useEffect ici
+  useEffect(() => {
+    if (reponse && donneesChart) {
+      const totalCO2 = reponse.result
+        ?.map((item) => item.value)
+        .reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
+      const equivalentBudgetCO2 =
+        highlightIndex !== null && data.datasets[0].data[highlightIndex];
+
+      console.log("Equivalent Budget CO2:", equivalentBudgetCO2);
+      console.log("Highlight Index:", highlightIndex);
+
+      if (!isNaN(totalCO2) && !isNaN(equivalentBudgetCO2)) {
+        if (totalCO2 < equivalentBudgetCO2) {
+          setPersonalizedMessage(
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <FaSmile size={30} color="green" style={{ marginBottom: '10px' }} />
+              </div>
+              <span>
+                Votre bilan carbone est inférieur à l'empreinte carbone de votre revenu, bravo pour vos efforts ! Référez-vous au graphique ci-dessous pour comparer chaque catégorie à la moyenne française et continuer à améliorer vos performances.
+              </span>
+            </div>
+          );
+        } else {
+          setPersonalizedMessage(
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <FaFrown size={30} color="red" style={{ marginBottom: '10px' }} />
+              </div>
+              <span>
+                Votre bilan carbone dépasse l'empreinte carbone de votre revenu. Essayez de réduire votre consommation pour un avenir plus durable. Référez-vous au graphique ci-dessous pour comparer chaque catégorie à la moyenne française et identifier les domaines à améliorer.
+              </span>
+            </div>
+          );
+        }
+      } else {
+        setPersonalizedMessage("Il y a eu une erreur dans le calcul de votre empreinte carbone ou de votre revenu. Veuillez vérifier vos données et réessayer.");
+      }
+    }
+  }, [highlightIndex, reponse, donneesChart]);
 
   function handleMailChange(newValue) {
     setEmailSent(false);
@@ -478,6 +525,14 @@ const BilanResultComponent2 = (props) => {
                         .toFixed(3)}
                     </span>
                     <Subtitle1>TCO2e/an</Subtitle1>
+                    
+                    {/* ================= */}
+                    <div style={{ marginTop: '20px', padding: '10px', background: '#e0f7fa', borderRadius: '8px' }}>
+                      {/* <h3>Évaluation Personnalisée</h3> */}
+                      <p>{personalizedMessage}</p>
+                    </div>
+                    {/* ================= */}
+
                   </div>
                   <div className="mx-auto mt-3 w-full chart-container">
                     <Bar data={donneesChart} options={option} />
@@ -590,7 +645,7 @@ const BilanResultComponent2 = (props) => {
                     onClick={() => sendEmail(closeModal)}
                     className="px-6 py-2 rounded bg-blue-500 text-white font-semibold"
                   >
-                    Envoyer résultat par E-mail
+                    Recevoir les résultats par email
                   </button>
                 </div>
                 {mailIsValid === false && (

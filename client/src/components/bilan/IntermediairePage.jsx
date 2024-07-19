@@ -6,6 +6,8 @@ import { FaCheckCircle } from 'react-icons/fa'; // Example icon from react-icons
 import ademeLogo from '../../img/ademe.jpg';
 import impactoLogo from '../../img/ademe.jpg';
 import inseeLogo from '../../img/insee.jpg';
+import atelier2tonnesLogo from '../../img/atelier2tonnes.png'; // Import the new logo
+
 
 // Animations
 const fadeIn = keyframes`
@@ -141,6 +143,10 @@ const IntermediairePage = ({ onContinue, background }) => {
           <SourceItem>
             <Logo src={inseeLogo} alt="Insee" />
             <span>Insee</span>
+          </SourceItem>
+          <SourceItem>
+            <Logo src={atelier2tonnesLogo} alt="Atelier 2 Tonnes" /> {/* New Source */}
+            <span>Atelier 2 Tonnes</span>
           </SourceItem>
         </SourceList>
         <Text>

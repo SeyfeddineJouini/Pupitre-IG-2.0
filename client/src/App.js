@@ -24,6 +24,8 @@ import AddProject from './components/StudentProjects/AddProject'; // Importer le
 import { ProjectProvider } from "../src/components/StudentProjects/ProjectContext"; // Importer le nouveau composant
 import GameSelection from './views/Jeu';
 import CrosswordUI from './components/Jeux/MotsCroisés'
+import EcoGame from './components/EcoGame'; // Importez le composant EcoGame
+import GameGrid from './components/GameGrid'; // Importez le composant GameGrid
 
 
 
@@ -67,6 +69,9 @@ const AppContent = () => {
           <Route path="/add-project" element={<ProtectedRoute><AddProject /></ProtectedRoute>} />
           <Route path="/jeux-ludiques" element={<GameSelection />} />
           <Route path="/jeux-ludiques/mots-croisés" element={<CrosswordUI />} />
+          <Route path="/jeux-ludiques/recycling-waste" element={<EcoGame gameUrl="https://www.turtlediary.com/game/recycling-waste.html" />} />
+          <Route path="/jeux-ludiques/trivia" element={<EcoGame gameUrl="https://koikiwi.gamescaptain.com/trivia/index.html?show=navigation" />} />
+          <Route path="/jeux-ludiques/autres-jeux" element={<GameGrid />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
         </InactivityProvider>

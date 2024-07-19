@@ -43,7 +43,7 @@ const NavbarAdmin = ({ transparent, toggleTheme }) => {
             </Link>
           </NavLink>
           <NavLink transparent={transparent}>
-            <Link to="/jeux">
+            <Link to="/jeux-ludiques">
               <FaGamepad /> JEUX LUDIQUE
             </Link>
           </NavLink>

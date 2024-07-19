@@ -5,6 +5,10 @@ import './Doughnuts.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { faCar, faUtensils, faHome, faCogs } from '@fortawesome/free-solid-svg-icons';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Chart, ArcElement, Tooltip, Legend, plugins } from 'chart.js';
+
+Chart.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const CustomChart = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -14,6 +18,11 @@ const CustomChart = () => {
     plugins: {
       legend: {
         display: false,
+      },
+      datalabels: {
+        display: true,
+        color: 'black',
+        formatter: (value) => value.toFixed(2),
       }
     },
     animation: {
@@ -21,6 +30,7 @@ const CustomChart = () => {
       easing: 'easeInOutQuart'
     }
   };
+
   const sectorIcons = {
     Transport: faCar,
     Alimentation: faUtensils,
@@ -28,17 +38,18 @@ const CustomChart = () => {
     Biens: faDesktop,
     Services: faCogs
   };
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const response = await axios.get(`${apiUrl}/stats/GetStats`);
         if (response.data && response.data.length) {
           const totals = response.data.reduce((acc, curr) => {
-            acc.transport += parseInt(curr.transport, 10);
-            acc.alimentation += parseInt(curr.alimentation, 10);
-            acc.logement += parseInt(curr.logement, 10);
-            acc.biens += parseInt(curr.biens, 10);
-            acc.services += parseInt(curr.services, 10);
+            acc.transport += parseFloat(curr.transport);
+            acc.alimentation += parseFloat(curr.alimentation);
+            acc.logement += parseFloat(curr.logement);
+            acc.biens += parseFloat(curr.biens);
+            acc.services += parseFloat(curr.services);
             return acc;
           }, { transport: 0, alimentation: 0, logement: 0, biens: 0, services: 0 });
 
@@ -95,7 +106,7 @@ const CustomChart = () => {
             <span className="legend-color" style={{ backgroundColor: color }}>
             <FontAwesomeIcon icon={icon} className="legend-icon" />
             </span>
-            <span className="legend-text">{`${label}: ${value} tCO2e (${percentage}%)`}</span>
+            <span className="legend-text">{`${label}: ${value.toFixed(2)} tCO2e (${percentage}%)`}</span>
             </div>
             </div>
           );
@@ -105,17 +116,6 @@ const CustomChart = () => {
       </div>
     </div>
   );
-  
-  
-  
 };
 
 export default CustomChart;
-
-
-
-
-
-
-
-

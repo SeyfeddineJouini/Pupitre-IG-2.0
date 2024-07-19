@@ -1,15 +1,13 @@
-// src/views/GameSelection.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from '../themes';
-import backgroundImage from "../img/choix5.jpg";
 import Navbar from "../components/Navbar";
 import NavbarAdmin from "../components/NavbarAdmin";
 import { useAuth } from "../context/AuthContext";
-import motsCroisesImage from '../img/motsCroises.png';
-import autresJeuxImage from '../img/autresJeux.png';
+import recyclingWasteImage from '../img/recyclingWaste.jpeg';
+import triviaImage from '../img/trivia.png';
 
 const fadeIn = keyframes`
   from {
@@ -39,8 +37,8 @@ const AnimatedBackground = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 200%;
-  background: url(${backgroundImage}) no-repeat center center fixed;
+  height: 100%;
+  background: linear-gradient(135deg, #76b852, #8DC26F);
   background-size: 200% 100%;
   animation: gradientAnimation 15s ease infinite;
 
@@ -53,13 +51,14 @@ const AnimatedBackground = styled.div`
 
 const MainContainer = styled.div`
   position: relative;
-  min-height: 75vh;
+  min-height: 100vh;
   padding-top: 16px;
   padding-bottom: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  z-index: 0;
 `;
 
 const Title = styled.h1`
@@ -73,11 +72,12 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const CardContainer = styled.div`
+const GridContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   margin-top: 20px;
+  z-index: 1;
 `;
 
 const CustomCard = styled.div`
@@ -90,7 +90,7 @@ const CustomCard = styled.div`
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   animation: ${fadeIn} 2s ease-in-out;
-  
+
   &:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
@@ -124,7 +124,7 @@ const CardDescription = styled.p`
   color: #777;
 `;
 
-const GameSelection = () => {
+const GameGrid = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [theme, setTheme] = useState(lightTheme);
@@ -139,27 +139,27 @@ const GameSelection = () => {
         <MainContainer>
           <AnimatedBackground />
           <div className="container relative mx-auto">
-            <Title>Choisissez un jeu</Title>
-            <CardContainer>
-              <CustomCard onClick={() => navigate('/jeux-ludiques/mots-croisés')}>
-                <CardIcon bgColor="#6f42c1">
-                  <img src={motsCroisesImage} alt="Mots-Croisés" />
-                </CardIcon>
-                <CardTitle>Mots-Croisés</CardTitle>
-                <CardDescription>
-                  Jouez à des mots-croisés amusants.
-                </CardDescription>
-              </CustomCard>
-              <CustomCard onClick={() => navigate('/jeux-ludiques/autres-jeux')}>
+            <Title>Autres jeux</Title>
+            <GridContainer>
+              <CustomCard onClick={() => navigate('/jeux-ludiques/recycling-waste')}>
                 <CardIcon bgColor="#17a2b8">
-                  <img src={autresJeuxImage} alt="Autres jeux" />
+                  <img src={recyclingWasteImage} alt="Recycling Waste" />
                 </CardIcon>
-                <CardTitle>Autres jeux</CardTitle>
+                <CardTitle>Recycling Waste</CardTitle>
                 <CardDescription>
-                  Découvrez d'autres jeux passionnants.
+                  Apprenez à recycler les déchets.
                 </CardDescription>
               </CustomCard>
-            </CardContainer>
+              <CustomCard onClick={() => navigate('/jeux-ludiques/trivia')}>
+                <CardIcon bgColor="#28a745">
+                  <img src={triviaImage} alt="triviaImage" />
+                </CardIcon>
+                <CardTitle>Environmental Trivia</CardTitle>
+                <CardDescription>
+                    Un jeu-questionnaire stimulant pour ceux qui s'intéressent à l'environnement - du réchauffement climatique à la pollution, en passant par la Terre et le système solaire.
+                </CardDescription>
+              </CustomCard>
+            </GridContainer>
           </div>
         </MainContainer>
       </>
@@ -167,4 +167,4 @@ const GameSelection = () => {
   );
 };
 
-export default GameSelection;
+export default GameGrid;

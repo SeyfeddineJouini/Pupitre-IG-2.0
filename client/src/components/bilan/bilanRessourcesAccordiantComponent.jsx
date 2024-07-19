@@ -89,15 +89,15 @@ const AccordionWrapper = styled.div`
 `;
 
 const smallModalStyles = {
+  // Vos styles de modal personnalisés
   ...customStyles,
   content: {
     ...customStyles.content,
-    width: '53%', // Augmenter la largeur à 60%
-    left: '32%',  // Déplacer le modal vers la gauche
-    transform: 'translate(-40%, -50%)', // Ajuster la transformation pour le centrer correctement
+    width: '53%',
+    left: '32%',
+    transform: 'translate(-40%, -50%)',
   },
 };
-
 
 export default function BilanRessourcesAccordiantComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,50 +108,17 @@ export default function BilanRessourcesAccordiantComponent() {
   const toggleOpen = () => setIsOpen(!isOpen);
 
   const openModal = async (url) => {
-    setIsLoading(true);
+    setModalContent(
+      `<p>Vous pouvez accéder directement à la ressource en utilisant le lien ci-dessous :</p>
+      <p><a href="${url}" target="_blank" style="color: #1a73e8; text-decoration: underline;">${url}</a></p>`
+    );
     setModalIsOpen(true);
-    try {
-      const response = await axios.get(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(response.data.contents, 'text/html');
-
-      // Vérifiez si le document a été correctement analysé
-      if (!doc || !doc.body) {
-        throw new Error('Error parsing document');
-      }
-
-      // Supprimez les éléments indésirables
-      const elementsToRemove = doc.querySelectorAll('header, footer, nav, .sidebar, .advertisement');
-      elementsToRemove.forEach(element => element.remove());
-
-      // Conservez uniquement le contenu principal
-      const mainContent = doc.querySelector('main') || doc.body;
-      const paragraphs = mainContent.querySelectorAll('p');
-
-      let content = '';
-      for (let i = 0; i < paragraphs.length; i++) {
-        content += `<p>${paragraphs[i].innerText}</p>`;
-      }
-
-      // Si le contenu est vide, définissez une erreur
-      if (!content.trim()) {
-        content = `<p>Contenu non disponible. Vous pouvez accéder directement à la ressource en utilisant le lien ci-dessous :</p>
-                   <p><a href="${url}" target="_blank" style="color: #1a73e8; text-decoration: underline;">${url}</a></p>`;
-      }
-
-      setModalContent(content);
-    } catch (error) {
-      console.error('Error fetching content:', error);
-      setModalContent(`<p>Contenu non disponible. Vous pouvez accéder directement à la ressource en utilisant le lien ci-dessous :</p>
-                       <p><a href="${url}" target="_blank" style="color: #1a73e8; text-decoration: underline;">${url}</a></p>`);
-    }
-    setIsLoading(false);
   };
 
   const closeModal = () => {
     setModalIsOpen(false);
     setModalContent('');
-    setIsOpen(false); // Fermer le contenu de l'accordéon lors de la fermeture du modal
+    setIsOpen(false);
   };
 
   return (
@@ -164,34 +131,28 @@ export default function BilanRessourcesAccordiantComponent() {
           <AccordionContent>
             <ul className="space-y-4">
               <li>
-                <span
-                  onClick={() => openModal('https://www.ghgsat.com/fr/medias/quelles-sont-les-principales-emissions-de-co2-par-source/')}
-                >
-                  Quelles sont les principales émissions de CO2 par source ? -
-                  GHGSat
-                </span>
-              </li>
-
-              <li>
-                <span
-                  onClick={() => openModal('https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-du-climat-2022/23-quelques-facteurs-demissions')}
-                >
-                  Quelques facteurs d’émissions | Chiffres clés du climat 2022
-                  (developpementdurable.gouv.fr)
+                <span onClick={() => openModal('https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-du-climat-2022/23-quelques-facteurs-demissions')}>
+                Chiffres clés du climat France, Europe et Monde
                 </span>
               </li>
               <li>
-                <span
-                  onClick={() => openModal('https://leshorizons.net/2tonnes-atelier-former-professionnels-transition-ecologique/')}
-                >
-                  2tonnes, un atelier pour former les professionnels à la transition écologique
+                <span onClick={() => openModal('https://www.2tonnes.org/')}>
+                  2tonnes, un atelier de formation à la transition écologique
                 </span>
               </li>
               <li>
-                <span
-                  onClick={() => openModal('https://www.vie-publique.fr/eclairage/290911-chronologie-du-changement-climatique-dorigine-humaine')}
-                >
-                  Chronologie du changement climatique d'origine humaine | vie-publique.fr
+                <span onClick={() => openModal('https://www.ademe.fr/')}>
+                  ADEME
+                </span>
+              </li>
+              <li>
+                <span onClick={() => openModal('https://www.impacto.org/')}>
+                  Impacto
+                </span>
+              </li>
+              <li>
+                <span onClick={() => openModal('https://www.insee.fr/')}>
+                  Insee
                 </span>
               </li>
             </ul>
@@ -217,3 +178,5 @@ export default function BilanRessourcesAccordiantComponent() {
     </div>
   );
 }
+
+

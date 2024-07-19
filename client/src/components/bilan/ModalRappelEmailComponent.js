@@ -41,7 +41,7 @@ const ModalComponent = ({
         onClick={() => sendEmail(closeModal)}
         className="px-6 py-2 rounded bg-blue-500 text-white font-semibold mt-4"
       >
-        Envoyer résultat par E-mail
+        Recevoir les résultats par email
       </button>
       {mailIsValid === false && (
         <div className="my-2 text-center text-red-700">

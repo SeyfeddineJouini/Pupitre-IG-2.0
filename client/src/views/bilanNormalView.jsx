@@ -18,6 +18,15 @@ import Boisson from "../img/bois.png";
 import Avion from "../img/avion.png";
 import Voiture from "../img/voiture.png";
 import Budget from "../img/budg.png";
+import FairTrade from "../img/fairtrade.jpg";
+import LocalFood from "../img/localfood.webp";
+import RepasEmporterLivraision from "../img/repasemporter.webp";
+import AppareilsElectro from "../img/appelectro.webp";
+import InitiativeEcolo from "../img/initiativeecolo.webp";
+import TriDechets from "../img/tridechets.webp";
+import Teletravail from "../img/teletravail.webp";
+import Jardin from "../img/jardin.webp";
+import EnergieRenouvelable from "../img/energiereno.webp";
 
 export default function BilanNormalView() {
   let welcomePageContent = {
@@ -226,7 +235,7 @@ export default function BilanNormalView() {
       title: "Pour les grands déplacements, prenez-vous la voiture ?",
       type: "radio",
       description: "",
-      image: Avion,
+      image: VoitureVac,
       option: [
         {
           title: "Oui",
@@ -426,7 +435,7 @@ export default function BilanNormalView() {
         "À quelle fréquence achetez-vous des produits issus du commerce équitable ou respectueux de l'environnement ?",
       type: "radio",
       description: "",
-      image: Budget,
+      image: FairTrade,
       option: [
         { title: "Très souvent", value: "tres_souvent" },
         { title: "Souvent", value: "souvent" },
@@ -440,7 +449,7 @@ export default function BilanNormalView() {
       title: "Quelle proportion de vos aliments provient de sources locales ?",
       type: "radio",
       description: "",
-      image: Spe,
+      image: LocalFood,
       option: [
         { title: "Moins de 25%", value: "moins_25" },
         { title: "25-50%", value: "25_50" },
@@ -506,7 +515,7 @@ export default function BilanNormalView() {
         "À quelle fréquence achetez-vous des repas à emporter ou utilisez-vous des services de livraison de nourriture ?",
       type: "radio",
       description: "",
-      image: Spe,
+      image: RepasEmporterLivraision,
       option: [
         { title: "Tous les jours", value: "tous_les_jours" },
         {
@@ -590,7 +599,7 @@ export default function BilanNormalView() {
         "À quelle fréquence achetez-vous de nouveaux appareils électroniques (téléphones, ordinateurs, etc.) ?",
       type: "radio",
       description: "",
-      image: Electro,
+      image: AppareilsElectro,
       option: [
         { title: "Tous les ans", value: "annuel" },
         { title: "Tous les 2-3 ans", value: "deux_trois_ans" },
@@ -604,7 +613,7 @@ export default function BilanNormalView() {
         "Avez-vous des pratiques régulières pour réduire l'utilisation de vos appareils électroniques (journées sans écran, etc.) ?",
       type: "radio",
       description: "",
-      image: Electro,
+      image: AppareilsElectro,
       option: [
         { title: "Oui", value: "oui" },
         { title: "Non", value: "non" },
@@ -707,7 +716,7 @@ export default function BilanNormalView() {
         "Participez-vous à des initiatives écologiques (nettoyage de plages, plantation d'arbres, etc.) ?",
       type: "radio",
       description: "",
-      image: Spe,
+      image: InitiativeEcolo,
       option: [
         { title: "Oui, régulièrement", value: "oui_regulier" },
         { title: "Oui, occasionnellement", value: "oui_occasionnel" },
@@ -719,7 +728,7 @@ export default function BilanNormalView() {
       title: "Faites-vous le tri sélectif de vos déchets ?",
       type: "radio",
       description: "",
-      image: Spe,
+      image: TriDechets,
       option: [
         { title: "Oui", value: "oui" },
         { title: "Non", value: "non" },
@@ -731,7 +740,7 @@ export default function BilanNormalView() {
         "Combien de jours par semaine travaillez-vous à domicile (télétravail) ?",
       type: "number",
       description: "",
-      image: Internet,
+      image: Teletravail,
     },
     {
       id: "jardin_potager",
@@ -739,7 +748,7 @@ export default function BilanNormalView() {
         "Avez-vous un jardin potager pour cultiver vos propres légumes et fruits ?",
       type: "radio",
       description: "",
-      image: Spe,
+      image: Jardin,
       option: [
         { title: "Oui", value: "oui" },
         { title: "Non", value: "non" },
@@ -751,7 +760,7 @@ export default function BilanNormalView() {
         "Avez-vous installé des sources d'énergie renouvelable chez vous (panneaux solaires, éoliennes, etc.) ?",
       type: "radio",
       description: "",
-      image: Electro,
+      image: EnergieRenouvelable,
       option: [
         { title: "Oui", value: "oui" },
         { title: "Non", value: "non" },
