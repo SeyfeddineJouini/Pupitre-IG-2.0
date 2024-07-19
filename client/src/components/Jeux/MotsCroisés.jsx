@@ -83,7 +83,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  min-height: 83vh;
+  min-height: 85vh;
   overflow: hidden;
 `;
 

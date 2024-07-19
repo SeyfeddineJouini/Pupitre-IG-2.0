@@ -26,7 +26,7 @@ const fadeIn = keyframes`
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 88vh;
   background: url(${backgroundImage}) no-repeat center center fixed;
   background-size: 200% 100%;
   animation: gradientAnimation 15s ease infinite;

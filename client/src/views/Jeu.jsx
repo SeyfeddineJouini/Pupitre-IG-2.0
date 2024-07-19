@@ -53,7 +53,7 @@ const AnimatedBackground = styled.div`
 
 const MainContainer = styled.div`
   position: relative;
-  min-height: 75vh;
+  min-height: 88vh;
   padding-top: 16px;
   padding-bottom: 32px;
   display: flex;
