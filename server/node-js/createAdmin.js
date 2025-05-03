@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const Admin = require('./models/Admin');
 const dbUri = process.env.MONGODB_URI;
 
-mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(dbUri)
   .then(async () => {
-    //console.log('MongoDB connected...');
+    console.log('MongoDB connected...');
 
     // Vérifie si un administrateur avec cet email existe déjà
     const existingAdmin = await Admin.findOne({ email: process.env.ADMIN_EMAIL });
     if (existingAdmin) {
-      //console.log('Admin user already exists');
+      console.log('Admin user already exists');
       return;
     }
 
@@ -24,4 +24,4 @@ mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
       .then(() => console.log('Admin user created'))
       .catch(err => console.error(err));
   })
-  .catch(err => console.error(err));
+  .catch(err => console.error('Error connecting to MongoDB', err));
