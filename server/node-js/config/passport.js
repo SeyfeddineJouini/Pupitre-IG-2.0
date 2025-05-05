@@ -3,10 +3,11 @@ const LocalStrategy = require("passport-local").Strategy;
 const Admin = require("../models/Admin");
 const bcrypt = require("bcryptjs");
 
+//Nouvelle stratégie d'authentificaiton utilisée lors de l'authentificaiton.
 passport.use(
   new LocalStrategy(
     {
-      usernameField: "email",
+      usernameField: "email", 
       passwordField: "password",
     },
     async function (email, password, done) {

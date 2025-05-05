@@ -17,8 +17,7 @@ def calcul_emission_route():
     print(data)
     print(type(data))
 
-    try:
-        # Traitement des données pour les différents types de transport
+    try: 
         # Traitement des données pour les différents types de transport
         for t in data.items():
             if t[0] == 'transport':
