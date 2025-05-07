@@ -198,7 +198,7 @@ export const Login = () => {
       }
 
       const result = await response.json();
-      if (result.success) {
+      if (response.ok && result.success) {
         login();
         navigate("/dashboard-admin");
       } else {
