@@ -1,5 +1,4 @@
-// src/views/InactivityHandler.js
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -11,49 +10,44 @@ export const useInactivity = () => {
 
 export const InactivityProvider = ({ children }) => {
   const [isInactive, setIsInactive] = useState(false);
-  const [isScreensaverActive, setIsScreensaverActive] = useState(false);
+  const [isScreensaverActive, setIsScreensaverActive] = useState(false); 
+
   const navigate = useNavigate();
   const { logout } = useAuth();
 
-  useEffect(() => {
-    let activityTimer;
-    let screensaverTimer;
+  const screensaverTimerRef = useRef(null);
+  const logoutTimerRef = useRef(null);
 
-    const handleActivity = () => {
-      clearTimeout(activityTimer);
-      clearTimeout(screensaverTimer);
-      setIsInactive(false);
-      setIsScreensaverActive(false);
+  const resetTimers = () => {
+    clearTimeout(screensaverTimerRef.current);
+    clearTimeout(logoutTimerRef.current);
 
-      screensaverTimer = setTimeout(() => {
-        setIsScreensaverActive(true);
-      }, 600000); // 10 minutes in milliseconds
-
-      activityTimer = setTimeout(() => {
-        setIsInactive(true);
-        logout();
-        navigate('/');
-      }, 300000); // 15 minutes in milliseconds
-    };
-
-    window.addEventListener('mousemove', handleActivity);
-    window.addEventListener('keypress', handleActivity);
-
-    screensaverTimer = setTimeout(() => {
+    setIsInactive(false);
+    setIsScreensaverActive(false); 
+    
+    screensaverTimerRef.current = setTimeout(() => {
       setIsScreensaverActive(true);
-    }, 600000);
+    }, 2 * 1000);
 
-    activityTimer = setTimeout(() => {
-      setIsInactive(true);
-      logout();
-      navigate('/');
-    }, 300000);
+    logoutTimerRef.current = setTimeout(() => {
+    setIsInactive(true);
+    logout();             
+    navigate('/');      
+  }, 5 * 1000);
+
+  };
+
+  useEffect(() => {
+    const activityEvents = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll'];
+
+    activityEvents.forEach(event => window.addEventListener(event, resetTimers));
+
+    resetTimers(); // Initialise les timers au montage
 
     return () => {
-      clearTimeout(activityTimer);
-      clearTimeout(screensaverTimer);
-      window.removeEventListener('mousemove', handleActivity);
-      window.removeEventListener('keypress', handleActivity);
+      activityEvents.forEach(event => window.removeEventListener(event, resetTimers));
+      clearTimeout(screensaverTimerRef.current);
+      clearTimeout(logoutTimerRef.current);
     };
   }, [logout, navigate]);
 

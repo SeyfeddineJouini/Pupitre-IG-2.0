@@ -1,35 +1,34 @@
-import React, { useState } from "react"; import { Routes, Route, Navigate } from "react-router-dom"; 
-// import { ThemeProvider } from 'styled-components'; 
-import { AuthProvider, useAuth } from "./context/AuthContext"; 
-import { lightTheme, darkTheme } from './themes'; 
-import { RequestReset } from './components/ResetPassword/RequestReset'; 
-import { PerformReset } from "./components/ResetPassword/PerformReset"; 
+// App.js
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { lightTheme } from './themes';
+import { RequestReset } from './components/ResetPassword/RequestReset';
+import { PerformReset } from "./components/ResetPassword/PerformReset";
 import { Login } from "./components/Login/Login";  
-import Statistiques from "./components/Statis"; 
-import LockPage from "./components/LockPage/LockPage"; 
-// import Navbar from "./components/Navbar"; 
-import {Accueil4} from "./views/Accueil4"; 
-import BilanExpressView from "./views/bilanExpressView.jsx"; 
-import BilanNormalView from "./views/bilanNormalView.jsx"; 
+import Statistiques from "./components/Statis";
+import LockPage from "./components/LockPage/LockPage";
+import Lock_ExtremePage from "./components/Lock_ExtremePage/Lock_ExtremePage";
+import { Accueil4 } from "./views/Accueil4";
+import BilanExpressView from "./views/bilanExpressView.jsx";
+import BilanNormalView from "./views/bilanNormalView.jsx";
 import BilanLongView from "./views/BilanLongView.jsx";  
-import { AdminScreen } from "./views/AdminScreen"; 
-import { StatsScreen } from "./views/StatsScreen"; 
-import { AvisScreen } from "./views/AvisScreen"; 
-import "./App.css"; import { AddAvis } from "./views/AddAvis";
+import { AdminScreen } from "./views/AdminScreen";
+import { StatsScreen } from "./views/StatsScreen";
+import { AvisScreen } from "./views/AvisScreen";
+import "./App.css";
+import { AddAvis } from "./views/AddAvis";
 import { InactivityProvider, useInactivity } from './views/InactivityHandler';
-import PlanetesEtLimites from './views/PlanetesEtLimites'; // Importer le nouveau composant
-import StudentProjects from './components/StudentProjects/StudentProjects'; // Importer le nouveau composant
-import ProjectDetails from './components/StudentProjects/ProjectDetails'; // Importer le nouveau composant
-import AddProject from './components/StudentProjects/AddProject'; // Importer le nouveau composant
-import { ProjectProvider } from "../src/components/StudentProjects/ProjectContext"; // Importer le nouveau composant
+import PlanetesEtLimites from './views/PlanetesEtLimites';
+import StudentProjects from './components/StudentProjects/StudentProjects';
+import ProjectDetails from './components/StudentProjects/ProjectDetails';
+import AddProject from './components/StudentProjects/AddProject';
+import { ProjectProvider } from "../src/components/StudentProjects/ProjectContext";
 import GameSelection from './views/Jeu';
-import CrosswordUI from './components/Jeux/MotsCroisés'
-import EcoGame from './components/EcoGame'; // Importez le composant EcoGame
-import GameGrid from './components/GameGrid'; // Importez le composant GameGrid
+import CrosswordUI from './components/Jeux/MotsCroisés';
+import EcoGame from './components/EcoGame';
+import GameGrid from './components/GameGrid';
 import IntroductionPage from "./components/Jeux/Explication-jeu.jsx";
-
-
-
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -42,15 +41,17 @@ const ProtectedRoute = ({ children }) => {
 };
 
 const AppContent = () => {
-  const { isScreensaverActive } = useInactivity();
-  const [theme, setTheme] = useState(lightTheme);
-
+  const { isScreensaverActive, isInactive } = useInactivity();
+  const [theme] = useState(lightTheme);
+  const day = new Date().getDay();
   return (
     <div style={{ background: theme.background, color: theme.color, minHeight: '100vh' }}>
-      <AuthProvider>
-      <ProjectProvider>
-      <InactivityProvider>
+      {//On va vérifier si c'est le weekend
+      isInactive && (day === 0 || day === 6) ?(
+        <Lock_ExtremePage />
+      ):isScreensaverActive ? (
         <LockPage />
+      ) :  (
         <Routes>
           <Route path="/" element={<Accueil4 />} />
           <Route path="/login" element={<Login />} />
@@ -76,9 +77,7 @@ const AppContent = () => {
           <Route path="/jeux-ludiques/autres-jeux" element={<GameGrid />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-        </InactivityProvider>
-        </ProjectProvider>
-      </AuthProvider>
+      )}
     </div>
   );
 };
@@ -87,7 +86,9 @@ const App = () => {
   return (
     <AuthProvider>
       <InactivityProvider>
-        <AppContent />
+        <ProjectProvider>
+          <AppContent />
+        </ProjectProvider>
       </InactivityProvider>
     </AuthProvider>
   );
